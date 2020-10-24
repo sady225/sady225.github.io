@@ -2,7 +2,7 @@
 <!doctype html>
 <!-- The following comment is called a MOTW comment and is necessary for the TiddlyIE Internet Explorer extension -->
 <!-- saved from url=(0021)https://tiddlywiki.com -->
-<html lang="en-GB">
+<html lang="ja-JP">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <!--~~ Raw markup for the top of the head section ~~-->
@@ -47,7 +47,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE." />
 <link id="faviconLink" rel="shortcut icon" href="favicon.ico">
-<title>My TiddlyWiki — a non-linear personal web notebook</title>
+<title>私のTiddlyWiki — a non-linear personal web notebook</title>
 <!--~~ This is a Tiddlywiki file. The points of interest in the file are marked with this pattern ~~-->
 
 <!--~~ Raw markup ~~-->
@@ -143,7 +143,17 @@ Error message and password prompt
 
 <li>$:/core</li>
 
+<li>$:/GitHub/Filename</li>
+
+<li>$:/GitHub/Path</li>
+
+<li>$:/GitHub/Repo</li>
+
+<li>$:/GitHub/Username</li>
+
 <li>$:/isEncrypted</li>
+
+<li>$:/language</li>
 
 <li>$:/languages/ja-JP</li>
 
@@ -152,6 +162,8 @@ Error message and password prompt
 <li>$:/state/tab--86143343</li>
 
 <li>$:/state/tab-1749438307</li>
+
+<li>$:/state/tab-2065006209</li>
 
 <li>$:/status/RequireReloadDueToPluginChange</li>
 
@@ -9750,8 +9762,23 @@ Error message and password prompt
     }
 }</pre>
 </div>
+<div created="20201024044447010" modified="20201024044449222" title="$:/GitHub/Filename">
+<pre>index.html</pre>
+</div>
+<div created="20201024044445491" modified="20201024044445491" title="$:/GitHub/Path">
+<pre>/</pre>
+</div>
+<div created="20201024044430662" modified="20201024044442188" title="$:/GitHub/Repo">
+<pre>sady225/sady225.github.io</pre>
+</div>
+<div created="20201024044421121" modified="20201024044422826" title="$:/GitHub/Username">
+<pre>sady225</pre>
+</div>
 <div title="$:/isEncrypted">
 <pre>no</pre>
+</div>
+<div created="20201024044021892" modified="20201024044021892" title="$:/language">
+<pre>$:/languages/ja-JP</pre>
 </div>
 <div author="Makoto Hirohashi, OGOSHI Masayuki, pekopeko1" core-version="&gt;=5.1.4" dependents="" description="Japanese (Japan)" name="ja-JP" plugin-type="language" title="$:/languages/ja-JP" type="application/json" version="5.1.22">
 <pre>{
@@ -12060,13 +12087,16 @@ Error message and password prompt
 <div created="20201024043631905" modified="20201024043657895" title="$:/state/tab--86143343">
 <pre>$:/core/ui/ControlPanel/Plugins/Installed/Languages</pre>
 </div>
-<div created="20201024043627329" modified="20201024043627329" title="$:/state/tab-1749438307">
-<pre>$:/core/ui/ControlPanel/Plugins</pre>
+<div created="20201024043627329" modified="20201024044118736" title="$:/state/tab-1749438307">
+<pre>$:/core/ui/ControlPanel/Saving</pre>
+</div>
+<div created="20201024044121759" modified="20201024044121759" title="$:/state/tab-2065006209">
+<pre>$:/core/ui/ControlPanel/Saving/GitHub</pre>
 </div>
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20201024043619639" list="GettingStarted $:/ControlPanel" modified="20201024043619639" title="$:/StoryList">
+<div created="20201024044015366" list="GettingStarted $:/ControlPanel" modified="20201024044015366" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -12082,19 +12112,19 @@ Error message and password prompt
         },
         &quot;$:/info/url/full&quot;: {
             &quot;title&quot;: &quot;$:/info/url/full&quot;,
-            &quot;text&quot;: &quot;file:///Users/kaname/github/sady225/index.html&quot;
+            &quot;text&quot;: &quot;https://sady225.github.io/&quot;
         },
         &quot;$:/info/url/host&quot;: {
             &quot;title&quot;: &quot;$:/info/url/host&quot;,
-            &quot;text&quot;: &quot;&quot;
+            &quot;text&quot;: &quot;sady225.github.io&quot;
         },
         &quot;$:/info/url/hostname&quot;: {
             &quot;title&quot;: &quot;$:/info/url/hostname&quot;,
-            &quot;text&quot;: &quot;&quot;
+            &quot;text&quot;: &quot;sady225.github.io&quot;
         },
         &quot;$:/info/url/protocol&quot;: {
             &quot;title&quot;: &quot;$:/info/url/protocol&quot;,
-            &quot;text&quot;: &quot;file:&quot;
+            &quot;text&quot;: &quot;https:&quot;
         },
         &quot;$:/info/url/port&quot;: {
             &quot;title&quot;: &quot;$:/info/url/port&quot;,
@@ -12102,7 +12132,7 @@ Error message and password prompt
         },
         &quot;$:/info/url/pathname&quot;: {
             &quot;title&quot;: &quot;$:/info/url/pathname&quot;,
-            &quot;text&quot;: &quot;/Users/kaname/github/sady225/index.html&quot;
+            &quot;text&quot;: &quot;/&quot;
         },
         &quot;$:/info/url/search&quot;: {
             &quot;title&quot;: &quot;$:/info/url/search&quot;,
@@ -12110,7 +12140,7 @@ Error message and password prompt
         },
         &quot;$:/info/url/origin&quot;: {
             &quot;title&quot;: &quot;$:/info/url/origin&quot;,
-            &quot;text&quot;: &quot;file://&quot;
+            &quot;text&quot;: &quot;https://sady225.github.io&quot;
         },
         &quot;$:/info/browser/screen/width&quot;: {
             &quot;title&quot;: &quot;$:/info/browser/screen/width&quot;,
