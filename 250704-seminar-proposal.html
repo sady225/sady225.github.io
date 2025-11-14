@@ -1,0 +1,542 @@
+<!DOCTYPE html><html><head>
+      <title>250704-seminar-proposal</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////Users/kanmemacbookair/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.18/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="不登校-学校行きしぶりの見立てと手立て">不登校、学校行きしぶりの見立てと手立て </h1>
+<h2 id="不登校行きしぶりの背景にある脳と記憶のしくみを知り-br無理のない関わり方と支援の視点を学びます">不登校・行きしぶりの背景にある“脳と記憶のしくみ”を知り、<br>無理のない関わり方と支援の視点を学びます。 </h2>
+<hr>
+<h1 id="今日の目的">今日の目的 </h1>
+<h2 id="li不登校行き渋りの背景を脳記憶感情から理解する"><li>不登校・行き渋りの背景を「脳・記憶・感情」から理解する </li></h2>
+<h2 id="li無理なく関われる声かけと環境づくりを学ぶ"><li>無理なく関われる声かけと環境づくりを学ぶ </li></h2>
+<h2 id="li-子どもの今とこれからを支える視点を持ち帰る"><li>子どもの今とこれからを支える“視点”を持ち帰る </li></h2>
+<hr>
+<h1 id="脳のしくみと防衛反応">脳のしくみと“防衛反応” </h1>
+<h2 id="-脳は3つの層でできている">🧠 脳は3つの層でできている </h2>
+<br>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">脳の層</th>
+<th style="text-align:center">反応</th>
+<th style="text-align:center">状態の例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">爬虫類脳</td>
+<td style="text-align:center">逃げる・固まる</td>
+<td style="text-align:center">起きられない・暴れる</td>
+</tr>
+<tr>
+<td style="text-align:center">哺乳類脳</td>
+<td style="text-align:center">感情の揺れ</td>
+<td style="text-align:center">泣く・過敏になる</td>
+</tr>
+<tr>
+<td style="text-align:center">人間脳</td>
+<td style="text-align:center">考える・話す</td>
+<td style="text-align:center">最後に働く部分</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h2 id="動けないは守ってる脳の反応怠けではない">📌「動けない」は“守ってる脳の反応”。怠けではない。 </h2>
+<hr>
+<h1 id="記憶のしくみ4つの記憶">記憶のしくみ：4つの記憶 </h1>
+<table>
+<thead>
+<tr>
+<th>種類</th>
+<th>内容</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感情記憶</td>
+<td>嬉しい・怖いなど気持ちの記憶</td>
+<td>怒られた、褒められた</td>
+</tr>
+<tr>
+<td>意味記憶</td>
+<td>知識としての記憶</td>
+<td>勉強、説明されたこと</td>
+</tr>
+<tr>
+<td>手続記憶</td>
+<td>やり方・体の記憶</td>
+<td>歩く、自転車、手順</td>
+</tr>
+<tr>
+<td>エピソード記憶</td>
+<td>体験の記憶</td>
+<td>遠足、入学式、失敗体験</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-行動は理屈より感情や体験の記憶によって決まる">📌 行動は「理屈」より「感情や体験の記憶」によって決まる。 </h2>
+<hr>
+<h1 id="-3つの実践アプローチ">🧩 3つの実践アプローチ </h1>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>①てぃあんだぁクラブ🐶</th>
+<th>②アルパカすく〜る🦙</th>
+<th>③子どものMIKATA🌈<br>ワンコイン勉強会<br>子育て勉強会</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主な対象</td>
+<td>本人と家族</td>
+<td>子ども・大人</td>
+<td>保護者・支援者</td>
+</tr>
+<tr>
+<td>支援の中心</td>
+<td>個別対応／アンガーマネジメント</td>
+<td>日中の学び＋体験</td>
+<td>観察・対話・学び合い</td>
+</tr>
+<tr>
+<td>特徴とキーワード</td>
+<td>「無理させない」「好きから入る」</td>
+<td>親と先生以外の大人とのご縁づくり</td>
+<td>「行ける」ではなく「居られる」社会参加</td>
+</tr>
+<tr>
+<td>内容</td>
+<td>家庭教師・学校補助</td>
+<td>課外授業<br>職業訓練</td>
+<td>週2回・午前中・豊見城のカフェとうるま市の公民館で学ぶ</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="琉球のタネでのアプローチの特徴">琉球のタネでのアプローチの特徴 </h1>
+<h2 id="li体験授業アルパカツアー等振り返り学習br----登校進学をゴールにせず-共に学ぶ"><li>体験授業（アルパカツアー等）＋振り返り学習<br>　　 → 登校・進学を“ゴール”にせず、共に学ぶ </li></h2>
+<h2 id="li静かな環境本人の好きからスタートbr---多重知能理論に基づく得意発見br---自己有能感の回復"><li>静かな環境・本人の「好き」からスタート<br>　　→　多重知能理論に基づく「得意」発見<br>　　→　自己有能感の回復 </li></h2>
+<h2 id="li会話が苦手場面緘黙br---メモやline会話で安心を届ける"><li>会話が苦手（場面緘黙）<br>　　→　メモやLINE会話で安心を届ける </li></h2>
+<h2 id="li教材例自分探求シートpintbr--感情記憶エピソード記憶をポジティブに育てるなど"><li>教材例：「自分探求シート（pint）」<br>　　→「感情記憶・エピソード記憶をポジティブに育てる」など </li></h2>
+<hr>
+<h1 id="質問">質問 </h1>
+<h2 id="本人も親もきつくならない-声かけ-特処法をしりたいbrおしかたひきかた">本人も親もきつくならない 声かけ、特処法をしりたい。<br>おしかた。ひきかた。 </h2>
+<hr>
+<h2 id="本人も親もきつくならないための具体的対応ポイント別">「本人も親もきつくならない」ための具体的対応（ポイント別） </h2>
+<h3 id="対応のコツ声かけ">◆対応のコツ（声かけ） </h3>
+<ul>
+<li>
+<p><strong>気持ちは受容する／言い分はニュートラルに聞く</strong></p>
+<ul>
+<li>「そう思ったんだね」「そういうふうに見えたんだね」</li>
+</ul>
+</li>
+<li>
+<p><strong>肯定的な指示を活用</strong></p>
+<ul>
+<li>×「走らない」 → ○「歩こう」</li>
+</ul>
+</li>
+<li>
+<p><strong>選択肢を与える</strong></p>
+<ul>
+<li>「今とあと5分後、どっちがいい？」</li>
+</ul>
+</li>
+<li>
+<p><strong>時間と見通しを伝える</strong></p>
+<ul>
+<li>「あと3分で終わるよ」「この後〇〇しようね」</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="特処法特別な処置">◆特処法（特別な処置） </h3>
+<ul>
+<li>
+<p><strong>タイムアウトを肯定的に設ける（本人の選択で）</strong></p>
+<ul>
+<li>「ちょっと一人になりたい？」「落ち着く時間、ここで過ごしてみる？」</li>
+</ul>
+</li>
+<li>
+<p><strong>セルフトークや“なっとくのいく理屈”を与える</strong></p>
+<ul>
+<li>行動前に自分で考える道具を持たせる（例：「〇〇したらどうなる？」）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="見立ての解像度を高めるための質問">「見立て」の解像度を高めるための質問 </h2>
+<h3 id="認知面">（認知面） </h3>
+<ul>
+<li>この子は「どうしたらよいか」が分かっていないのか？</li>
+<li>自分の行動を整理できる言葉を持っているか？</li>
+</ul>
+<h3 id="心理面">（心理面） </h3>
+<ul>
+<li>その行動の背後に、どんな「気持ち」や「未処理の体験」が隠れているか？</li>
+<li>今、安心できている相手や場所はあるか？</li>
+</ul>
+<h3 id="社会面">（社会面） </h3>
+<ul>
+<li>周囲との関係で「攻撃・拒否」以外の表現ができる関係性はあるか？</li>
+<li>家庭や学校の「期待」や「ルール」は理解されているか？</li>
+</ul>
+<hr>
+<h2 id="アンガーマネジメント基礎編見立てのポイント">アンガーマネジメント基礎編：見立てのポイント </h2>
+<ol>
+<li>
+<p><strong>怒りは「二次感情」である</strong><br>
+怒りの裏に「不安」「寂しさ」「期待とのズレ」がある。</p>
+</li>
+<li>
+<p><strong>「今、何が起きているか」を一緒に整理</strong><br>
+興奮時にはまず<strong>身体と感情の状態</strong>を見立てる（興奮度、スピード、調整力など）</p>
+</li>
+<li>
+<p><strong>怒りの回路を変えるには、習慣と時間が必要</strong><br>
+すぐにやめさせるより、「代わりの行動」を練習することが優先。</p>
+</li>
+<li>
+<p><strong>否定ではなく「承認と提案」</strong><br>
+「怒っちゃダメ」ではなく、「怒るときはこう伝えようね」と提案型で。</p>
+</li>
+</ol>
+<hr>
+<h1 id="質問2">質問2 </h1>
+<h2 id="毎日学校にいかない日は昼間家ですごす">毎日学校にいかない日は昼間家ですごす。 </h2>
+<hr>
+<h1 id="質問2-1">質問2 </h1>
+<h3 id="毎日学校にいかない日は昼間家ですごす-1">毎日学校にいかない日は昼間家ですごす。 </h3>
+<h4 id="回答2-1">（回答2-1） </h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身体機能・感覚統合</td>
+<td>・家の環境が安心できる「逃避・回復の場」となっている<br>・身体的疲労や感覚過敏でエネルギーを温存している</td>
+</tr>
+<tr>
+<td>言語・認知機能</td>
+<td>・スケジューリング能力や見通しをもつ力が未発達か低下している<br>・場面の切り替えや理由づけが苦手な可能性も</td>
+</tr>
+<tr>
+<td>感情・社会性</td>
+<td>・学校という「社会的場面」へのストレスが高く、自己防衛的な回避をしている<br>・信頼関係が築けている人とのやりとりに限定されている可能性あり</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="質問2-2">質問2 </h1>
+<h3 id="見立ての解像度を上げるための質問認知面心理面社会面">見立ての解像度を上げるための質問（認知面・心理面・社会面） </h3>
+<h4 id="認知面-1">（認知面） </h4>
+<li>本人は「学校に行かない理由」をどう説明しているか？（言語化できるか？）</li>
+<li>「学校へ行くこと」に対する本人なりの目標や意味づけはあるか？</li>
+<h4 id="心理面-1">（心理面） </h4>
+<li>学校生活の中で、本人が「つらい」と感じた瞬間はいつか？</li>
+<li>家で過ごしているときの表情・行動に安心感はあるか？疲れた様子はあるか？</li>
+<h4 id="社会面-1">（社会面） </h4>
+<li>学校以外で関わっている人（友人、家族、支援者）はいるか？</li>
+<li>家族との関係は安定しているか？登校を巡るやり取りで緊張が生じていないか？</li>
+<hr>
+<h1 id="質問3">質問３ </h1>
+<h2 id="家が楽で出れなくなってないか心配になる">家が楽で出れなくなってないか心配になる。 </h2>
+<hr>
+<h1 id="質問3-1">質問３ </h1>
+<h3 id="家が楽で出れなくなってないか心配になるbrbr">家が楽で出れなくなってないか心配になる。<br><br> </h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">①行動・言葉（区分）</th>
+<th style="text-align:left">②身体機能・感覚統合</th>
+<th style="text-align:left">③言語・認知機能</th>
+<th style="text-align:left">④感情・社会性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><b>言葉：</b>特に否定も肯定もせず「行かない」が当たり前になる</td>
+<td style="text-align:left"><li>朝の覚醒リズムや活動切り替えが低下している可能性</li><li>活動エネルギーを抑えている状態</li></td>
+<td style="text-align:left"><li>「行かない理由」や「行く意味」を言語化できず、行動で表している可能性</li><li>思考の切り替えや見通しが乏しくなっている</li></td>
+<td style="text-align:left"><li>「家の安心感」への依存が強まり、社会的チャレンジを避けるようになっている</li><li>失敗回避・拒否の習慣化のリスクあり</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="質問3-2">質問３ </h1>
+<h3 id="家が楽で出れなくなってないか心配になるbrbr-1">家が楽で出れなくなってないか心配になる。<br><br> </h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">①行動・言葉（区分）</th>
+<th style="text-align:left">②身体機能・感覚統合</th>
+<th style="text-align:left">③言語・認知機能</th>
+<th style="text-align:left">④感情・社会性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><b>行動：</b>日中もリラックスしたまま家で過ごす（刺激の少ない生活）</td>
+<td style="text-align:left"><li>刺激の少ない環境が続くと、感覚刺激への耐性がさらに下がる可能性あり</li></td>
+<td style="text-align:left"><li>挑戦や計画的行動を自分で立てる経験が減少し、実行機能が低下することも</li></td>
+<td style="text-align:left"><li>「安心＝現状維持」にとどまりやすく、新しい関係・場面への関心が下がる<br></li><li>自発的な社会参加が減るリスクあり</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="心配を見立てに変える視点">心配を「見立て」に変える視点 </h2>
+<ul>
+<li>
+<p>本人にとって「家が楽＝安心・安全」の場である可能性が高い<br>
+→ これは悪いことではなく、「回復・充電」の期間であることもあります。</p>
+</li>
+<li>
+<p>問題なのは、「楽な場」に“とどまりすぎる”ことによる<strong>発達・自立機会の停滞</strong></p>
+</li>
+<li>
+<p>「楽さ」＝「安心」が強すぎると、「挑戦」や「外の経験」から遠ざかりやすくなる。</p>
+</li>
+</ul>
+<hr>
+<h2 id="解像度を上げるための質問">解像度を上げるための質問 </h2>
+<h3 id="認知面-2">（認知面） </h3>
+<ul>
+<li>外に出る／学校に行くことを「自分ごと」としてどう捉えているか？</li>
+<li>何かきっかけがあれば「行ってもいい」と思う瞬間はあるか？</li>
+</ul>
+<h3 id="心理面-2">（心理面） </h3>
+<ul>
+<li>家にいることで「安心できている」と感じている？<br>
+それとも「不安から逃げている」？</li>
+<li>学校に行くことにどんな不安・ストレスを感じているか？</li>
+</ul>
+<h3 id="社会面-2">（社会面） </h3>
+<ul>
+<li>家の中以外でつながっている他者（家族以外）はいるか？</li>
+<li>社会的な関わりを全て断っている状態か、一部でもつながりは残っているか？</li>
+</ul>
+<hr>
+<h2 id="アンガーマネジメント的な視点で見ると">アンガーマネジメント的な視点で見ると… </h2>
+<ul>
+<li>
+<p>「家にいる状態が続くこと」にも、<strong>怒りの感情の蓄積や回避</strong>が背景にある場合があります。</p>
+</li>
+<li>
+<p>たとえば、「どうせ自分は無理」「やってもダメ」という<br>
+<strong>あきらめや自己否定が怒りのかたちで現れる</strong>ことがあります。</p>
+</li>
+<li>
+<p>表出しない怒り（沈黙、無気力）も見逃さず、<br>
+<strong>安心を維持しながら、徐々に外の世界との橋渡し</strong>を行うことが大切です。</p>
+</li>
+</ul>
+<hr>
+<h2 id="方向性としては">方向性としては… </h2>
+<ul>
+<li>
+<p><strong>「安心できる家」＋「小さな外の世界との接点」</strong> を組み合わせる。</p>
+</li>
+<li>
+<p>本人のペースで、<br>
+<strong>「楽な家」から「安全な社会」へ移る小さなステップづくり</strong>が鍵になります。</p>
+</li>
+</ul>
+<hr>
+<h1 id="質問4">質問4 </h1>
+<h2 id="家から出したいと思うのはダメなのか">家から出したいと思うのはダメなのか。 </h2>
+<hr>
+<h1 id="質問4-1">質問4 </h1>
+<h3 id="家から出したいと思うのはダメなのか-1">家から出したいと思うのはダメなのか。 </h3>
+<table>
+<thead>
+<tr>
+<th>1) 行動・言葉</th>
+<th>2) 身体機能・感覚統合</th>
+<th>3) 言語・認知機能</th>
+<th>4) 感情・社会性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>●言葉：「家から出したいと思うのはダメなのか？」</strong></td>
+<td><li>発話のタイミングや表情、声のトーンに緊張やためらいはありますか？<br></li><li>交感神経優位（動悸・息切れ・体の硬直など）であれば、不安が影響している可能性があります</li></td>
+<td><li>「出したい」が何を意味しているか、文脈の読み取り・意図の明確化が必要（追い出したいのか、外に連れ出したいのか）<br></li><li>自己と他者の境界や責任分担の認知に課題があるかもしれません</li></td>
+<td><li>「ダメなのか」と他者からの評価を気にしている点から、内在的な葛藤や自己否定感を抱えているかもしれません<br></li><li>家族内の関係性（共依存、距離感の混乱など）が影響していることも考えられます</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="質問4-2">質問4 </h1>
+<h3 id="家から出したいと思うのはダメなのか-2">家から出したいと思うのはダメなのか。 </h3>
+<table>
+<thead>
+<tr>
+<th>1) 行動・言葉</th>
+<th>2) 身体機能・感覚統合</th>
+<th>3) 言語・認知機能</th>
+<th>4) 感情・社会性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>●行動：同居者に強いストレスを感じ、実際に「外に出す」行動を考えている／検討している</strong></td>
+<td><li>過去に身体的な不快経験（騒音、におい、触覚過敏など）による回避行動はありますか？</li></td>
+<td><li>「問題の解決＝物理的な距離」と結びつける思考パターンがあるかもしれません<br></li><li>対人関係や葛藤の処理方法において柔軟性が必要</li></td>
+<td><li>怒りや苛立ちを行動に変える傾向がある<br></li><li>制御機能（ブレーキ）の弱さがあるかもしれない<br></li><li>家族関係において「自他の役割の境界」が曖昧で、感情を共有・分担する機能が不十分かもしれません</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-見立ての解像度を上げるために">⬛ 見立ての解像度を上げるために </h2>
+<h3 id="認知面-3">（認知面） </h3>
+<ul>
+<li>
+<p>「出したい」と思う理由をどのように整理していますか？<br>
+問題の原因は「誰のどの行動」にあると感じていますか？</p>
+</li>
+<li>
+<p>「出す」以外に問題を解決する手段として思いつくものは何がありますか？</p>
+</li>
+</ul>
+<h3 id="心理面-3">（心理面） </h3>
+<ul>
+<li>
+<p>その人と一緒にいるときに、自分の身体や感情にどのような変化がありますか？</p>
+</li>
+<li>
+<p>「出したい」と思った後、自分の中にどんな感情が残りますか？<br>
+（罪悪感、すっきり、後悔、安心など）</p>
+</li>
+</ul>
+<h3 id="社会面-3">（社会面） </h3>
+<ul>
+<li>
+<p>その人と過ごすことにおいて、周囲（家族・他人）との関係にどんな影響がありますか？</p>
+</li>
+<li>
+<p>「家族」という関係性において、どのような役割や距離感が理想だと考えていますか？</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>浦添、那覇で毎日すごせる場所やおすすめのフリースクールを教えて欲しい。<br>
+→ ２万円以上の場所は紹介していない。</li>
+</ul>
+<hr>
+<h2 id="下記は市町村や学校の制度ですのでお答えしかねます">下記は市町村や学校の制度ですのでお答えしかねます。 </h2>
+<ul>
+<li>受験のときだす自己申告書。</li>
+<li>後半出席でもとればOKという基準は?</li>
+<li>後半もいけてなかったら?</li>
+</ul>
+<hr>
+<h1 id="質問-1">質問 </h1>
+<ul>
+<li>その子にあった高校の選び方<br>
+　→ その子が選ぶ　ex.オープンキャンパス、学校説明会（※雰囲気）<br>
+　→ 自己決定 → 中年以降に悩む</li>
+</ul>
+<hr>
+<h1 id="質問-2">質問 </h1>
+<ul>
+<li>ワンコイン勉強会とは?<br>
+→ 豊見城市真玉橋、うるま市田場で週2回やっている不登校支援</li>
+</ul>
+<hr>
+<h1 id="質問-5">質問 5 </h1>
+<h2 id="朝おきてこない">朝おきてこない。 </h2>
+<h2 id="毎日の朝の声かけの仕方">毎日の朝の声かけの仕方 </h2>
+<hr>
+<h1 id="質問-5-1">質問 5-1 </h1>
+<h3 id="朝おきてこない-1">朝おきてこない。 </h3>
+<table>
+<thead>
+<tr>
+<th>1)行動・言葉</th>
+<th>2)身体機能・感覚統合の見立て</th>
+<th>3)言語・認知機能の見立て</th>
+<th>4)感情・社会性の見立て</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>言葉：毎朝の声かけ（例：「起きて」）</strong></td>
+<td><li>聴覚過敏や鈍麻があると、声かけの音量やタイミングに影響を受けやすい。</li><li>起床時に覚醒レベルが低く、音声が届いていても「聞こえた」と認識できない場合がある。</li></td>
+<td><li>指示の言語理解が不十分な可能性（特に抽象的な言い方や一言指示が多いと認識が難しい）</li><li>「起きて」だけでは行動への結びつきが弱い可能性</li></td>
+<td><li>声かけに対する反応から、「叱られる・急かされる」などのネガティブ経験が蓄積していると反発感情があるかもしれない</li><li>愛着関係に基づくコミュニケーションの質が影響する</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="質問-5-2">質問 5-2 </h1>
+<h3 id="毎日の朝の声かけの仕方-1">毎日の朝の声かけの仕方 </h3>
+<table>
+<thead>
+<tr>
+<th>1)行動・言葉</th>
+<th>2)身体機能・感覚統合の見立て</th>
+<th>3)言語・認知機能の見立て</th>
+<th>4)感情・社会性の見立て</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>行動：朝、起きてこない</strong></td>
+<td><li>睡眠の質・量の問題（自律神経系の働き、ホメオスタシス不全）</li><li>感覚統合の不全で、朝の覚醒がスムーズでない（触覚・温度などへの過敏や鈍麻）</li></td>
+<td><li>実行機能の問題：行動の「開始」に困難がある（朝のルーチンをイメージして取りかかる力が弱い）</li><li>見通しの不足：「起きた後、何をするか」のイメージが持てない</li></td>
+<td><li>起床＝嫌なこと（学校・人間関係）という感情と結びついている可能性</li><li>社会的役割やルール意識の発達段階（ルールを守る意欲、ストレス耐性など）が未成熟な場合がある</li></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="見立ての解像度を上げるための質問認知面心理面社会面-1">見立ての解像度を上げるための質問（認知面・心理面・社会面） </h3>
+<h4 id="認知面-4">（認知面） </h4>
+<li>「朝起きてからやること」のイメージは本人の中でどのくらいできているか？（見通し・ルーティン化）</li>
+<li>声かけの指示を理解できているか？（一語指示で伝わっているか、具体的な指示は有効か？）</li>
+<h4 id="心理面-4">（心理面） </h4>
+<li>起きたくない理由を本人は言語化できるか？（不快な気持ちのネーミングができるか）</li>
+<li>朝の時間帯に不安や怒り、緊張などの強い感情があるか？</li>
+<h4 id="社会面-4">（社会面） </h4>
+<li>起きることに対して、家庭内での役割や責任感は育っているか？</li>
+<li>起きたあとの活動（学校など）において、社会的ストレスや対人トラブルがあるか？</li>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
