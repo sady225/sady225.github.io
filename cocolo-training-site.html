@@ -885,10 +885,12 @@
             <div class="logo">COCOLO支援コーディネーター養成講座</div>
             <div class="city-switcher">
                 <button class="city-btn active" data-city="yomitan" onclick="changeCity('yomitan')">読谷村</button>
+                <!-- 
                 <button class="city-btn" data-city="ginowan" onclick="changeCity('ginowan')">宜野湾市</button>
                 <button class="city-btn" data-city="uruma" onclick="changeCity('uruma')">うるま市</button>
                 <button class="city-btn" data-city="tomigusuku" onclick="changeCity('tomigusuku')">豊見城市</button>
                 <button class="city-btn" data-city="kitanakagusuku" onclick="changeCity('kitanakagusuku')">北中城村</button>
+                 -->
             </div>
         </div>
     </header>
@@ -899,7 +901,7 @@
             <h1>子どものために<br>何かしたい気持ちを<br>地域の力に変えよう</h1>
             <div class="hero-subtitle">学び × つながり × 実践</div>
             <p>あなたの「できること」が、誰かの「支え」になる</p>
-            <span class="cta-button" style="background:#ccc; cursor:default;">※2026年度準備中</span>
+            <a href="#apply" id="hero-cta" class="cta-button">📝 受講申込はこちら<br>※2026年度準備中</a>
         </div>
     </section>
 
@@ -1199,7 +1201,7 @@
                 </div>
             </div>
             <div class="connection-benefits">
-                <h3>つながることで、こんなことが実現します</h3>
+                <h3>つながることで、<br>こんなことが実現します</h3>
                 <div class="benefit-list">
                     <div class="benefit-item">
                         <div class="icon">🌟</div>
@@ -1226,7 +1228,7 @@
                         <div class="icon">🏆</div>
                         <div>
                             <h4><span class="js-city-full">読谷村</span>の支援の質が上がる</h4>
-                            <p>地域全体で子どもを支える文化が育ち、誰も孤立しない村に。</p>
+                            <p>地域全体で子どもを支える文化が育ち、誰も孤立しない<span class="js-city-suffix"></span></span>に。</p>
                         </div>
                     </div>
                 </div>
@@ -1272,8 +1274,8 @@
         <div class="container">
             <h2>一緒に、<span class="js-city-full">読谷村</span>の子どもたちを<br>支える仲間になりませんか？</h2>
             <p>「何かしたい」という気持ちを、<br>地域を変える力に変えていきましょう。</p>
-            <span class="cta-button-white"
-                style="background:#eee; color:#999; cursor:default; box-shadow:none;">※2026年度準備中</span>
+            <p>「何かしたい」という気持ちを、<br>地域を変える力に変えていきましょう。</p>
+            <a href="#" id="bottom-cta" class="cta-button-white">📝 今すぐ申し込む<br>※2026年度準備中</a>
             <p style="margin-top: 30px; font-size: 1em; opacity: 0.9;">
                 お問い合わせ：琉球のタネ<br>
                 📞 070-5692-4173 ✉️ info@ryukyu-tane.com
@@ -1348,11 +1350,11 @@
 
         // City Data
         const cities = {
-            'yomitan': { name: '読谷村', office: '読谷村役場' },
-            'ginowan': { name: '宜野湾市', office: '宜野湾市役所' },
-            'uruma': { name: 'うるま市', office: 'うるま市役所' },
-            'tomigusuku': { name: '豊見城市', office: '豊見城市役所' },
-            'kitanakagusuku': { name: '北中城村', office: '北中城村役場' }
+            'yomitan': { name: '読谷村', office: '読谷村役場', suffix: '村', isAvailable: true },
+            'ginowan': { name: '宜野湾市', office: '宜野湾市役所', suffix: '市', isAvailable: false },
+            'uruma': { name: 'うるま市', office: 'うるま市役所', suffix: '市', isAvailable: false },
+            'tomigusuku': { name: '豊見城市', office: '豊見城市役所', suffix: '市', isAvailable: false },
+            'kitanakagusuku': { name: '北中城村', office: '北中城村役場', suffix: '村', isAvailable: false }
         };
 
         function changeCity(cityId) {
@@ -1362,6 +1364,7 @@
             // Update text content
             document.querySelectorAll('.js-city-full').forEach(el => el.textContent = data.name);
             document.querySelectorAll('.js-city-office').forEach(el => el.textContent = data.office);
+            document.querySelectorAll('.js-city-suffix').forEach(el => el.textContent = data.suffix);
 
             // Update Title
             document.title = `COCOLO支援コーディネーター養成講座 | ${data.name}`;
@@ -1370,6 +1373,59 @@
             document.querySelectorAll('.city-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.city === cityId);
             });
+
+            // Update CTA Buttons
+            const heroBtn = document.getElementById('hero-cta');
+            const bottomBtn = document.getElementById('bottom-cta');
+            const navBtn = document.querySelector('.bottom-nav .nav-item[href="#apply"]');
+
+            if (data.isAvailable) {
+                // Enable Buttons
+                const enableBtn = (btn, text, isWhite = false) => {
+                    btn.textContent = text;
+                    btn.style.pointerEvents = 'auto';
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    btn.style.background = isWhite ? 'white' : '#FF6B6B';
+                    btn.style.color = isWhite ? '#FF6B6B' : 'white';
+                    if (isWhite) btn.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.2)';
+                    else btn.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                    if (btn.tagName === 'A') btn.href = '#apply'; // Or specific URL
+                };
+
+                enableBtn(heroBtn, '📝 受講申込はこちら');
+                enableBtn(bottomBtn, '📝 今すぐ申し込む', true);
+
+                // Update Nav
+                if (navBtn) {
+                    navBtn.style.opacity = '1';
+                    navBtn.querySelector('.nav-text').textContent = '申込';
+                    navBtn.onclick = function () { activateNav(this); };
+                }
+
+            } else {
+                // Disable Buttons (Coming Soon)
+                const disableBtn = (btn) => {
+                    btn.textContent = '※準備中';
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.7';
+                    btn.style.cursor = 'default';
+                    btn.style.background = '#ccc';
+                    btn.style.color = '#666';
+                    btn.style.boxShadow = 'none';
+                    if (btn.tagName === 'A') btn.removeAttribute('href');
+                };
+
+                disableBtn(heroBtn);
+                disableBtn(bottomBtn);
+
+                // Update Nav
+                if (navBtn) {
+                    navBtn.style.opacity = '0.5';
+                    navBtn.querySelector('.nav-text').textContent = '準備中';
+                    navBtn.onclick = function () { return false; };
+                }
+            }
         }
 
         function openModal(title, detail) {
