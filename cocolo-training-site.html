@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COCOLO支援コーディネーター養成講座 | 読谷村</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #FF8E53 0%, #FE6B8B 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+        }
+
+        .cta-button {
+            background: #FF6B6B;
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* セクション共通 */
+        section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 50px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, #FF8E53, #FE6B8B);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* 3つの特徴 */
+        .features {
+            background: #f8f9fa;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 対象者 */
+        .target-audience {
+            background: white;
+        }
+
+        .audience-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .audience-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        /* プログラム内容 */
+        .program {
+            background: #f8f9fa;
+        }
+
+        .program-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .program-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .program-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #FF8E53;
+            border-left: 5px solid #FF8E53;
+            padding-left: 15px;
+        }
+
+        .program-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .program-section li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+
+        .program-section li:last-child {
+            border-bottom: none;
+        }
+
+        .program-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* 修了後の活動イメージ - 重要セクション */
+        .activities {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .activities .section-title {
+            color: white;
+        }
+
+        .activities .section-title::after {
+            background: white;
+        }
+
+        .activity-intro {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .activity-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-card h4 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #FF6B6B;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-card .icon {
+            font-size: 1.3em;
+        }
+
+        .activity-card p {
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .activity-examples {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #ddd;
+        }
+
+        .activity-examples strong {
+            display: block;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .activity-examples ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .activity-examples li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95em;
+        }
+
+        .activity-examples li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #FF8E53;
+        }
+
+        /* 読谷村でつながる */
+        .connections {
+            background: #fff;
+            padding: 80px 20px;
+        }
+
+        .connection-visual {
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE8CC 100%);
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .connection-center {
+            background: linear-gradient(135deg, #FF8E53 0%, #FE6B8B 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0 auto 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(255, 142, 83, 0.4);
+        }
+
+        .connection-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .connection-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .connection-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .connection-item .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .connection-item h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .connection-item p {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .connection-benefits {
+            margin-top: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .connection-benefits h3 {
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            color: #FF8E53;
+            text-align: center;
+        }
+
+        .benefit-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .benefit-item .icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .benefit-item div h4 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .benefit-item div p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 受講の流れ */
+        .flow {
+            background: #f8f9fa;
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            text-align: center;
+        }
+
+        .flow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .flow-step h4 {
+            font-size: 1.3em;
+            margin: 20px 0 15px;
+            color: #2c3e50;
+        }
+
+        .flow-step p {
+            color: #666;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #FF8E53 0%, #FE6B8B 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+        }
+
+        .cta-section p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+        }
+
+        .cta-button-white {
+            background: white;
+            color: #FF6B6B;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .cta-button-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* フッター */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .program-content {
+                grid-template-columns: 1fr;
+            }
+
+            .connection-center {
+                width: 150px;
+                height: 150px;
+                font-size: 1.1em;
+            }
+        }
+
+        /* Video List Styles & Modal */
+        .program-section li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .video-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-micro {
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: none;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-download {
+            background: white;
+            border: 1px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-download:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-site {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-site:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(72, 187, 120, 0.4);
+        }
+
+        .modal-iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 8px;
+            background: #f0f0f0;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .modal-dummy-video {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #999;
+            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close-btn:hover {
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .video-actions {
+                width: 100%;
+                margin-top: 5px;
+                justify-content: flex-end;
+            }
+
+            /* Adjust switcher for mobile */
+            .city-switcher {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                justify-content: flex-start;
+            }
+        }
+
+        /* City Switcher */
+        .city-switcher {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+        }
+
+        .city-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .city-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .city-btn.active {
+            background: white;
+            color: #FF8E53;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="container">
+            <div class="logo">COCOLO支援コーディネーター養成講座</div>
+            <div class="city-switcher">
+                <button class="city-btn active" data-city="yomitan" onclick="changeCity('yomitan')">読谷村</button>
+                <button class="city-btn" data-city="ginowan" onclick="changeCity('ginowan')">宜野湾市</button>
+                <button class="city-btn" data-city="uruma" onclick="changeCity('uruma')">うるま市</button>
+                <button class="city-btn" data-city="tomigusuku" onclick="changeCity('tomigusuku')">豊見城市</button>
+                <button class="city-btn" data-city="kitanakagusuku" onclick="changeCity('kitanakagusuku')">北中城村</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="container">
+            <h1>子どものために<br>何かしたい気持ちを<br>地域の力に変えよう</h1>
+            <div class="hero-subtitle">学び × つながり × 実践</div>
+            <p>あなたの「できること」が、誰かの「支え」になる</p>
+            <a href="#apply" class="cta-button">📝 受講申込はこちら</a>
+        </div>
+    </section>
+
+    <!-- 3つの特徴 -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">この講座で得られる3つのこと</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>支援の知識とスキル</h3>
+                    <p>不登校、学習困難、発達特性など、子どもたちが直面する課題と、どう関わればいいのかを学びます。専門家でなくても、「わかってくれる大人」になれます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3><span class="js-city-full">読谷村</span>での<br>つながり</h3>
+                    <p>同じ想いを持つ仲間、地域の支援者、行政、NPOなど、様々な人とつながります。一人じゃない、チームで支え合える関係が生まれます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>地域での<br>実践の場</h3>
+                    <p>修了後は「地域支援パートナー」として、公民館や自治会で実際に活動できます。学んだことを、すぐに活かせる環境があります。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 対象者 -->
+    <section class="target-audience">
+        <div class="container">
+            <h2 class="section-title">こんな方におすすめです</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px; color: #666;">
+                資格や経験は問いません。「子どものために何かしたい」という気持ちがあれば、どなたでも歓迎します。
+            </p>
+            <div class="audience-list">
+                <div class="audience-tag">👨‍👩‍👧 保護者</div>
+                <div class="audience-tag">👴👵 シニア世代</div>
+                <div class="audience-tag">👨‍🏫 元教員・保育士</div>
+                <div class="audience-tag">👶 子育て経験者</div>
+                <div class="audience-tag">🏘️ 地域活動者</div>
+                <div class="audience-tag">👦👧 若い世代</div>
+                <div class="audience-tag">💼 仕事と両立したい方</div>
+                <div class="audience-tag">❤️ 子どもを支えたい方</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- プログラム内容 -->
+    <section class="program">
+        <div class="container">
+            <h2 class="section-title">プログラム内容</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px; color: #666;">
+                オンデマンド動画で基礎を学び、対面セッションで実践力を磨く<strong>反転授業型</strong>のプログラムです
+            </p>
+            <div class="program-content">
+                <div class="program-section">
+                    <h3>📹 オンデマンド動画（全6回）</h3>
+                    <p style="margin-bottom: 20px; color: #666;">自分のペースで、いつでもどこでも学べます</p>
+                    <ul>
+                        <li>
+                            <div class="video-info"><strong>第1回</strong> 不登校・学習困難の現状と支援の基本</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第1回：現状と基本', '不登校・学習困難の現状と支援の基本について学びます。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第1回')">📥
+                                    ワークシート</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="video-info"><strong>第2回</strong> 多重知能理論と「心の成績」</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第2回：多重知能理論', '多重知能理論と「心の成績」について深く掘り下げます。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第2回')">📥
+                                    ワークシート</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="video-info"><strong>第3回</strong> COCOLOプランの活用方法</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-site"
+                                    onclick="openSiteModal('COCOLOプランについて', 'https://alpaca-school.okinawa/250802cocolo.html')">🌐
+                                    解説サイト</button>
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第3回：COCOLOプラン', 'COCOLOプランの効果的な活用方法を解説します。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第3回')">📥
+                                    ワークシート</button>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="video-info"><strong>第4回</strong> 地域の支援資源と制度（補助金・助成金）</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第4回：支援資源と制度', '地域で活用できる支援資源や補助金・助成金について学びます。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第4回')">📥
+                                    ワークシート</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="video-info"><strong>第5回</strong> 保護者との関わりとピア支援</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第5回：保護者支援', '保護者との関わり方やピア支援の重要性について考えます。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第5回')">📥
+                                    ワークシート</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="video-info"><strong>第6回</strong> 事業立ち上げに必要な手続きと協力体制</div>
+                            <div class="video-actions">
+                                <button class="btn-micro btn-view"
+                                    onclick="openModal('第6回：事業立ち上げ', '事業立ち上げに必要な具体的な手続きと協力体制の築き方。')">▶ 見る</button>
+                                <button class="btn-micro btn-download" onclick="downloadWorksheet('第6回')">📥
+                                    ワークシート</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="program-section">
+                    <h3>👥 対面ケーススタディ（3回）</h3>
+                    <p style="margin-bottom: 20px; color: #666;">仲間と一緒に、実践に向けた準備をします</p>
+                    <ul>
+                        <li><strong>第1回</strong> 事例共有とディスカッション<br>
+                            <small style="color: #999;">実際のケースをもとに、どう関わるか考えます</small>
+                        </li>
+                        <li><strong>第2回</strong> 地域課題と自分にできる役割を考える<br>
+                            <small style="color: #999;"><span
+                                    class="js-city-full">読谷村</span>の現状を知り、自分の強みを活かす方法を見つけます</small>
+                        </li>
+                        <li><strong>第3回</strong> 学び場・居場所運営の模擬プランニング<br>
+                            <small style="color: #999;">実際に活動を始めるための具体的な計画を立てます</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 修了後の活動イメージ -->
+    <section class="activities">
+        <div class="container">
+            <h2 class="section-title">修了後、こんな活動ができます</h2>
+            <div class="activity-intro">
+                修了後は<strong>「地域支援パートナー」</strong>として登録され、<br>
+                <span class="js-city-full">読谷村</span>の様々な場所で、子どもたちと家族を支える活動に参加できます。<br>
+                <strong>あなたの「できること」を、無理なく、楽しく続けられる形で。</strong>
+            </div>
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <h4><span class="icon">🏫</span> 公民館での学び場</h4>
+                    <p>週1〜2回、地域の公民館で学習支援や居場所づくりをサポート。宿題を見守ったり、一緒に遊んだり。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>算数が苦手な子の宿題サポート</li>
+                            <li>読書タイムの見守り</li>
+                            <li>工作やゲームで一緒に遊ぶ</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <h4><span class="icon">🏡</span> 自治会での居場所づくり</h4>
+                    <p>自治会館や集会所で、子どもたちが安心して過ごせる居場所を運営。おやつタイムや季節のイベントも。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>放課後の「ただいま」の場</li>
+                            <li>夏休みの自由研究サポート</li>
+                            <li>地域のお祭り準備</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <h4><span class="icon">👨‍👩‍👧‍👦</span> 保護者のピア支援</h4>
+                    <p>同じような悩みを持つ保護者同士をつなぎ、話を聴いたり、情報を共有したり。経験者だからできる支え方。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>不登校の子を持つ親の会</li>
+                            <li>進路相談のピアサポート</li>
+                            <li>「一人じゃないよ」と伝える</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <h4><span class="icon">🎨</span> 特技を活かした活動</h4>
+                    <p>音楽、スポーツ、料理、手芸など、あなたの特技や趣味を活かして、子どもたちに多様な体験を。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>三線教室、絵画ワークショップ</li>
+                            <li>料理体験、畑仕事</li>
+                            <li>スポーツや身体を動かす遊び</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <h4><span class="icon">💼</span> 事業立ち上げのサポート</h4>
+                    <p>補助金・助成金の申請サポートや、小規模な学び場・居場所の立ち上げをお手伝い。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>助成金申請の書類作成支援</li>
+                            <li>新しい居場所の開設準備</li>
+                            <li>活動の広報・情報発信</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <h4><span class="icon">🔗</span> つなぎ役・コーディネーター</h4>
+                    <p>困っている家族と、必要な支援をつなぐ役割。地域の資源や制度を知っているからこそできる支援。</p>
+                    <div class="activity-examples">
+                        <strong>具体例：</strong>
+                        <ul>
+                            <li>相談窓口の紹介</li>
+                            <li>支援団体との橋渡し</li>
+                            <li>地域の情報を届ける</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 読谷村でつながる -->
+    <section class="connections">
+        <div class="container">
+            <h2 class="section-title"><span class="js-city-full">読谷村</span>で、つながりが生まれる</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px; color: #666;">
+                この講座を通して、<span class="js-city-full">読谷村</span>の様々な人や組織とつながり、<br>
+                <strong>支え合える「社会関係資本（ソーシャルキャピタル）」</strong>が育まれます
+            </p>
+            <div class="connection-visual">
+                <div class="connection-center">
+                    あなた<br>地域支援<br>パートナー
+                </div>
+                <div class="connection-items">
+                    <div class="connection-item">
+                        <div class="icon">👨‍👩‍👧‍👦</div>
+                        <h4>同じ想いの仲間</h4>
+                        <p>講座で出会った仲間と、継続的につながれます</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">🏢</div>
+                        <h4><span class="js-city-office">読谷村役場</span></h4>
+                        <p>青少年センター、福祉課など行政との連携</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">🏫</div>
+                        <h4>学校・教育委員会</h4>
+                        <p>学校現場との協力体制</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">🏘️</div>
+                        <h4>自治会・公民館</h4>
+                        <p>地域の拠点での活動基盤</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">🤝</div>
+                        <h4>NPO・支援団体</h4>
+                        <p>専門的な支援機関との協力</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">👨‍🏫</div>
+                        <h4>専門家</h4>
+                        <p>臨床心理士、教育相談員などへの相談経路</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">👪</div>
+                        <h4>地域の家族</h4>
+                        <p>支援を必要とする子どもと保護者</p>
+                    </div>
+                    <div class="connection-item">
+                        <div class="icon">💰</div>
+                        <h4>助成金・補助金情報</h4>
+                        <p>活動を継続するための資金源</p>
+                    </div>
+                </div>
+            </div>
+            <div class="connection-benefits">
+                <h3>つながることで、こんなことが実現します</h3>
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <div class="icon">🌟</div>
+                        <div>
+                            <h4>一人で抱え込まない</h4>
+                            <p>困ったときに相談できる仲間がいる。専門家につなげることもできる。</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="icon">💡</div>
+                        <div>
+                            <h4>情報と知恵の共有</h4>
+                            <p>「こんな時どうする？」を仲間と共有し、より良い支援を考えられる。</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="icon">🚀</div>
+                        <div>
+                            <h4>新しい活動が生まれやすい</h4>
+                            <p>「こんなことやりたい」が、協力者やサポートを得て実現しやすくなる。</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="icon">🏆</div>
+                        <div>
+                            <h4><span class="js-city-full">読谷村</span>の支援の質が上がる</h4>
+                            <p>地域全体で子どもを支える文化が育ち、誰も孤立しない村に。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 受講の流れ -->
+    <section class="flow">
+        <div class="container">
+            <h2 class="section-title">受講の流れ</h2>
+            <div class="flow-steps">
+                <div class="flow-step" data-step="1">
+                    <h4>お申込み</h4>
+                    <p>下記フォームからお申込みください。定員になり次第締め切ります。</p>
+                </div>
+                <div class="flow-step" data-step="2">
+                    <h4>オリエンテーション</h4>
+                    <p>オンラインで講座の進め方や目標設定を行います。</p>
+                </div>
+                <div class="flow-step" data-step="3">
+                    <h4>動画学習（6回）</h4>
+                    <p>自分のペースで動画を視聴し、基礎知識を身につけます。</p>
+                </div>
+                <div class="flow-step" data-step="4">
+                    <h4>対面セッション（2回）</h4>
+                    <p>仲間と集まり、実践に向けたディスカッションとプランニング。</p>
+                </div>
+                <div class="flow-step" data-step="5">
+                    <h4>修了認定</h4>
+                    <p>全課程を修了すると「地域支援パートナー」として認定されます。</p>
+                </div>
+                <div class="flow-step" data-step="6">
+                    <h4>活動開始</h4>
+                    <p>自治会や公民館での支援活動に、できる範囲で参加します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="apply">
+        <div class="container">
+            <h2>一緒に、<span class="js-city-full">読谷村</span>の子どもたちを<br>支える仲間になりませんか？</h2>
+            <p>「何かしたい」という気持ちを、<br>地域を変える力に変えていきましょう。</p>
+            <a href="#" class="cta-button-white">📝 今すぐ申し込む</a>
+            <p style="margin-top: 30px; font-size: 1em; opacity: 0.9;">
+                お問い合わせ：琉球のタネ<br>
+                📞 070-5692-4173 ✉️ info@ryukyu-tane.com
+            </p>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <p><strong>COCOLO支援コーディネーター養成講座</strong></p>
+            <p>主催：株式会社琉球のタネ / 共催：一般社団法人くらくサポート</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.7;">
+                © 2025 <span class="js-city-full">読谷村</span> COCOLO Support Program. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal()">×</button>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">動画タイトル</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-dummy-video">
+                    <span style="font-size: 3em;">▶️</span>
+                    <span>Video Player Placeholder</span>
+                </div>
+                <iframe class="modal-iframe" src="" title="External Content"></iframe>
+                <p id="modalDetail">ここに動画の説明が入ります。</p>
+            </div>
+            <div style="text-align: right;">
+                <button class="cta-button-white"
+                    style="font-size: 1em; padding: 10px 30px; box-shadow: none; background: #667eea; color: white; border-radius: 8px;"
+                    onclick="closeModal()">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // City Data
+        const cities = {
+            'yomitan': { name: '読谷村', office: '読谷村役場' },
+            'ginowan': { name: '宜野湾市', office: '宜野湾市役所' },
+            'uruma': { name: 'うるま市', office: 'うるま市役所' },
+            'tomigusuku': { name: '豊見城市', office: '豊見城市役所' },
+            'kitanakagusuku': { name: '北中城村', office: '北中城村役場' }
+        };
+
+        function changeCity(cityId) {
+            const data = cities[cityId];
+            if (!data) return;
+
+            // Update text content
+            document.querySelectorAll('.js-city-full').forEach(el => el.textContent = data.name);
+            document.querySelectorAll('.js-city-office').forEach(el => el.textContent = data.office);
+
+            // Update Title
+            document.title = `COCOLO支援コーディネーター養成講座 | ${data.name}`;
+
+            // Update Active Button
+            document.querySelectorAll('.city-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.city === cityId);
+            });
+        }
+
+        function openModal(title, detail) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDetail').innerHTML = detail + '<br><br>⚠️ <strong>このコンテンツは会員限定です</strong>';
+
+            // Show video, hide iframe
+            const videoContainer = document.querySelector('.modal-dummy-video');
+            videoContainer.style.display = 'flex';
+            videoContainer.style.background = '#f8f9fa';
+            videoContainer.style.color = '#7f8c8d';
+            videoContainer.innerHTML = `
+                <div style="text-align:center;">
+                    <div style="font-size: 4em; margin-bottom: 10px;">🔒</div>
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">プレミアム会員限定</h3>
+                    <p>この動画を視聴するには<br>アルパカすく〜るプレミアム会員への登録が必要です。</p>
+                    <a href="https://online.alpaca-school.okinawa/%E3%81%93%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" target="_blank" class="cta-button" style="margin-top: 15px; font-size: 1em; padding: 10px 30px; display:inline-block; border-radius:30px;">詳しく見る</a>
+                </div>
+            `;
+
+            document.querySelector('.modal-iframe').style.display = 'none';
+            document.getElementById('videoModal').classList.add('active');
+        }
+
+        function openSiteModal(title, url) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDetail').textContent = '外部サイトを表示しています。';
+
+            // Hide video, show iframe
+            document.querySelector('.modal-dummy-video').style.display = 'none';
+            const iframe = document.querySelector('.modal-iframe');
+            iframe.src = url;
+            iframe.style.display = 'block';
+
+            document.getElementById('videoModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('videoModal').classList.remove('active');
+            // Reset iframe to stop loading/playing
+            document.querySelector('.modal-iframe').src = '';
+        }
+
+        // Close on click outside
+        document.getElementById('videoModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        function downloadWorksheet(title) {
+            alert('🚫 「' + title + '」のワークシートは\n\nアルパカすく〜るプレミアム会員のみ\nダウンロード可能です。');
+        }
+    </script>
+</body>
+
+</html>
