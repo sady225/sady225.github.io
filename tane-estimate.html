@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お見積り・ご発注フォーム｜琉球のタネ × 長安</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --surface: #ede7db;
+  --surface2: #e4ddd0;
+  --accent: #9a6f3a;
+  --accent2: #7a5228;
+  --text: #2c2418;
+  --text-dim: #7a6e5e;
+  --border: rgba(154,111,58,0.22);
+  --green: #2e7a58;
+  --red: #9a3a3a;
+  --shadow: 0 2px 16px rgba(44,36,24,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+/* ===== LAYOUT ===== */
+.page-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 6rem;
+}
+
+/* ===== SCREEN / PRINT SPLIT ===== */
+.screen-only { }
+.print-only { display: none; }
+
+/* ===== HEADER ===== */
+.doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.2rem;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 1.8rem;
+  gap: 1rem;
+}
+.doc-header-left {}
+.doc-type {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.doc-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.doc-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+}
+.doc-meta {
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.9;
+}
+.doc-meta strong { color: var(--text); font-weight: 700; }
+.doc-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+/* ===== PARTIES ===== */
+.parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+@media(max-width:560px){ .parties { grid-template-columns:1fr; } }
+.party-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+}
+.party-label {
+  font-size: 0.63rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.party-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.party-detail {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+.party-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.45rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-top: 0.3rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.party-input:focus { border-color: var(--accent); }
+.party-input::placeholder { color: var(--text-dim); font-size: 0.8rem; }
+.input-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  margin-bottom: 0.1rem;
+  display: block;
+}
+.required-mark { color: var(--red); font-size: 0.65rem; margin-left: 2px; }
+
+/* ===== ITEMS TABLE ===== */
+.section-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+  font-size: 0.84rem;
+}
+.items-table th {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  border-bottom: 2px solid var(--border);
+}
+.items-table th:last-child,
+.items-table td.td-price,
+.items-table td.td-subtotal { text-align: right; }
+.items-table td {
+  padding: 0.75rem 0.8rem;
+  border-bottom: 1px solid rgba(154,111,58,0.1);
+  vertical-align: middle;
+  line-height: 1.45;
+}
+.items-table tr:last-child td { border-bottom: none; }
+.item-row { transition: background 0.15s; }
+.item-row.selected { background: rgba(154,111,58,0.05); }
+.item-row.mandatory td { }
+.item-check-cell { width: 36px; }
+.item-checkbox {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  transition: all 0.2s;
+  flex: none;
+  background: var(--bg);
+  user-select: none;
+}
+.item-checkbox.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.item-checkbox.fixed {
+  background: var(--surface2);
+  border-color: var(--border);
+  color: var(--accent);
+  cursor: default;
+}
+.item-name { font-weight: 700; line-height: 1.3; }
+.item-desc { font-size: 0.74rem; color: var(--text-dim); margin-top: 0.15rem; line-height: 1.5; }
+.td-qty { width: 50px; text-align: center; color: var(--text-dim); }
+.td-unit { width: 40px; text-align: center; color: var(--text-dim); font-size: 0.78rem; }
+.td-price { width: 90px; font-family: 'Noto Serif JP', serif; }
+.td-subtotal { width: 90px; font-family: 'Noto Serif JP', serif; font-weight: 700; }
+.td-subtotal.zero { color: var(--text-dim); }
+.badge-must {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(154,111,58,0.12);
+  color: var(--accent);
+  border-radius: 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+  border: 1px solid rgba(154,111,58,0.25);
+}
+.badge-opt {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(58,122,94,0.1);
+  color: var(--green);
+  border-radius: 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+  border: 1px solid rgba(58,122,94,0.2);
+}
+
+/* ===== TOTAL ===== */
+.total-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.84rem;
+  border-bottom: 1px solid rgba(154,111,58,0.08);
+}
+.total-row:last-child { border-bottom: none; }
+.total-row.subtotal-row { color: var(--text-dim); }
+.total-row.tax-row { color: var(--text-dim); }
+.total-row.grand-row {
+  padding-top: 0.7rem;
+  margin-top: 0.3rem;
+  border-top: 2px solid var(--accent);
+  border-bottom: none;
+}
+.total-row.grand-row .total-label { font-weight: 700; font-size: 0.92rem; }
+.total-row.grand-row .total-val {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.6rem;
+  color: var(--accent2);
+  font-weight: 700;
+}
+.total-val { font-family: 'Noto Serif JP', serif; }
+
+/* ===== NOTE ===== */
+.note-section { margin-bottom: 1.5rem; }
+.note-textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.83rem;
+  color: var(--text);
+  resize: vertical;
+  min-height: 72px;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.7;
+}
+.note-textarea:focus { border-color: var(--accent); }
+
+/* ===== LEGAL NOTICE ===== */
+.legal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  line-height: 1.85;
+}
+.legal-box h4 {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.08em;
+}
+.legal-box ul {
+  padding-left: 1.2rem;
+}
+.legal-box li { margin-bottom: 0.25rem; }
+
+/* ===== CONSENT ===== */
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 1rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+.consent-row:hover { background: var(--surface2); }
+.consent-box {
+  width: 20px; height: 20px; flex: none;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  margin-top: 1px;
+  background: var(--bg);
+}
+.consent-box.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
+.consent-text { font-size: 0.82rem; line-height: 1.7; }
+.consent-text strong { color: var(--text); }
+
+/* ===== SUBMIT ===== */
+.submit-wrap { text-align: center; margin-bottom: 2rem; }
+.btn-submit {
+  padding: 0.9rem 3rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(154,111,58,0.25);
+}
+.btn-submit:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(154,111,58,0.3); }
+.btn-submit:disabled {
+  background: var(--surface2);
+  color: var(--text-dim);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.submit-note { font-size: 0.73rem; color: var(--text-dim); margin-top: 0.6rem; }
+
+/* ===== COMPLETE VIEW ===== */
+.complete-view {
+  display: none;
+}
+.complete-view.show { display: block; }
+.complete-header {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+}
+.complete-icon {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+}
+.complete-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 0.4rem;
+}
+.complete-sub { font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ===== ORDER DOCUMENT (print/complete) ===== */
+.order-doc {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.order-doc .doc-stamp-area {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.2rem;
+}
+.stamp-box {
+  width: 64px; height: 64px;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: var(--accent);
+  line-height: 1.5;
+  opacity: 0.5;
+}
+.order-doc h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #333;
+}
+.order-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.82rem;
+}
+.order-party-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #888;
+  margin-bottom: 0.3rem;
+}
+.order-party-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.15rem; }
+.order-party-detail { font-size: 0.75rem; color: #666; line-height: 1.7; }
+.order-meta-row {
+  font-size: 0.78rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+.order-meta-row span { font-weight: 700; color: #333; }
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.81rem;
+}
+.order-items-table th {
+  background: #f5f0e8;
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #666;
+  font-weight: 400;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.order-items-table th:last-child,
+.order-items-table td:last-child { text-align: right; }
+.order-items-table td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  line-height: 1.4;
+}
+.order-items-table tr:last-child td { border-bottom: none; }
+.order-total-block {
+  background: #f9f6f0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+}
+.otr {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0;
+  color: #666;
+}
+.otr.grand {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 2px solid #9a6f3a;
+  color: #333;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.otr.grand .otr-val {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.2rem;
+  color: #7a5228;
+}
+.order-notes-block {
+  margin-bottom: 1rem;
+  font-size: 0.78rem;
+  color: #555;
+  line-height: 1.8;
+}
+.order-notes-block h4 { font-size: 0.72rem; letter-spacing: 0.1em; color: #888; margin-bottom: 0.3rem; }
+.order-legal-block {
+  border-top: 1px solid #ddd;
+  padding-top: 0.8rem;
+  font-size: 0.7rem;
+  color: #888;
+  line-height: 1.8;
+}
+.order-legal-block h5 {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #aaa;
+  margin-bottom: 0.3rem;
+}
+.hash-val {
+  font-family: monospace;
+  font-size: 0.68rem;
+  color: #aaa;
+  word-break: break-all;
+}
+.sign-area {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+.sign-block { text-align: center; }
+.sign-label { font-size: 0.68rem; color: #888; margin-bottom: 0.3rem; }
+.sign-line {
+  width: 120px;
+  border-bottom: 1px solid #ccc;
+  margin: 0 auto 0.2rem;
+  padding-bottom: 1.5rem;
+}
+.sign-name { font-size: 0.78rem; color: #555; }
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.btn-action {
+  padding: 0.65rem 1.5rem;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  letter-spacing: 0.06em;
+}
+.btn-print {
+  background: var(--surface);
+  color: var(--text);
+}
+.btn-print:hover { background: var(--surface2); }
+.btn-reset {
+  background: transparent;
+  color: var(--text-dim);
+}
+.btn-reset:hover { color: var(--text); border-color: var(--text-dim); }
+
+/* ===== ERROR ===== */
+.field-error {
+  font-size: 0.72rem;
+  color: var(--red);
+  margin-top: 0.2rem;
+  display: none;
+}
+.field-error.show { display: block; }
+.input-error { border-color: var(--red) !important; }
+
+/* ===== DIVIDER ===== */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* ===== PRINT ===== */
+@media print {
+  .screen-only { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: #fff; }
+  .page-wrap { padding: 0; max-width: 100%; }
+  .order-doc { border: none; box-shadow: none; padding: 0; }
+  .action-buttons { display: none; }
+  .complete-header { padding: 0 0 1rem; }
+}
+/* ===== email status */
+.email-status {
+  display: none;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+.email-status.sending {
+  display: block;
+  background: rgba(154,111,58,0.08);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+.email-status.success {
+  display: block;
+  background: rgba(46,122,88,0.08);
+  color: var(--green);
+  border: 1px solid rgba(46,122,88,0.25);
+}
+.email-status.error {
+  display: block;
+  background: rgba(154,58,58,0.08);
+  color: var(--red);
+  border: 1px solid rgba(154,58,58,0.2);
+}
+</style>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ===== FORM VIEW ===== -->
+  <div id="formView">
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="doc-header-left">
+        <div class="doc-type">Estimate &amp; Order Form</div>
+        <div class="doc-title">お見積り・ご発注フォーム</div>
+        <div class="doc-subtitle">株式会社琉球のタネ ホームページ制作</div>
+      </div>
+      <div class="doc-meta">
+        <div class="doc-num" id="displayDocNum">見積番号：自動採番</div>
+        <div>発行日：<strong id="displayDate">－</strong></div>
+        <div>有効期限：<strong id="displayExpiry">－</strong></div>
+      </div>
+    </div>
+
+    <!-- PARTIES -->
+    <div class="parties">
+      <!-- 発注者 -->
+      <div class="party-box">
+        <div class="party-label">発注者（お客様）</div>
+        <span class="input-label">会社名・屋号<span class="required-mark">*</span></span>
+        <input class="party-input" id="clientCompany" type="text" placeholder="例：合同会社 長安" value="合同会社 長安">
+        <span class="input-label">ご担当者名<span class="required-mark">*</span></span>
+        <input class="party-input" id="clientName" type="text" placeholder="例：山川 進" value="山川 進">
+        <span class="input-label">メールアドレス<span class="required-mark">*</span></span>
+        <input class="party-input" id="clientEmail" type="email" placeholder="例：yamakawa@choan.jp" value="yamakawa@choan.jp">
+        <span class="input-label">電話番号</span>
+        <input class="party-input" id="clientPhone" type="tel" placeholder="例：080-1759-4890" value="080-1759-4890">
+        <div class="field-error" id="err-client">会社名・担当者名・メールアドレスは必須です</div>
+      </div>
+      <!-- 受注者 -->
+      <div class="party-box">
+        <div class="party-label">受注者（制作会社）</div>
+        <div class="party-name">株式会社琉球のタネ</div>
+        <div class="party-detail">
+          担当：佐渡山 要<br>
+          登録番号：T－（インボイス登録番号）<br>
+          TEL：070-5692-4173<br>
+          Email：<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="10797e767f506269657b69653d64717e753e737f7d">[email&#160;protected]</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="section-eyebrow">ご依頼項目の選択</div>
+    <table class="items-table" id="itemsTable">
+      <thead>
+        <tr>
+          <th class="item-check-cell"></th>
+          <th>品目・内容</th>
+          <th class="td-qty">数量</th>
+          <th class="td-unit">単位</th>
+          <th class="td-price">単価</th>
+          <th class="td-subtotal">小計</th>
+        </tr>
+      </thead>
+      <tbody id="itemsTbody">
+        <!-- JS で生成 -->
+      </tbody>
+    </table>
+
+    <hr class="section-divider">
+
+    <!-- TOTAL -->
+    <div class="total-block">
+      <div class="total-row subtotal-row">
+        <span class="total-label">小計（税抜）</span>
+        <span class="total-val" id="totalPretax">¥0</span>
+      </div>
+      <div class="total-row tax-row">
+        <span class="total-label">消費税（10%）</span>
+        <span class="total-val" id="totalTax">¥0</span>
+      </div>
+      <div class="total-row grand-row">
+        <span class="total-label">合計（税込）</span>
+        <span class="total-val" id="totalGrand">¥0</span>
+      </div>
+    </div>
+
+    <!--備考 -->
+    <div class="note-section">
+      <div class="section-eyebrow">備考・ご要望</div>
+      <textarea class="note-textarea" id="orderNote" placeholder="ご不明な点、納期のご希望、その他ご要望などをご記入ください。"></textarea>
+    </div>
+
+    <!-- LEGAL NOTICE -->
+    <div class="legal-box screen-only">
+      <h4>📋 電子取引データとしての保存について（電子帳票保存法 対応）</h4>
+      本フォームより送信された発注データは、電子帳票保存法（電帳法）に基づく電子取引データとして取り扱います。
+      <ul>
+        <li>発注確定後、発注者・受注者双方にPDF形式の発注書を電子メールで送付します。</li>
+        <li>送付データには発行日時・文書番号・改ざん検知用ハッシュ値が付与されます。</li>
+        <li>発注者・受注者は当該データを法定保存期間（原則7年）保存してください。</li>
+        <li>ダウンロードしたPDF／印刷紙面は「正本」として取り扱い可能です。</li>
+        <li>本書面は消費税インボイス制度に基づく適格請求書（見積書兼用）として機能します（登録番号確定後）。</li>
+      </ul>
+    </div>
+
+    <!-- CONSENT -->
+    <div class="consent-row" onclick="toggleConsent()" id="consentRow">
+      <div class="consent-box" id="consentBox"></div>
+      <div class="consent-text">
+        上記内容を確認し、<strong>見積内容・取引条件・電子帳票保存に関する注意事項</strong>に同意の上、発注します。<br>
+        <span style="font-size:0.75rem;color:var(--text-dim)">※発注確定後のキャンセル・変更は受注者との協議のうえ対応します</span>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-wrap">
+      <button class="btn-submit" id="btnSubmit" onclick="submitOrder()" disabled>
+        発注を確定する
+      </button>
+      <div class="submit-note">確定後、このページに発注書が表示されます。印刷・保存してください。</div>
+    </div>
+
+  </div><!-- /formView -->
+
+  <!-- ===== COMPLETE VIEW ===== -->
+  <div class="complete-view" id="completeView">
+
+    <div class="complete-header screen-only">
+      <div class="complete-icon">✅</div>
+      <div class="complete-title">発注が確定されました</div>
+      <div class="complete-sub">
+        下記の発注書をご確認・印刷・保存してください。<br>
+        電子帳票保存法に基づき、双方で7年間の保存をお願いします。
+      </div>
+    </div>
+
+    <div class="action-buttons screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
+      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    </div>
+
+    <div class="email-status" id="emailStatus"></div>
+    <div class="email-status" id="gasStatus"></div>
+    <div class="order-doc" id="orderDoc">
+
+      <div class="doc-stamp-area">
+        <div class="stamp-box">受領<br>印</div>
+      </div>
+
+      <h2>発 注 書</h2>
+
+      <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;display:flex;justify-content:space-between;">
+        <div>
+          発注書番号：<strong id="docOrderNum" style="color:#333"></strong><br>
+          発行日時：<strong id="docIssueDate" style="color:#333"></strong>
+        </div>
+        <div style="text-align:right">
+          有効期限：<strong id="docExpiry" style="color:#333"></strong><br>
+          電子帳票：<strong style="color:#2e7a58">保存対象</strong>
+        </div>
+      </div>
+
+      <div class="order-parties">
+        <div>
+          <div class="order-party-label">発注者</div>
+          <div class="order-party-name" id="docClientCompany"></div>
+          <div class="order-party-detail">
+            担当：<span id="docClientName"></span><br>
+            Email：<span id="docClientEmail"></span><br>
+            TEL：<span id="docClientPhone"></span>
+          </div>
+        </div>
+        <div>
+          <div class="order-party-label">受注者</div>
+          <div class="order-party-name">株式会社琉球のタネ</div>
+          <div class="order-party-detail">
+            担当：佐渡山 要<br>
+            TEL：070-5692-4173<br>
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="660f08000926141f130d1f134b120708034805090b">[email&#160;protected]</a>
+          </div>
+        </div>
+      </div>
+
+      <table class="order-items-table" id="docItemsTable">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>品目・内容</th>
+            <th style="text-align:center">数量</th>
+            <th style="text-align:center">単位</th>
+            <th style="text-align:right">単価（税抜）</th>
+            <th style="text-align:right">小計（税抜）</th>
+          </tr>
+        </thead>
+        <tbody id="docItemsTbody"></tbody>
+      </table>
+
+      <div class="order-total-block">
+        <div class="otr"><span>小計（税抜）</span><span class="otr-val" id="docPretax"></span></div>
+        <div class="otr"><span>消費税（10%）</span><span class="otr-val" id="docTax"></span></div>
+        <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val" id="docGrand"></span></div>
+      </div>
+
+      <div class="order-notes-block" id="docNotesWrap">
+        <h4>備考・特記事項</h4>
+        <div id="docNotes"></div>
+      </div>
+
+      <div class="order-notes-block">
+        <h4>取引条件</h4>
+        ・お支払い：納品後30日以内（銀行振込）<br>
+        ・著作権は代金完済後に発注者に帰属します<br>
+        ・制作物に係る修正は納品後14日以内・軽微なもの2回まで無償対応<br>
+        ・本発注書は電子取引記録として双方7年間の保存義務があります
+      </div>
+
+      <div class="sign-area">
+        <div class="sign-block">
+          <div class="sign-label">発注者確認印</div>
+          <div class="sign-line"></div>
+          <div class="sign-name" id="docSignClient"></div>
+        </div>
+        <div class="sign-block">
+          <div class="sign-label">受注者確認印</div>
+          <div class="sign-line"></div>
+          <div class="sign-name">株式会社琉球のタネ　佐渡山 要</div>
+        </div>
+      </div>
+
+      <div class="order-legal-block">
+        <h5>電子帳票保存法 対応情報</h5>
+        文書番号：<span id="docLegalNum"></span>　／　
+        発行日時（タイムスタンプ）：<span id="docLegalTs"></span>　／　
+        取引種別：電子取引（発注書）<br>
+        改ざん検知用ハッシュ：<span class="hash-val" id="docHash"></span><br>
+        ※本書面は電子帳票保存法第7条に規定する電子取引データです。法定保存期間（原則7年）の保存が義務付けられています。
+      </div>
+
+    </div><!-- /order-doc -->
+
+    <div class="action-buttons screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
+      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    </div>
+
+  </div><!-- /completeView -->
+
+</div><!-- /page-wrap -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ===== RECEIVER INFO =====
+const RECEIVER = {
+  company: '株式会社琉球のタネ',
+  name: '佐渡山 要',
+  tel: '070-5692-4173',
+  email: 'info@ryukyu-tane.com',
+};
+
+// ===== EMAILJS & GAS CONFIG (hardcoded) =====
+const EJS_PUBLIC_KEY  = 'nYzCb-J4FFDGB33y3';
+const EJS_SERVICE_ID  = 'service_w8jhnlu';
+const EJS_TEMPLATE_ID = 'template_xfiio5f';
+const GAS_URL         = 'https://script.google.com/macros/s/AKfycbyTRfJR9WHxht9P8hO7oCLOh1c8WKBYWELXiW9NNTdPtgdu1N6fY1vVgBCC9YwuDoZG/exec';
+
+// ===== GAS SEND =====
+async function sendToSpreadsheet(payload) {
+  const gasEl = document.getElementById('gasStatus');
+  if (!GAS_URL) {
+    gasEl.className = 'email-status error';
+    gasEl.textContent = '⚠️ スプレッドシート連携URLは設定待ちです。GASデプロイURL確定後に反映されます。';
+    return;
+  }
+  gasEl.className = 'email-status sending';
+  gasEl.textContent = '📊 スプレッドシートに記録しています…';
+  try {
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    gasEl.className = 'email-status success';
+    gasEl.textContent = '✅ スプレッドシートへの記録リクエストを送信しました。';
+  } catch(err) {
+    gasEl.className = 'email-status error';
+    gasEl.textContent = `❌ スプレッドシート送信エラー：${err.message}`;
+  }
+}
+
+// ===== ITEM DEFINITIONS =====
+const ITEMS = [
+  {
+    id: 'base',
+    name: 'ホームページ制作一式',
+    desc: 'トップページ刷新・サービス一覧セクション・新着情報Googleスプレッドシート連携・Instagramリンク設置・スマートフォン対応（レスポンシブ）',
+    qty: 1, unit: '式',
+    price: 50000,
+    mandatory: true,
+    checked: true,
+  },
+  {
+    id: 'server',
+    name: 'サーバー移管サポート',
+    desc: '現担当者（弟さん）との調整・移管先ホスティング選定補助・ドメイン移管補助・動作確認',
+    qty: 1, unit: '式',
+    price: 20000,
+    mandatory: true,
+    checked: true,
+  },
+  {
+    id: 'form',
+    name: 'お問い合わせフォーム 項目追加',
+    desc: '「問い合わせ内容」選択肢（ケータリング・配食・弁当など）の追加・テスト',
+    qty: 1, unit: '式',
+    price: 5000,
+    mandatory: false,
+    checked: false,
+  },
+  {
+    id: 'page_creation',
+    name: 'ページ制作',
+    desc: '実績・企業名掲載ページ（掲載許可確認補助・実績一覧整理含む）や代表プロフィールページ（経歴・想い・こだわり）など、追加ページの新規作成。取材内容・掲載件数・構成に応じて¥5,000〜積算します。',
+    qty: 1, unit: '式',
+    price: 0,
+    priceLabel: '¥5,000〜',
+    mandatory: false,
+    checked: false,
+  },
+  {
+    id: 'estimate_corec',
+    name: '自動お見積りサービス導入（corec）',
+    desc: 'coreをWebサイトに設置・連携設定・テスト。coreのサービス自体は無料で維持管理費もかかりません。設置作業費 ¥5,000。',
+    qty: 1, unit: '式',
+    price: 5000,
+    mandatory: false,
+    checked: false,
+  },
+  {
+    id: 'estimate_integrated',
+    name: '自動お見積り＋製造指示・在庫管理 連動システム',
+    desc: '見積もり・製造指示・在庫管理を連動させたカスタムシステムの設計・構築（現地業務フローの確認後にお見積りします）',
+    qty: 1, unit: '式',
+    price: 0,
+    priceLabel: '要現地業務確認',
+    mandatory: false,
+    checked: false,
+  },
+  {
+    id: 'menu',
+    name: '配食メニュー表 Googleスプレッドシート整備',
+    desc: '複数人入力・コピペによるズレ防止・1日ごとの印刷対応レイアウト設計（金額は現地業務確認後にご案内します）',
+    qty: 1, unit: '式',
+    price: 0,
+    priceLabel: '要現地業務確認',
+    mandatory: false,
+    checked: false,
+  },
+  {
+    id: 'photo',
+    name: 'プロカメラマンによる料理撮影',
+    desc: 'カメラマン手配・撮影立ち合い・補正・Webサイト向け納品（撮影内容により変動）',
+    qty: 1, unit: '式',
+    price: 50000,
+    mandatory: false,
+    checked: false,
+  },
+];
+
+// ===== STATE =====
+let consentChecked = false;
+
+// ===== INIT =====
+function init() {
+  try { emailjs.init(EJS_PUBLIC_KEY); } catch(e) {}
+  const now = new Date();
+  const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
+  document.getElementById('displayDate').textContent = fmt(now);
+  document.getElementById('displayExpiry').textContent = fmt(expiry);
+  const docNum = 'EST-' + now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2) + '-' + Math.floor(Math.random()*900+100);
+  document.getElementById('displayDocNum').textContent = '見積番号：' + docNum;
+  document.getElementById('displayDocNum').dataset.num = docNum;
+  renderItems();
+  calcTotal();
+}
+
+function renderItems() {
+  const tbody = document.getElementById('itemsTbody');
+  tbody.innerHTML = '';
+  ITEMS.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.className = 'item-row' + (item.checked ? ' selected' : '') + (item.mandatory ? ' mandatory' : '');
+    tr.dataset.id = item.id;
+    tr.innerHTML = `
+      <td class="item-check-cell">
+        <div class="item-checkbox ${item.mandatory ? 'fixed' : (item.checked ? 'checked' : '')}"
+             id="cb-${item.id}"
+             onclick="${item.mandatory ? '' : 'toggleItem(\''+item.id+'\')'}"
+        >${item.mandatory ? '✓' : (item.checked ? '✓' : '')}</div>
+      </td>
+      <td>
+        <div class="item-name">${item.name}
+          ${item.mandatory ? '<span class="badge-must">必須</span>' : '<span class="badge-opt">任意</span>'}
+        </div>
+        <div class="item-desc">${item.desc}</div>
+      </td>
+      <td class="td-qty">${item.qty}</td>
+      <td class="td-unit">${item.unit}</td>
+      <td class="td-price">${item.priceLabel ? item.priceLabel : '¥'+item.price.toLocaleString()}</td>
+      <td class="td-subtotal ${item.checked ? '' : 'zero'}" id="sub-${item.id}">
+        ${item.checked ? (item.priceLabel ? item.priceLabel : '¥'+item.price.toLocaleString()) : '－'}
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleItem(id) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item || item.mandatory) return;
+  item.checked = !item.checked;
+  const cb  = document.getElementById('cb-' + id);
+  const row = document.querySelector(`tr[data-id="${id}"]`);
+  const sub = document.getElementById('sub-' + id);
+  cb.classList.toggle('checked', item.checked);
+  cb.textContent = item.checked ? '✓' : '';
+  row.classList.toggle('selected', item.checked);
+  sub.textContent = item.checked ? (item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString()) : '－';
+  sub.classList.toggle('zero', !item.checked);
+  calcTotal();
+}
+
+function calcTotal() {
+  const pretax = ITEMS.filter(i => i.checked).reduce((s, i) => s + i.price, 0);
+  const tax = Math.floor(pretax * 0.1);
+  const grand = pretax + tax;
+  document.getElementById('totalPretax').textContent = '¥' + pretax.toLocaleString();
+  document.getElementById('totalTax').textContent    = '¥' + tax.toLocaleString();
+  document.getElementById('totalGrand').textContent  = '¥' + grand.toLocaleString();
+  updateSubmitBtn();
+}
+
+// ===== CONSENT =====
+function toggleConsent() {
+  consentChecked = !consentChecked;
+  const box = document.getElementById('consentBox');
+  box.classList.toggle('checked', consentChecked);
+  box.textContent = consentChecked ? '✓' : '';
+  updateSubmitBtn();
+}
+
+function updateSubmitBtn() {
+  const hasItems = ITEMS.some(i => i.checked);
+  const clientOk = document.getElementById('clientCompany').value.trim()
+    && document.getElementById('clientName').value.trim()
+    && document.getElementById('clientEmail').value.trim();
+  document.getElementById('btnSubmit').disabled = !(consentChecked && hasItems && clientOk);
+}
+
+['clientCompany','clientName','clientEmail'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateSubmitBtn);
+});
+
+// ===== SUBMIT =====
+async function submitOrder() {
+  const company = document.getElementById('clientCompany').value.trim();
+  const name    = document.getElementById('clientName').value.trim();
+  const email   = document.getElementById('clientEmail').value.trim();
+  const phone   = document.getElementById('clientPhone').value.trim() || '－';
+  if (!company || !name || !email) {
+    document.getElementById('err-client').classList.add('show');
+    return;
+  }
+  document.getElementById('err-client').classList.remove('show');
+
+  const now = new Date();
+  const fmtFull = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}:${('0'+d.getSeconds()).slice(-2)}`;
+  const fmtDate = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  const expiry  = new Date(now); expiry.setDate(expiry.getDate() + 30);
+
+  const docNum   = document.getElementById('displayDocNum').dataset.num;
+  const orderNum = docNum.replace('EST-', 'ORD-');
+
+  // --- Fill order document ---
+  document.getElementById('docOrderNum').textContent    = orderNum;
+  document.getElementById('docIssueDate').textContent   = fmtFull(now);
+  document.getElementById('docExpiry').textContent      = fmtDate(expiry);
+  document.getElementById('docClientCompany').textContent = company;
+  document.getElementById('docClientName').textContent  = name;
+  document.getElementById('docClientEmail').textContent = email;
+  document.getElementById('docClientPhone').textContent = phone;
+  document.getElementById('docSignClient').textContent  = company + '　' + name;
+
+  // --- Items ---
+  const selected = ITEMS.filter(i => i.checked);
+  const tbody = document.getElementById('docItemsTbody');
+  tbody.innerHTML = '';
+  let itemsText = '';
+  selected.forEach((item, idx) => {
+    const tr = document.createElement('tr');
+    const priceDisplay = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
+    const subtotalDisplay = item.priceLabel ? item.priceLabel : '¥' + (item.price * item.qty).toLocaleString();
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td><strong>${item.name}</strong><br><span style="font-size:0.72rem;color:#666">${item.desc}</span></td>
+      <td style="text-align:center">${item.qty}</td>
+      <td style="text-align:center">${item.unit}</td>
+      <td style="text-align:right">${priceDisplay}</td>
+      <td style="text-align:right">${subtotalDisplay}</td>
+    `;
+    tbody.appendChild(tr);
+    itemsText += `${idx+1}. ${item.name}　¥${item.price.toLocaleString()}\n`;
+  });
+
+  // --- Total ---
+  const pretax = selected.reduce((s, i) => s + i.price * i.qty, 0);
+  const tax    = Math.floor(pretax * 0.1);
+  const grand  = pretax + tax;
+  document.getElementById('docPretax').textContent = '¥' + pretax.toLocaleString();
+  document.getElementById('docTax').textContent    = '¥' + tax.toLocaleString();
+  document.getElementById('docGrand').textContent  = '¥' + grand.toLocaleString();
+
+  // --- Notes ---
+  const note = document.getElementById('orderNote').value.trim();
+  const notesWrap = document.getElementById('docNotesWrap');
+  if (note) {
+    document.getElementById('docNotes').textContent = note;
+    notesWrap.style.display = 'block';
+  } else {
+    notesWrap.style.display = 'none';
+  }
+
+  // --- Hash ---
+  document.getElementById('docLegalNum').textContent = orderNum;
+  document.getElementById('docLegalTs').textContent  = fmtFull(now);
+  const hashInput = [orderNum, company, name, email, pretax, now.toISOString()].join('|');
+  const hash = await simpleHash(hashInput);
+  document.getElementById('docHash').textContent = hash;
+
+  // --- Switch view ---
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('completeView').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // --- Send to Spreadsheet (GAS) ---
+  const gasPayload = {
+    order_num:      orderNum,
+    issue_date:     fmtFull(now),
+    client_company: company,
+    client_name:    name,
+    client_email:   email,
+    client_phone:   phone,
+    items_text:     itemsText.trim(),
+    pretax:         pretax,
+    tax:            tax,
+    grand:          grand,
+    notes:          note || '',
+    hash:           hash,
+  };
+  sendToSpreadsheet(gasPayload);
+
+  // --- Send emails via EmailJS ---
+  const statusEl = document.getElementById('emailStatus');
+
+  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
+    statusEl.className = 'email-status error';
+    statusEl.textContent = '⚠️ EmailJS の設定が未入力のためメール送信をスキップしました。';
+    return;
+  }
+
+  statusEl.className = 'email-status sending';
+  statusEl.textContent = '📨 メールを送信しています…';
+
+  try {
+    const baseParams = {
+      order_num:      orderNum,
+      client_company: company,
+      client_name:    name,
+      client_email:   email,
+      client_phone:   phone,
+      items_text:     itemsText,
+      pretax:         '¥' + pretax.toLocaleString(),
+      tax:            '¥' + tax.toLocaleString(),
+      total_grand:    '¥' + grand.toLocaleString(),
+      issue_date:     fmtFull(now),
+      expiry_date:    fmtDate(expiry),
+      notes:          note || 'なし',
+      hash:           hash,
+    };
+
+    // 発注者へ
+    await emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
+      ...baseParams,
+      to_email: email,
+      to_name:  name,
+      role:     '発注者',
+    });
+
+    // 受注者へ
+    await emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
+      ...baseParams,
+      to_email: RECEIVER.email,
+      to_name:  RECEIVER.name,
+      role:     '受注者',
+    });
+
+    statusEl.className = 'email-status success';
+    statusEl.textContent = `✅ メール送信完了。${email} および ${RECEIVER.email} に発注書を送信しました。`;
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    statusEl.className = 'email-status error';
+    statusEl.textContent = `❌ メール送信に失敗しました（${err.text || err.message || JSON.stringify(err)}）。`;
+  }
+}
+
+async function simpleHash(str) {
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  } catch(e) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
+    return Math.abs(h).toString(16).padStart(8,'0') + '-fallback';
+  }
+}
+
+function resetForm() {
+  document.getElementById('formView').style.display = 'block';
+  document.getElementById('completeView').classList.remove('show');
+  document.getElementById('emailStatus').className = 'email-status';
+  document.getElementById('gasStatus').className = 'email-status';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== START =====
+init();
+</script>
+</body>
+</html>
