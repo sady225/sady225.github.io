@@ -5,13 +5,13 @@
 
 const CONFIG = {
   // GAS WebアプリのURL（デプロイ後に設定）
-  API_URL: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbw7e0_UZw4X9Zf-02gsQSVVZFtZu3FmGtbcNAjhd_h4p1edBBwk3FGNpxS74t8UhGYB/exec',
 
   // Stripe公開キー（デプロイ後に設定）
   STRIPE_PUBLIC_KEY: 'pk_test_xxxxxxxxxxxxx',
 
   // Buy Me a Coffee URL
-  BUY_ME_COFFEE_URL: 'https://buymeacoffee.com/yourname',
+  BUY_ME_COFFEE_URL: 'https://buymeacoffee.com/asonpj999',
 
   // サイト設定
   SITE_NAME: '沖縄子育て支援ポータル',
@@ -51,8 +51,8 @@ const CONFIG = {
 
 // 開発環境かどうかの判定
 const IS_DEV = window.location.hostname === 'localhost' ||
-               window.location.hostname === '127.0.0.1' ||
-               window.location.hostname.includes('github.dev');
+  window.location.hostname === '127.0.0.1' ||
+  window.location.hostname.includes('github.dev');
 
 // 開発環境ではモックデータを使用
 if (IS_DEV) {
