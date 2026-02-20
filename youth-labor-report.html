@@ -1,826 +1,1145 @@
 <!DOCTYPE html>
 
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>若年労働者保護と支援制度</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-  /* フォールバック付きフォント定義 */
-  :root {
-    --font-main: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-    --font-display: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-    --coral: #FF4E50;
-    --navy: #1A2340;
-    --gold: #F7B731;
-    --teal: #26C6DA;
-    --mint: #A8E6CF;
-    --lavender: #B39DDB;
-    --bg: #F5F0E8;
-    --white: #FFFFFF;
-    --text: #1A2340;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>若年労働者保護と支援制度</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* フォールバック付きフォント定義 */
+    :root {
+      --font-main: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+      --font-display: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+      --coral: #FF4E50;
+      --navy: #1A2340;
+      --gold: #F7B731;
+      --teal: #26C6DA;
+      --mint: #A8E6CF;
+      --lavender: #B39DDB;
+      --bg: #F5F0E8;
+      --white: #FFFFFF;
+      --text: #1A2340;
+    }
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-font-family: var(–font-main);
-background: var(–bg);
-color: var(–text);
-min-height: 100vh;
-}
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-top: 110px;
+      /* fixed headerの高さ分 */
+      -webkit-text-size-adjust: 100%;
+      /* iOS Safari文字サイズ自動調整を無効化 */
+    }
 
-/* HEADER */
-header {
-background: var(–navy);
-color: white;
-padding: 16px 20px 12px;
-position: sticky;
-top: 0;
-z-index: 100;
-box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
+    /* HEADER - fixedに変更してiOS Safariの崩れを防ぐ */
+    header {
+      background: var(--navy);
+      color: #ffffff;
+      padding: 12px 16px 10px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
 
-header h1 {
-font-family: var(–font-display);
-font-size: clamp(13px, 3.5vw, 18px);
-font-weight: 900;
-line-height: 1.3;
-letter-spacing: 0.02em;
-color: #ffffff;
-}
+    header h1 {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      color: #ffffff !important;
+    }
 
-.toggle-bar {
-display: flex;
-gap: 8px;
-margin-top: 12px;
-}
+    .toggle-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
 
-.toggle-btn {
-flex: 1;
-padding: 10px 12px;
-border: 2px solid rgba(255,255,255,0.5);
-background: rgba(255,255,255,0.1);
-color: #ffffff;
-border-radius: 8px;
-font-family: var(–font-display);
-font-weight: 700;
-font-size: 13px;
-cursor: pointer;
-transition: all 0.25s ease;
--webkit-appearance: none;
-appearance: none;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 4px;
-text-shadow: none;
-opacity: 1;
-}
+    .toggle-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff !important;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      line-height: 1.2;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
 
-.toggle-btn.active {
-background: var(–coral);
-border-color: var(–coral);
-color: #ffffff;
-box-shadow: 0 4px 12px rgba(255,78,80,0.4);
-opacity: 1;
-}
+    .toggle-btn.active {
+      background: #FF4E50 !important;
+      border-color: #FF4E50 !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(255, 78, 80, 0.5);
+    }
 
-/* VIEWS */
-.view { display: none; padding: 20px; max-width: 480px; margin: 0 auto; }
-.view.active { display: block; }
+    /* VIEWS */
+    .view {
+      display: none;
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
 
-/* ============ PONCHIE VIEW ============ */
-.ponchie-section {
-background: white;
-border-radius: 16px;
-padding: 20px;
-margin-bottom: 20px;
-box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-border-left: 5px solid var(–coral);
-position: relative;
-overflow: hidden;
-}
+    .view.active {
+      display: block;
+    }
 
-.ponchie-section::before {
-content: ‘’;
-position: absolute;
-top: -20px; right: -20px;
-width: 80px; height: 80px;
-background: var(–coral);
-opacity: 0.05;
-border-radius: 50%;
-}
+    /* ============ PONCHIE VIEW ============ */
+    .ponchie-section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid var(--coral);
+      position: relative;
+      overflow: hidden;
+    }
 
-.section-tag {
-display: inline-block;
-background: var(–coral);
-color: white;
-font-size: 11px;
-font-weight: 700;
-padding: 3px 10px;
-border-radius: 20px;
-margin-bottom: 10px;
-letter-spacing: 0.05em;
-}
+    .ponchie-section::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      background: var(--coral);
+      opacity: 0.05;
+      border-radius: 50%;
+    }
 
-.ponchie-section.teal { border-left-color: var(–teal); }
-.ponchie-section.teal .section-tag { background: var(–teal); color: var(–navy); }
-.ponchie-section.teal::before { background: var(–teal); }
+    .section-tag {
+      display: inline-block;
+      background: var(--coral);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
 
-.ponchie-section.gold { border-left-color: var(–gold); }
-.ponchie-section.gold .section-tag { background: var(–gold); color: var(–navy); }
-.ponchie-section.gold::before { background: var(–gold); }
+    .ponchie-section.teal {
+      border-left-color: var(--teal);
+    }
 
-.ponchie-section.lavender { border-left-color: var(–lavender); }
-.ponchie-section.lavender .section-tag { background: var(–lavender); color: var(–navy); }
-.ponchie-section.lavender::before { background: var(–lavender); }
+    .ponchie-section.teal .section-tag {
+      background: var(--teal);
+      color: var(--navy);
+    }
 
-.ponchie-section h2 {
-font-size: 16px;
-font-weight: 900;
-font-family: var(–font-display);
-margin-bottom: 12px;
-line-height: 1.4;
-}
+    .ponchie-section.teal::before {
+      background: var(--teal);
+    }
 
-.ponchie-section p {
-font-size: 13px;
-line-height: 1.8;
-color: #444;
-}
+    .ponchie-section.gold {
+      border-left-color: var(--gold);
+    }
 
-.stat-box {
-background: var(–navy);
-color: white;
-border-radius: 12px;
-padding: 16px;
-margin: 12px 0;
-display: flex;
-align-items: center;
-gap: 16px;
-}
+    .ponchie-section.gold .section-tag {
+      background: var(--gold);
+      color: var(--navy);
+    }
 
-.stat-number {
-font-family: var(–font-display);
-font-size: 42px;
-font-weight: 900;
-color: var(–coral);
-line-height: 1;
-white-space: nowrap;
-}
+    .ponchie-section.gold::before {
+      background: var(--gold);
+    }
 
-.stat-label {
-font-size: 12px;
-line-height: 1.6;
-opacity: 0.9;
-}
+    .ponchie-section.lavender {
+      border-left-color: var(--lavender);
+    }
 
-.icon-row {
-display: flex;
-gap: 10px;
-flex-wrap: wrap;
-margin-top: 12px;
-}
+    .ponchie-section.lavender .section-tag {
+      background: var(--lavender);
+      color: var(--navy);
+    }
 
-.icon-chip {
-display: flex;
-align-items: center;
-gap: 6px;
-background: var(–bg);
-border-radius: 20px;
-padding: 6px 12px;
-font-size: 12px;
-font-weight: 700;
-border: 1.5px solid rgba(0,0,0,0.1);
-}
+    .ponchie-section.lavender::before {
+      background: var(--lavender);
+    }
 
-.icon-chip .emoji { font-size: 16px; }
+    .ponchie-section h2 {
+      font-size: 16px;
+      font-weight: 900;
+      font-family: var(--font-display);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
 
-.flow-steps {
-display: flex;
-flex-direction: column;
-gap: 0;
-margin-top: 12px;
-}
+    .ponchie-section p {
+      font-size: 13px;
+      line-height: 1.8;
+      color: #444;
+    }
 
-.flow-step {
-display: flex;
-align-items: flex-start;
-gap: 12px;
-position: relative;
-padding-bottom: 16px;
-}
+    .stat-box {
+      background: var(--navy);
+      color: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-.flow-step:not(:last-child)::after {
-content: ‘’;
-position: absolute;
-left: 18px;
-top: 36px;
-width: 2px;
-height: calc(100% - 20px);
-background: linear-gradient(to bottom, var(–teal), transparent);
-}
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--coral);
+      line-height: 1;
+      white-space: nowrap;
+    }
 
-.step-circle {
-width: 36px;
-height: 36px;
-border-radius: 50%;
-background: var(–teal);
-color: var(–navy);
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: 900;
-font-size: 14px;
-flex-shrink: 0;
-font-family: var(–font-display);
-}
+    .stat-label {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
 
-.step-content h4 {
-font-size: 13px;
-font-weight: 700;
-margin-bottom: 4px;
-}
+    .icon-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
 
-.step-content p {
-font-size: 12px;
-color: #666;
-line-height: 1.6;
-}
+    .icon-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1.5px solid rgba(0, 0, 0, 0.1);
+    }
 
-/* ============ INFOGRAPHIC VIEW ============ */
-.info-header {
-background: linear-gradient(135deg, var(–navy) 0%, #2A3F6F 100%);
-border-radius: 20px;
-padding: 24px 20px;
-color: white;
-margin-bottom: 20px;
-text-align: center;
-position: relative;
-overflow: hidden;
-}
+    .icon-chip .emoji {
+      font-size: 16px;
+    }
 
-.info-header::after {
-content: ‘若者を守る’;
-position: absolute;
-bottom: -10px; right: -10px;
-font-size: 60px;
-font-weight: 900;
-color: rgba(255,255,255,0.05);
-font-family: var(–font-display);
-line-height: 1;
-}
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 12px;
+    }
 
-.info-header h2 {
-font-family: var(–font-display);
-font-size: 20px;
-font-weight: 900;
-margin-bottom: 6px;
-}
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      position: relative;
+      padding-bottom: 16px;
+    }
 
-.info-header p {
-font-size: 12px;
-opacity: 0.75;
-line-height: 1.6;
-}
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 36px;
+      width: 2px;
+      height: calc(100% - 20px);
+      background: linear-gradient(to bottom, var(--teal), transparent);
+    }
 
-/* Bar chart */
-.chart-card {
-background: white;
-border-radius: 16px;
-padding: 20px;
-margin-bottom: 20px;
-box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
+    .step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      flex-shrink: 0;
+      font-family: var(--font-display);
+    }
 
-.chart-title {
-font-family: var(–font-display);
-font-size: 14px;
-font-weight: 900;
-margin-bottom: 16px;
-display: flex;
-align-items: center;
-gap: 8px;
-}
+    .step-content h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
 
-.chart-title::before {
-content: ‘’;
-width: 4px;
-height: 18px;
-background: var(–coral);
-border-radius: 2px;
-}
+    .step-content p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.6;
+    }
 
-.bar-item {
-margin-bottom: 14px;
-}
+    /* ============ INFOGRAPHIC VIEW ============ */
+    .info-header {
+      background: linear-gradient(135deg, var(--navy) 0%, #2A3F6F 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      color: white;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.bar-meta {
-display: flex;
-justify-content: space-between;
-font-size: 12px;
-margin-bottom: 5px;
-font-weight: 700;
-}
+    .info-header::after {
+      content: '若者を守る';
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      font-size: 60px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.05);
+      font-family: var(--font-display);
+      line-height: 1;
+    }
 
-.bar-track {
-background: var(–bg);
-border-radius: 20px;
-height: 20px;
-overflow: hidden;
-}
+    .info-header h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
 
-.bar-fill {
-height: 100%;
-border-radius: 20px;
-position: relative;
-transition: width 1s ease;
-}
+    .info-header p {
+      font-size: 12px;
+      opacity: 0.75;
+      line-height: 1.6;
+    }
 
-.bar-fill.coral { background: linear-gradient(90deg, var(–coral), #FF8A65); }
-.bar-fill.teal { background: linear-gradient(90deg, var(–teal), #80DEEA); }
-.bar-fill.gold { background: linear-gradient(90deg, var(–gold), #FFD54F); }
+    /* Bar chart */
+    .chart-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
 
-/* Grid cards */
-.grid-2 {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 12px;
-margin-bottom: 20px;
-}
+    .chart-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.mini-card {
-background: white;
-border-radius: 14px;
-padding: 16px 14px;
-box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-text-align: center;
-}
+    .chart-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--coral);
+      border-radius: 2px;
+    }
 
-.mini-card .emoji { font-size: 28px; margin-bottom: 8px; display: block; }
-.mini-card h3 { font-size: 12px; font-weight: 900; margin-bottom: 6px; line-height: 1.4; font-family: var(–font-display); }
-.mini-card p { font-size: 11px; color: #666; line-height: 1.6; }
+    .bar-item {
+      margin-bottom: 14px;
+    }
 
-/* Timeline */
-.timeline-card {
-background: white;
-border-radius: 16px;
-padding: 20px;
-margin-bottom: 20px;
-box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
 
-.timeline-item {
-display: flex;
-gap: 14px;
-margin-bottom: 20px;
-align-items: flex-start;
-}
+    .bar-track {
+      background: var(--bg);
+      border-radius: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
 
-.timeline-dot {
-width: 44px;
-height: 44px;
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 20px;
-flex-shrink: 0;
-}
+    .bar-fill {
+      height: 100%;
+      border-radius: 20px;
+      position: relative;
+      transition: width 1s ease;
+    }
 
-.timeline-dot.red { background: #FFE8E8; }
-.timeline-dot.blue { background: #E3F2FD; }
-.timeline-dot.green { background: #E8F5E9; }
-.timeline-dot.purple { background: #F3E5F5; }
+    .bar-fill.coral {
+      background: linear-gradient(90deg, var(--coral), #FF8A65);
+    }
 
-.timeline-content h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-.timeline-content p { font-size: 12px; color: #666; line-height: 1.7; }
+    .bar-fill.teal {
+      background: linear-gradient(90deg, var(--teal), #80DEEA);
+    }
 
-/* Pyramid */
-.pyramid-wrap {
-background: white;
-border-radius: 16px;
-padding: 20px;
-margin-bottom: 20px;
-box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
+    .bar-fill.gold {
+      background: linear-gradient(90deg, var(--gold), #FFD54F);
+    }
 
-.pyramid-level {
-border-radius: 10px;
-padding: 10px 16px;
-margin-bottom: 8px;
-text-align: center;
-font-weight: 700;
-font-size: 12px;
-line-height: 1.5;
-transition: transform 0.2s;
-}
-.pyramid-level:hover { transform: scale(1.02); }
-.pyramid-level.l1 { background: var(–coral); color: white; }
-.pyramid-level.l2 { background: var(–gold); color: var(–navy); margin: 0 8px 8px; }
-.pyramid-level.l3 { background: var(–teal); color: var(–navy); margin: 0 16px 8px; }
-.pyramid-level.l4 { background: var(–lavender); color: var(–navy); margin: 0 24px 0; }
+    /* Grid cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-/* Proposal box */
-.proposal {
-background: linear-gradient(135deg, var(–navy), #2A3F6F);
-color: white;
-border-radius: 20px;
-padding: 24px 20px;
-margin-bottom: 20px;
-}
+    .mini-card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
 
-.proposal h3 {
-font-family: var(–font-display);
-font-size: 16px;
-font-weight: 900;
-margin-bottom: 14px;
-display: flex;
-align-items: center;
-gap: 8px;
-}
+    .mini-card .emoji {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
 
-.proposal-item {
-display: flex;
-gap: 10px;
-margin-bottom: 12px;
-align-items: flex-start;
-}
+    .mini-card h3 {
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      font-family: var(--font-display);
+    }
 
-.proposal-icon {
-width: 32px;
-height: 32px;
-background: rgba(255,255,255,0.15);
-border-radius: 8px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 16px;
-flex-shrink: 0;
-}
+    .mini-card p {
+      font-size: 11px;
+      color: #666;
+      line-height: 1.6;
+    }
 
-.proposal-text h4 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-.proposal-text p { font-size: 11px; opacity: 0.8; line-height: 1.6; }
+    /* Timeline */
+    .timeline-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
 
-/* Animate on load */
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
-}
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
 
-.view.active > * {
-animation: fadeUp 0.5s ease both;
-}
+    .timeline-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
 
-.view.active > *:nth-child(1) { animation-delay: 0.05s; }
-.view.active > *:nth-child(2) { animation-delay: 0.1s; }
-.view.active > *:nth-child(3) { animation-delay: 0.15s; }
-.view.active > *:nth-child(4) { animation-delay: 0.2s; }
-.view.active > *:nth-child(5) { animation-delay: 0.25s; }
-.view.active > *:nth-child(6) { animation-delay: 0.3s; }
-.view.active > *:nth-child(7) { animation-delay: 0.35s; }
-.view.active > *:nth-child(8) { animation-delay: 0.4s; }
+    .timeline-dot.red {
+      background: #FFE8E8;
+    }
 
-/* Source link styles */
-a.src-link {
-color: inherit;
-text-decoration: none;
-border-bottom: 1.5px dashed currentColor;
-opacity: 0.85;
-transition: opacity 0.2s;
-}
-a.src-link:hover { opacity: 1; }
+    .timeline-dot.blue {
+      background: #E3F2FD;
+    }
 
-.ref-badge {
-display: inline-flex;
-align-items: center;
-gap: 3px;
-background: rgba(0,0,0,0.09);
-border-radius: 20px;
-padding: 2px 8px;
-font-size: 10px;
-font-weight: 700;
-margin-left: 4px;
-text-decoration: none;
-color: inherit;
-vertical-align: middle;
-white-space: nowrap;
-transition: background 0.2s;
-}
-.ref-badge:hover { background: rgba(0,0,0,0.2); }
-.ref-badge::before { content: ‘🔗’; font-size: 9px; margin-right: 2px; }
+    .timeline-dot.green {
+      background: #E8F5E9;
+    }
 
-.stat-box .ref-badge { background: rgba(255,255,255,0.18); color: white; }
-.stat-box .ref-badge:hover { background: rgba(255,255,255,0.3); }
-.proposal .ref-badge { background: rgba(255,255,255,0.18); color: white; }
-.proposal .ref-badge:hover { background: rgba(255,255,255,0.3); }
+    .timeline-dot.purple {
+      background: #F3E5F5;
+    }
 
-/* Footer */
-footer {
-text-align: center;
-padding: 20px;
-font-size: 11px;
-color: #999;
-}
-</style>
+    .timeline-content h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .timeline-content p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    /* Pyramid */
+    .pyramid-wrap {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .pyramid-level {
+      border-radius: 10px;
+      padding: 10px 16px;
+      margin-bottom: 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.5;
+      transition: transform 0.2s;
+    }
+
+    .pyramid-level:hover {
+      transform: scale(1.02);
+    }
+
+    .pyramid-level.l1 {
+      background: var(--coral);
+      color: white;
+    }
+
+    .pyramid-level.l2 {
+      background: var(--gold);
+      color: var(--navy);
+      margin: 0 8px 8px;
+    }
+
+    .pyramid-level.l3 {
+      background: var(--teal);
+      color: var(--navy);
+      margin: 0 16px 8px;
+    }
+
+    .pyramid-level.l4 {
+      background: var(--lavender);
+      color: var(--navy);
+      margin: 0 24px 0;
+    }
+
+    /* Proposal box */
+    .proposal {
+      background: linear-gradient(135deg, var(--navy), #2A3F6F);
+      color: white;
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+    }
+
+    .proposal h3 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .proposal-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .proposal-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .proposal-text h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .proposal-text p {
+      font-size: 11px;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    /* Animate on load */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view.active>* {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .view.active>*:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .view.active>*:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .view.active>*:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .view.active>*:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .view.active>*:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .view.active>*:nth-child(6) {
+      animation-delay: 0.3s;
+    }
+
+    .view.active>*:nth-child(7) {
+      animation-delay: 0.35s;
+    }
+
+    .view.active>*:nth-child(8) {
+      animation-delay: 0.4s;
+    }
+
+    /* Source link styles */
+    a.src-link {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1.5px dashed currentColor;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    a.src-link:hover {
+      opacity: 1;
+    }
+
+    .ref-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(0, 0, 0, 0.09);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 4px;
+      text-decoration: none;
+      color: inherit;
+      vertical-align: middle;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .ref-badge:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .ref-badge::before {
+      content: '🔗';
+      font-size: 9px;
+      margin-right: 2px;
+    }
+
+    .stat-box .ref-badge {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+    }
+
+    .stat-box .ref-badge:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .proposal .ref-badge {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+    }
+
+    .proposal .ref-badge:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #999;
+    }
+
+    /* ============ RESPONSIVE (iPhone等スマホ向け最適化) ============ */
+    @media (max-width: 430px) {
+      body {
+        padding-top: 100px;
+      }
+
+      header {
+        padding: 12px 12px 8px;
+        padding-top: calc(12px + env(safe-area-inset-top));
+        /* ノッチ対応 */
+      }
+
+      header h1 {
+        font-size: 12px;
+      }
+
+      .toggle-btn {
+        font-size: 11px;
+        padding: 8px 4px;
+      }
+
+      .view {
+        padding: 16px 12px;
+      }
+
+      .ponchie-section {
+        padding: 16px;
+      }
+
+      .stat-box {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .stat-number {
+        font-size: 32px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .mini-card {
+        padding: 14px 16px;
+      }
+
+      .info-header {
+        padding: 20px 16px;
+      }
+
+      .info-header::after {
+        font-size: 44px;
+      }
+
+      .chart-card,
+      .timeline-card,
+      .pyramid-wrap,
+      .proposal {
+        padding: 16px;
+      }
+
+      .timeline-dot {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .proposal h3 {
+        font-size: 15px;
+      }
+
+      .pyramid-level.l2 {
+        margin: 0 4px 8px;
+      }
+
+      .pyramid-level.l3 {
+        margin: 0 8px 8px;
+      }
+
+      .pyramid-level.l4 {
+        margin: 0 12px 0;
+      }
+    }
+  </style>
 
 </head>
+
 <body>
 
-<header>
-  <h1>若年労働者保護と支援制度<br>沖縄県の現状と国内外の先進事例</h1>
-  <div class="toggle-bar">
-    <button class="toggle-btn active" onclick="switchView('ponchie')">📖 わかりやすく読む</button>
-    <button class="toggle-btn" onclick="switchView('infographic')">📊 図とグラフで見る</button>
-  </div>
-</header>
-
-<!-- ================= PONCHIE VIEW ================= -->
-
-<div id="ponchie" class="view active">
-
-  <div class="ponchie-section">
-    <span class="section-tag">問題の背景</span>
-    <h2>⚠️ 若者が置かれる「空白地帯」</h2>
-    <p>中学・高校卒業直後に就労する若者は、法的保護の知識を持たないまま労働市場へ参入するリスクがある。特に沖縄では深刻な状況が続いている。</p>
-    <div class="stat-box">
-      <div class="stat-number">49.7%</div>
-      <div class="stat-label">沖縄県<br>高卒3年以内離職率<br><small>全国平均 37.9% を大幅超過</small><br><a href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank" class="ref-badge">出典を見る</a></div>
+  <header>
+    <h1>若年労働者保護と支援制度<br>沖縄県の現状と国内外の先進事例</h1>
+    <div class="toggle-bar">
+      <button class="toggle-btn active" onclick="switchView('ponchie', this)">📖 わかりやすく読む</button>
+      <button class="toggle-btn" onclick="switchView('infographic', this)">📊 図とグラフで見る</button>
     </div>
-    <div class="stat-box" style="background:#2A3F6F;">
-      <div class="stat-number" style="color:var(--gold);">2人に1人</div>
-      <div class="stat-label">が初期キャリアで<br>挫折を経験している<br><a href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank" class="ref-badge">出典を見る</a></div>
+  </header>
+
+  <!-- ================= PONCHIE VIEW ================= -->
+
+  <div id="ponchie" class="view active">
+
+    <div class="ponchie-section">
+      <span class="section-tag">問題の背景</span>
+      <h2>⚠️ 若者が置かれる「空白地帯」</h2>
+      <p>中学・高校卒業直後に就労する若者は、法的保護の知識を持たないまま労働市場へ参入するリスクがある。特に沖縄では深刻な状況が続いている。</p>
+      <div class="stat-box">
+        <div class="stat-number">49.7%</div>
+        <div class="stat-label">沖縄県<br>高卒3年以内離職率<br><small>全国平均 37.9% を大幅超過</small><br><a
+            href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank" class="ref-badge">出典を見る</a></div>
+      </div>
+      <div class="stat-box" style="background:#2A3F6F;">
+        <div class="stat-number" style="color:var(--gold);">2人に1人</div>
+        <div class="stat-label">が初期キャリアで<br>挫折を経験している<br><a href="https://www.okinawatimes.co.jp/articles/-/1723928"
+            target="_blank" class="ref-badge">出典を見る</a></div>
+      </div>
     </div>
+
+    <div class="ponchie-section teal">
+      <span class="section-tag">法的保護</span>
+      <h2>⚖️ 若者を守る法的枠組み</h2>
+      <div class="icon-row">
+        <div class="icon-chip"><span class="emoji">📋</span><a
+            href="https://jsite.mhlw.go.jp/tochigi-roudoukyoku/library/tochigi-roudoukyoku/hourei/kantoku/nensyou.pdf"
+            target="_blank" class="src-link">労働基準法</a></div>
+        <div class="icon-chip"><span class="emoji">🛡️</span><a href="https://keiji.vbest.jp/columns/g_other/6051/"
+            target="_blank" class="src-link">児童福祉法</a></div>
+      </div>
+      <p style="margin-top:12px;">「年少者」（18歳未満）への保護規定：深夜業禁止・残業制限・危険有害業務禁止。<a href="https://atombengo.com/column/19006"
+          target="_blank" class="src-link">児童福祉法違反には<strong>3年以下の懲役</strong>または<strong>100万円以下の罰金</strong></a>。</p>
+    </div>
+
+    <div class="ponchie-section gold">
+      <span class="section-tag">沖縄の支援策</span>
+      <h2>🏝️ 沖縄県の支援体制</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-circle">1</div>
+          <div class="step-content">
+            <h4><a href="https://jobcafe-okinawa.jp/" target="_blank" class="src-link">ジョブカフェおきなわ</a></h4>
+            <p>就職相談・キャリアカウンセリング・定着支援のワンストップ窓口</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-circle">2</div>
+          <div class="step-content">
+            <h4><a href="https://www.town.kadena.okinawa.jp/info/n8274.html" target="_blank"
+                class="src-link">若年者ジョブトレーニング事業</a></h4>
+            <p>座学研修＋職場訓練でミスマッチ防止。40歳未満対象。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-circle">3</div>
+          <div class="step-content">
+            <h4><a href="https://jsite.mhlw.go.jp/okinawa-roudoukyoku/newpage_00606.html" target="_blank"
+                class="src-link">早期離職者定着支援事業</a></h4>
+            <p>専門講師の事業所派遣・メンター制度の導入支援</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-circle">4</div>
+          <div class="step-content">
+            <h4><a
+                href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/page/001/034/311/06_r7_siyousyo.pdf"
+                target="_blank" class="src-link">特別支援学校向け支援</a></h4>
+            <p>就労コーディネーターによる卒業後3年間の伴走支援</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ponchie-section">
+      <span class="section-tag">国内先進事例</span>
+      <h2>🗾 他都市の取り組み</h2>
+      <p>
+        <strong><a href="https://wakamono.tokyo/" target="_blank" class="src-link">東京都「若者正社員チャレンジ事業」</a></strong><br>
+        非正規雇用期間の長い若者にセミナー＋企業実習。奨励金支給と就職後の定着支援を組み合わせる。<br><br>
+        <strong><a href="https://shigotofield.jp/" target="_blank" class="src-link">大阪府「OSAKAしごとフィールド」</a></strong><br>
+        「働く自信」を取り戻すワークショップや企業交流会を頻繁開催。
+      </p>
+    </div>
+
+    <div class="ponchie-section teal">
+      <span class="section-tag">海外事例</span>
+      <h2>🇩🇪 ドイツのデュアルシステム</h2>
+      <p>学校での座学と企業での実習を並行して行う「育成型就労」の仕組み。<a href="https://howtogermany.com/jobs/rights/youth-labor-laws/"
+          target="_blank" class="src-link">若年労働者保護法（JArbSchG）で18歳未満の労働時間・休憩・休暇を厳格規定</a>。</p>
+      <div class="icon-row" style="margin-top:14px;">
+        <div class="icon-chip"><span class="emoji">🏫</span>座学教育</div>
+        <div class="icon-chip"><span class="emoji">🏭</span>企業実習</div>
+        <div class="icon-chip"><span class="emoji">🤝</span>見習い保護</div>
+      </div>
+    </div>
+
+    <div class="ponchie-section lavender">
+      <span class="section-tag">民間支援</span>
+      <h2>🤝 協同組合・共済の役割</h2>
+      <p>
+        <strong><a href="https://jwcc.coop/service/youth/" target="_blank"
+            class="src-link">労働者協同組合（ワーカーズコープ）</a></strong>：就労困難な若者が体験として働き始め、徐々にステップアップできる環境を提供。<br><br>
+        <strong>共済・ユースワーク</strong>：万が一の怪我・病気への備えに加え、「第3の居場所」として<a
+          href="https://www.jstage.jst.go.jp/article/chiikikeizai/49.50/0/49.50_19/_pdf/-char/en" target="_blank"
+          class="src-link">労働トラブル相談やキャリア形成を支援</a>。
+      </p>
+    </div>
+
+    <div class="ponchie-section gold">
+      <span class="section-tag">提言</span>
+      <h2>💡 求められる制度の方向性</h2>
+      <p>
+        一般校卒業生にも「教育から就労への滑らかな移行」と「就労後の継続的な伴走支援」をパッケージ化した制度の拡充が必要。ドイツ型の「育成型就労」とワーカーズコープ型の「共に支え合う働き方」の導入が有効な解決策となり得る。
+      </p>
+    </div>
+
   </div>
 
-  <div class="ponchie-section teal">
-    <span class="section-tag">法的保護</span>
-    <h2>⚖️ 若者を守る法的枠組み</h2>
-    <div class="icon-row">
-      <div class="icon-chip"><span class="emoji">📋</span><a href="https://jsite.mhlw.go.jp/tochigi-roudoukyoku/library/tochigi-roudoukyoku/hourei/kantoku/nensyou.pdf" target="_blank" class="src-link">労働基準法</a></div>
-      <div class="icon-chip"><span class="emoji">🛡️</span><a href="https://keiji.vbest.jp/columns/g_other/6051/" target="_blank" class="src-link">児童福祉法</a></div>
-    </div>
-    <p style="margin-top:12px;">「年少者」（18歳未満）への保護規定：深夜業禁止・残業制限・危険有害業務禁止。<a href="https://atombengo.com/column/19006" target="_blank" class="src-link">児童福祉法違反には<strong>3年以下の懲役</strong>または<strong>100万円以下の罰金</strong></a>。</p>
-  </div>
+  <!-- ================= INFOGRAPHIC VIEW ================= -->
 
-  <div class="ponchie-section gold">
-    <span class="section-tag">沖縄の支援策</span>
-    <h2>🏝️ 沖縄県の支援体制</h2>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="step-circle">1</div>
-        <div class="step-content">
+  <div id="infographic" class="view">
+
+    <div class="info-header">
+      <h2>若年就労者 保護の全体像</h2>
+      <p>沖縄県の現状 × 国内外の支援制度 × 民間の取り組み</p>
+    </div>
+
+    <!-- 離職率比較 -->
+
+    <div class="chart-card">
+      <div class="chart-title">高卒3年以内離職率の比較</div>
+      <div class="bar-item">
+        <div class="bar-meta"><span>🏝️ 沖縄県</span><span style="color:var(--coral);font-size:15px;font-weight:900;"><a
+              href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank"
+              style="color:var(--coral);text-decoration:underline dotted;">49.7%</a></span></div>
+        <div class="bar-track">
+          <div class="bar-fill coral" style="width:49.7%"></div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-meta"><span>🗾 全国平均</span><span><a href="https://www.okinawatimes.co.jp/articles/-/1723928"
+              target="_blank" style="color:var(--text);text-decoration:underline dotted;">37.9%</a></span></div>
+        <div class="bar-track">
+          <div class="bar-fill teal" style="width:37.9%"></div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-meta"><span>🇩🇪 ドイツ参考値</span><span style="color:var(--gold);"><a
+              href="https://www.expatrio.com/about-germany/german-dual-apprenticeship-system" target="_blank"
+              style="color:var(--gold);text-decoration:underline dotted;">〜20%</a></span></div>
+        <div class="bar-track">
+          <div class="bar-fill gold" style="width:20%"></div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#999;margin-top:8px;">※ドイツは参考推計値</p>
+    </div>
+
+    <!-- 法的保護 -->
+
+    <div class="chart-card">
+      <div class="chart-title">法的保護の柱</div>
+      <div class="grid-2">
+        <div class="mini-card">
+          <span class="emoji">📋</span>
+          <h3><a
+              href="https://jsite.mhlw.go.jp/tochigi-roudoukyoku/library/tochigi-roudoukyoku/hourei/kantoku/nensyou.pdf"
+              target="_blank" class="src-link">労働基準法</a></h3>
+          <p>18歳未満を「年少者」として厳格保護。深夜業・残業・危険業務の禁止。</p>
+        </div>
+        <div class="mini-card">
+          <span class="emoji">⚖️</span>
+          <h3><a href="https://atombengo.com/column/19006" target="_blank" class="src-link">児童福祉法</a></h3>
+          <p>搾取行為に3年以下の懲役または100万円以下の罰金を規定。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 支援機関タイムライン -->
+
+    <div class="timeline-card">
+      <div class="chart-title">支援機関・制度マップ</div>
+      <div class="timeline-item">
+        <div class="timeline-dot red">🏝️</div>
+        <div class="timeline-content">
           <h4><a href="https://jobcafe-okinawa.jp/" target="_blank" class="src-link">ジョブカフェおきなわ</a></h4>
-          <p>就職相談・キャリアカウンセリング・定着支援のワンストップ窓口</p>
+          <p>就職相談・カウンセリング・定着支援のワンストップ窓口。概ね40歳未満対象。</p>
         </div>
       </div>
-      <div class="flow-step">
-        <div class="step-circle">2</div>
-        <div class="step-content">
-          <h4><a href="https://www.town.kadena.okinawa.jp/info/n8274.html" target="_blank" class="src-link">若年者ジョブトレーニング事業</a></h4>
-          <p>座学研修＋職場訓練でミスマッチ防止。40歳未満対象。</p>
+      <div class="timeline-item">
+        <div class="timeline-dot blue">📚</div>
+        <div class="timeline-content">
+          <h4><a href="https://www.town.kadena.okinawa.jp/info/n8274.html" target="_blank"
+              class="src-link">若年者ジョブトレーニング事業</a></h4>
+          <p>座学研修＋職場訓練の組み合わせでミスマッチ防止・早期離職抑制。</p>
         </div>
       </div>
-      <div class="flow-step">
-        <div class="step-circle">3</div>
-        <div class="step-content">
-          <h4><a href="https://jsite.mhlw.go.jp/okinawa-roudoukyoku/newpage_00606.html" target="_blank" class="src-link">早期離職者定着支援事業</a></h4>
-          <p>専門講師の事業所派遣・メンター制度の導入支援</p>
+      <div class="timeline-item">
+        <div class="timeline-dot green">🤝</div>
+        <div class="timeline-content">
+          <h4><a href="https://jsite.mhlw.go.jp/okinawa-roudoukyoku/newpage_00606.html" target="_blank"
+              class="src-link">早期離職者定着支援事業</a></h4>
+          <p>専門講師を事業所へ派遣。メンター制度の導入を支援。</p>
         </div>
       </div>
-      <div class="flow-step">
-        <div class="step-circle">4</div>
-        <div class="step-content">
-          <h4><a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/page/001/034/311/06_r7_siyousyo.pdf" target="_blank" class="src-link">特別支援学校向け支援</a></h4>
-          <p>就労コーディネーターによる卒業後3年間の伴走支援</p>
+      <div class="timeline-item">
+        <div class="timeline-dot purple">🎓</div>
+        <div class="timeline-content">
+          <h4><a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/page/001/034/311/06_r7_siyousyo.pdf"
+              target="_blank" class="src-link">特別支援学校 定着支援</a></h4>
+          <p>就労コーディネーターによる卒業後3年間の伴走支援を実施。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot red">🗼</div>
+        <div class="timeline-content">
+          <h4><a href="https://wakamono.tokyo/" target="_blank" class="src-link">東京都「若者正社員チャレンジ事業」</a></h4>
+          <p>企業実習＋奨励金。ミスマッチを体験で解消する先進モデル。</p>
+        </div>
+      </div>
+      <div class="timeline-item" style="margin-bottom:0">
+        <div class="timeline-dot blue">🏙️</div>
+        <div class="timeline-content">
+          <h4><a href="https://shigotofield.jp/" target="_blank" class="src-link">大阪「OSAKAしごとフィールド」</a></h4>
+          <p>「働く自信」を取り戻すワークショップと企業交流を頻繁開催。</p>
         </div>
       </div>
     </div>
+
+    <!-- 支援レイヤー -->
+
+    <div class="pyramid-wrap">
+      <div class="chart-title">支援の重層構造</div>
+      <div class="pyramid-level l1">🔴 法的規制層｜労働基準法・児童福祉法による権利保護</div>
+      <div class="pyramid-level l2">🟡 行政支援層｜公共機関による就労支援・相談窓口</div>
+      <div class="pyramid-level l3">🟢 民間協力層｜ワーカーズコープ・共済・NPO</div>
+      <div class="pyramid-level l4">🟣 職場内層｜メンター制度・定着支援</div>
+    </div>
+
+    <!-- 国際比較 -->
+
+    <div class="chart-card">
+      <div class="chart-title">日独制度比較</div>
+      <div class="grid-2">
+        <div class="mini-card" style="border-top:3px solid var(--coral);">
+          <span class="emoji">🇯🇵</span>
+          <h3>日本の現状</h3>
+          <p>卒業後の支援に空白地帯。特別支援学校は手厚いが一般校は「自己責任」傾向。</p>
+        </div>
+        <div class="mini-card" style="border-top:3px solid var(--teal);">
+          <span class="emoji">🇩🇪</span>
+          <h3><a href="https://www.expatrio.com/about-germany/german-dual-apprenticeship-system" target="_blank"
+              class="src-link">ドイツの仕組み</a></h3>
+          <p>デュアルシステムで育成型就労。<a href="https://howtogermany.com/jobs/rights/youth-labor-laws/" target="_blank"
+              class="src-link">若年労働法</a>で時間・休暇を厳格保護。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 提言 -->
+
+    <div class="proposal">
+      <h3>🎯 政策提言</h3>
+      <div class="proposal-item">
+        <div class="proposal-icon">🔄</div>
+        <div class="proposal-text">
+          <h4>移行期支援のパッケージ化</h4>
+          <p>「教育→就労」の滑らかな移行と、就労後の継続的伴走支援をセットで制度化する。</p>
+        </div>
+      </div>
+      <div class="proposal-item">
+        <div class="proposal-icon">🌱</div>
+        <div class="proposal-text">
+          <h4>育成型就労の導入</h4>
+          <p>ドイツ型の「即戦力ではなく育てる」視点で、若者を労働力ではなく投資対象に。</p>
+        </div>
+      </div>
+      <div class="proposal-item">
+        <div class="proposal-icon">🤝</div>
+        <div class="proposal-text">
+          <h4>協同型就労の拡充</h4>
+          <p><a href="https://jwcc.coop/service/youth/" target="_blank" class="ref-badge">ワーカーズコープ</a>
+            のような「共に支え合う働き方」で、就労困難層への入口を広げる。</p>
+        </div>
+      </div>
+      <div class="proposal-item" style="margin-bottom:0">
+        <div class="proposal-icon">⚖️</div>
+        <div class="proposal-text">
+          <h4>権利教育の義務化</h4>
+          <p>卒業前に労働権利について知識を授け、就労後のトラブルを未然に防ぐ仕組みの整備。</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="ponchie-section">
-    <span class="section-tag">国内先進事例</span>
-    <h2>🗾 他都市の取り組み</h2>
-    <p>
-      <strong><a href="https://wakamono.tokyo/" target="_blank" class="src-link">東京都「若者正社員チャレンジ事業」</a></strong><br>
-      非正規雇用期間の長い若者にセミナー＋企業実習。奨励金支給と就職後の定着支援を組み合わせる。<br><br>
-      <strong><a href="https://shigotofield.jp/" target="_blank" class="src-link">大阪府「OSAKAしごとフィールド」</a></strong><br>
-      「働く自信」を取り戻すワークショップや企業交流会を頻繁開催。
-    </p>
-  </div>
+  <footer>調査報告書：中学・高校卒業後の若年労働者保護と支援制度</footer>
 
-  <div class="ponchie-section teal">
-    <span class="section-tag">海外事例</span>
-    <h2>🇩🇪 ドイツのデュアルシステム</h2>
-    <p>学校での座学と企業での実習を並行して行う「育成型就労」の仕組み。<a href="https://howtogermany.com/jobs/rights/youth-labor-laws/" target="_blank" class="src-link">若年労働者保護法（JArbSchG）で18歳未満の労働時間・休憩・休暇を厳格規定</a>。</p>
-    <div class="icon-row" style="margin-top:14px;">
-      <div class="icon-chip"><span class="emoji">🏫</span>座学教育</div>
-      <div class="icon-chip"><span class="emoji">🏭</span>企業実習</div>
-      <div class="icon-chip"><span class="emoji">🤝</span>見習い保護</div>
-    </div>
-  </div>
-
-  <div class="ponchie-section lavender">
-    <span class="section-tag">民間支援</span>
-    <h2>🤝 協同組合・共済の役割</h2>
-    <p>
-      <strong><a href="https://jwcc.coop/service/youth/" target="_blank" class="src-link">労働者協同組合（ワーカーズコープ）</a></strong>：就労困難な若者が体験として働き始め、徐々にステップアップできる環境を提供。<br><br>
-      <strong>共済・ユースワーク</strong>：万が一の怪我・病気への備えに加え、「第3の居場所」として<a href="https://www.jstage.jst.go.jp/article/chiikikeizai/49.50/0/49.50_19/_pdf/-char/en" target="_blank" class="src-link">労働トラブル相談やキャリア形成を支援</a>。
-    </p>
-  </div>
-
-  <div class="ponchie-section gold">
-    <span class="section-tag">提言</span>
-    <h2>💡 求められる制度の方向性</h2>
-    <p>
-      一般校卒業生にも「教育から就労への滑らかな移行」と「就労後の継続的な伴走支援」をパッケージ化した制度の拡充が必要。ドイツ型の「育成型就労」とワーカーズコープ型の「共に支え合う働き方」の導入が有効な解決策となり得る。
-    </p>
-  </div>
-
-</div>
-
-<!-- ================= INFOGRAPHIC VIEW ================= -->
-
-<div id="infographic" class="view">
-
-  <div class="info-header">
-    <h2>若年就労者 保護の全体像</h2>
-    <p>沖縄県の現状 × 国内外の支援制度 × 民間の取り組み</p>
-  </div>
-
-  <!-- 離職率比較 -->
-
-  <div class="chart-card">
-    <div class="chart-title">高卒3年以内離職率の比較</div>
-    <div class="bar-item">
-      <div class="bar-meta"><span>🏝️ 沖縄県</span><span style="color:var(--coral);font-size:15px;font-weight:900;"><a href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank" style="color:var(--coral);text-decoration:underline dotted;">49.7%</a></span></div>
-      <div class="bar-track"><div class="bar-fill coral" style="width:49.7%"></div></div>
-    </div>
-    <div class="bar-item">
-      <div class="bar-meta"><span>🗾 全国平均</span><span><a href="https://www.okinawatimes.co.jp/articles/-/1723928" target="_blank" style="color:var(--text);text-decoration:underline dotted;">37.9%</a></span></div>
-      <div class="bar-track"><div class="bar-fill teal" style="width:37.9%"></div></div>
-    </div>
-    <div class="bar-item">
-      <div class="bar-meta"><span>🇩🇪 ドイツ参考値</span><span style="color:var(--gold);"><a href="https://www.expatrio.com/about-germany/german-dual-apprenticeship-system" target="_blank" style="color:var(--gold);text-decoration:underline dotted;">〜20%</a></span></div>
-      <div class="bar-track"><div class="bar-fill gold" style="width:20%"></div></div>
-    </div>
-    <p style="font-size:11px;color:#999;margin-top:8px;">※ドイツは参考推計値</p>
-  </div>
-
-  <!-- 法的保護 -->
-
-  <div class="chart-card">
-    <div class="chart-title">法的保護の柱</div>
-    <div class="grid-2">
-      <div class="mini-card">
-        <span class="emoji">📋</span>
-        <h3><a href="https://jsite.mhlw.go.jp/tochigi-roudoukyoku/library/tochigi-roudoukyoku/hourei/kantoku/nensyou.pdf" target="_blank" class="src-link">労働基準法</a></h3>
-        <p>18歳未満を「年少者」として厳格保護。深夜業・残業・危険業務の禁止。</p>
-      </div>
-      <div class="mini-card">
-        <span class="emoji">⚖️</span>
-        <h3><a href="https://atombengo.com/column/19006" target="_blank" class="src-link">児童福祉法</a></h3>
-        <p>搾取行為に3年以下の懲役または100万円以下の罰金を規定。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 支援機関タイムライン -->
-
-  <div class="timeline-card">
-    <div class="chart-title">支援機関・制度マップ</div>
-    <div class="timeline-item">
-      <div class="timeline-dot red">🏝️</div>
-      <div class="timeline-content">
-        <h4><a href="https://jobcafe-okinawa.jp/" target="_blank" class="src-link">ジョブカフェおきなわ</a></h4>
-        <p>就職相談・カウンセリング・定着支援のワンストップ窓口。概ね40歳未満対象。</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot blue">📚</div>
-      <div class="timeline-content">
-        <h4><a href="https://www.town.kadena.okinawa.jp/info/n8274.html" target="_blank" class="src-link">若年者ジョブトレーニング事業</a></h4>
-        <p>座学研修＋職場訓練の組み合わせでミスマッチ防止・早期離職抑制。</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot green">🤝</div>
-      <div class="timeline-content">
-        <h4><a href="https://jsite.mhlw.go.jp/okinawa-roudoukyoku/newpage_00606.html" target="_blank" class="src-link">早期離職者定着支援事業</a></h4>
-        <p>専門講師を事業所へ派遣。メンター制度の導入を支援。</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot purple">🎓</div>
-      <div class="timeline-content">
-        <h4><a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/page/001/034/311/06_r7_siyousyo.pdf" target="_blank" class="src-link">特別支援学校 定着支援</a></h4>
-        <p>就労コーディネーターによる卒業後3年間の伴走支援を実施。</p>
-      </div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot red">🗼</div>
-      <div class="timeline-content">
-        <h4><a href="https://wakamono.tokyo/" target="_blank" class="src-link">東京都「若者正社員チャレンジ事業」</a></h4>
-        <p>企業実習＋奨励金。ミスマッチを体験で解消する先進モデル。</p>
-      </div>
-    </div>
-    <div class="timeline-item" style="margin-bottom:0">
-      <div class="timeline-dot blue">🏙️</div>
-      <div class="timeline-content">
-        <h4><a href="https://shigotofield.jp/" target="_blank" class="src-link">大阪「OSAKAしごとフィールド」</a></h4>
-        <p>「働く自信」を取り戻すワークショップと企業交流を頻繁開催。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 支援レイヤー -->
-
-  <div class="pyramid-wrap">
-    <div class="chart-title">支援の重層構造</div>
-    <div class="pyramid-level l1">🔴 法的規制層｜労働基準法・児童福祉法による権利保護</div>
-    <div class="pyramid-level l2">🟡 行政支援層｜公共機関による就労支援・相談窓口</div>
-    <div class="pyramid-level l3">🟢 民間協力層｜ワーカーズコープ・共済・NPO</div>
-    <div class="pyramid-level l4">🟣 職場内層｜メンター制度・定着支援</div>
-  </div>
-
-  <!-- 国際比較 -->
-
-  <div class="chart-card">
-    <div class="chart-title">日独制度比較</div>
-    <div class="grid-2">
-      <div class="mini-card" style="border-top:3px solid var(--coral);">
-        <span class="emoji">🇯🇵</span>
-        <h3>日本の現状</h3>
-        <p>卒業後の支援に空白地帯。特別支援学校は手厚いが一般校は「自己責任」傾向。</p>
-      </div>
-      <div class="mini-card" style="border-top:3px solid var(--teal);">
-        <span class="emoji">🇩🇪</span>
-        <h3><a href="https://www.expatrio.com/about-germany/german-dual-apprenticeship-system" target="_blank" class="src-link">ドイツの仕組み</a></h3>
-        <p>デュアルシステムで育成型就労。<a href="https://howtogermany.com/jobs/rights/youth-labor-laws/" target="_blank" class="src-link">若年労働法</a>で時間・休暇を厳格保護。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 提言 -->
-
-  <div class="proposal">
-    <h3>🎯 政策提言</h3>
-    <div class="proposal-item">
-      <div class="proposal-icon">🔄</div>
-      <div class="proposal-text">
-        <h4>移行期支援のパッケージ化</h4>
-        <p>「教育→就労」の滑らかな移行と、就労後の継続的伴走支援をセットで制度化する。</p>
-      </div>
-    </div>
-    <div class="proposal-item">
-      <div class="proposal-icon">🌱</div>
-      <div class="proposal-text">
-        <h4>育成型就労の導入</h4>
-        <p>ドイツ型の「即戦力ではなく育てる」視点で、若者を労働力ではなく投資対象に。</p>
-      </div>
-    </div>
-    <div class="proposal-item">
-      <div class="proposal-icon">🤝</div>
-      <div class="proposal-text">
-        <h4>協同型就労の拡充</h4>
-        <p><a href="https://jwcc.coop/service/youth/" target="_blank" class="ref-badge">ワーカーズコープ</a> のような「共に支え合う働き方」で、就労困難層への入口を広げる。</p>
-      </div>
-    </div>
-    <div class="proposal-item" style="margin-bottom:0">
-      <div class="proposal-icon">⚖️</div>
-      <div class="proposal-text">
-        <h4>権利教育の義務化</h4>
-        <p>卒業前に労働権利について知識を授け、就労後のトラブルを未然に防ぐ仕組みの整備。</p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<footer>調査報告書：中学・高校卒業後の若年労働者保護と支援制度</footer>
-
-<script>
-function switchView(view) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(view).classList.add('active');
-  event.target.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Animate bars on infographic
-  if (view === 'infographic') {
-    setTimeout(() => {
-      document.querySelectorAll('.bar-fill').forEach(bar => {
-        const w = bar.style.width;
-        bar.style.width = '0';
-        setTimeout(() => { bar.style.width = w; }, 50);
+  <script>
+    function switchView(view, btn) {
+      // 全viewを非表示
+      document.querySelectorAll('.view').forEach(function (v) {
+        v.classList.remove('active');
       });
-    }, 100);
-  }
-}
-</script>
+      // 全ボタンのactiveを外す
+      document.querySelectorAll('.toggle-btn').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      // 対象viewを表示
+      document.getElementById(view).classList.add('active');
+      // 押されたボタンをactive
+      btn.classList.add('active');
+      // トップへスクロール
+      window.scrollTo(0, 0);
+
+      // バーのアニメーション
+      if (view === 'infographic') {
+        setTimeout(function () {
+          document.querySelectorAll('.bar-fill').forEach(function (bar) {
+            var w = bar.getAttribute('data-width') || bar.style.width;
+            if (!bar.getAttribute('data-width')) bar.setAttribute('data-width', w);
+            bar.style.width = '0';
+            setTimeout(function () { bar.style.width = w; }, 50);
+          });
+        }, 100);
+      }
+    }
+  </script>
 
 </body>
+
 </html>
