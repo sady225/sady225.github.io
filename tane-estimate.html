@@ -617,8 +617,7 @@ body {
   border: 1px solid rgba(154,58,58,0.2);
 }
 </style>
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- EmailJS SDK は不要になりました（GASでメール送信） -->
 </head>
 <body>
 <div class="page-wrap">
@@ -759,7 +758,6 @@ body {
       <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
     </div>
 
-    <div class="email-status" id="emailStatus"></div>
     <div class="email-status" id="gasStatus"></div>
     <div class="order-doc" id="orderDoc">
 
@@ -868,39 +866,25 @@ body {
 </div><!-- /page-wrap -->
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ===== RECEIVER INFO =====
-const RECEIVER = {
-  company: '株式会社琉球のタネ',
-  name: '佐渡山 要',
-  tel: '070-5692-4173',
-  email: 'info@ryukyu-tane.com',
-};
-
-// ===== EMAILJS & GAS CONFIG (hardcoded) =====
-const EJS_PUBLIC_KEY  = 'nYzCb-J4FFDGB33y3';
-const EJS_SERVICE_ID  = 'service_w8jhnlu';
-const EJS_TEMPLATE_ID = 'template_xfiio5f';
+// ===== CONFIG =====
 const GAS_URL         = 'https://script.google.com/macros/s/AKfycbyTRfJR9WHxht9P8hO7oCLOh1c8WKBYWELXiW9NNTdPtgdu1N6fY1vVgBCC9YwuDoZG/exec';
 
 // ===== GAS SEND =====
 async function sendToSpreadsheet(payload) {
   const gasEl = document.getElementById('gasStatus');
-  if (!GAS_URL) {
-    gasEl.className = 'email-status error';
-    gasEl.textContent = '⚠️ スプレッドシート連携URLは設定待ちです。GASデプロイURL確定後に反映されます。';
-    return;
-  }
   gasEl.className = 'email-status sending';
   gasEl.textContent = '📊 スプレッドシートに記録しています…';
   try {
-    await fetch(GAS_URL, {
-      method: 'POST',
+    // GASはno-corsのためPOSTのレスポンスが取れない。
+    // GETパラメータ方式ならdoGet()で確実に受け取れる。
+    const params = new URLSearchParams();
+    Object.entries(payload).forEach(([k, v]) => params.append(k, String(v)));
+    await fetch(GAS_URL + '?' + params.toString(), {
+      method: 'GET',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
     });
-    gasEl.className = 'email-status success';
-    gasEl.textContent = '✅ スプレッドシートへの記録リクエストを送信しました。';
+    gasEl.className = 'email-status';
+    gasEl.textContent = '';
   } catch(err) {
     gasEl.className = 'email-status error';
     gasEl.textContent = `❌ スプレッドシート送信エラー：${err.message}`;
@@ -991,7 +975,6 @@ let consentChecked = false;
 
 // ===== INIT =====
 function init() {
-  try { emailjs.init(EJS_PUBLIC_KEY); } catch(e) {}
   const now = new Date();
   const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
@@ -1178,59 +1161,6 @@ async function submitOrder() {
     hash:           hash,
   };
   sendToSpreadsheet(gasPayload);
-
-  // --- Send emails via EmailJS ---
-  const statusEl = document.getElementById('emailStatus');
-
-  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
-    statusEl.className = 'email-status error';
-    statusEl.textContent = '⚠️ EmailJS の設定が未入力のためメール送信をスキップしました。';
-    return;
-  }
-
-  statusEl.className = 'email-status sending';
-  statusEl.textContent = '📨 メールを送信しています…';
-
-  try {
-    const baseParams = {
-      order_num:      orderNum,
-      client_company: company,
-      client_name:    name,
-      client_email:   email,
-      client_phone:   phone,
-      items_text:     itemsText,
-      pretax:         '¥' + pretax.toLocaleString(),
-      tax:            '¥' + tax.toLocaleString(),
-      total_grand:    '¥' + grand.toLocaleString(),
-      issue_date:     fmtFull(now),
-      expiry_date:    fmtDate(expiry),
-      notes:          note || 'なし',
-      hash:           hash,
-    };
-
-    // 発注者へ
-    await emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
-      ...baseParams,
-      to_email: email,
-      to_name:  name,
-      role:     '発注者',
-    });
-
-    // 受注者へ
-    await emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
-      ...baseParams,
-      to_email: RECEIVER.email,
-      to_name:  RECEIVER.name,
-      role:     '受注者',
-    });
-
-    statusEl.className = 'email-status success';
-    statusEl.textContent = `✅ メール送信完了。${email} および ${RECEIVER.email} に発注書を送信しました。`;
-  } catch(err) {
-    console.error('EmailJS error:', err);
-    statusEl.className = 'email-status error';
-    statusEl.textContent = `❌ メール送信に失敗しました（${err.text || err.message || JSON.stringify(err)}）。`;
-  }
 }
 
 async function simpleHash(str) {
@@ -1247,7 +1177,6 @@ async function simpleHash(str) {
 function resetForm() {
   document.getElementById('formView').style.display = 'block';
   document.getElementById('completeView').classList.remove('show');
-  document.getElementById('emailStatus').className = 'email-status';
   document.getElementById('gasStatus').className = 'email-status';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
