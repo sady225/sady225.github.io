@@ -27,13 +27,14 @@ body {
   font-family: 'Zen Kaku Gothic New', sans-serif;
   font-weight: 300;
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ===== LAYOUT ===== */
 .page-wrap {
   max-width: 780px;
   margin: 0 auto;
-  padding: 2rem 1.2rem 6rem;
+  padding: 1.5rem 1rem 6rem;
 }
 
 /* ===== SCREEN / PRINT SPLIT ===== */
@@ -45,40 +46,42 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding-bottom: 1.2rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.8rem;
-  gap: 1rem;
+  margin-bottom: 1.5rem;
+  gap: 0.8rem;
+  flex-wrap: wrap;
 }
-.doc-header-left {}
+.doc-header-left { flex: 1; min-width: 0; }
 .doc-type {
-  font-size: 0.68rem;
-  letter-spacing: 0.25em;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
   color: var(--accent);
   text-transform: uppercase;
   margin-bottom: 0.3rem;
 }
 .doc-title {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.6rem;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
   font-weight: 300;
   line-height: 1.2;
 }
 .doc-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
   margin-top: 0.3rem;
 }
 .doc-meta {
   text-align: right;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   color: var(--text-dim);
   line-height: 1.9;
+  flex-shrink: 0;
 }
 .doc-meta strong { color: var(--text); font-weight: 700; }
 .doc-num {
   font-family: 'Noto Serif JP', serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--accent);
 }
 
@@ -86,48 +89,50 @@ body {
 .parties {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.8rem;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
 }
-@media(max-width:560px){ .parties { grid-template-columns:1fr; } }
+@media(max-width: 480px) { .parties { grid-template-columns: 1fr; } }
 .party-box {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1rem;
 }
 .party-label {
-  font-size: 0.63rem;
+  font-size: 0.6rem;
   letter-spacing: 0.18em;
   color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 .party-name {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   margin-bottom: 0.2rem;
 }
 .party-detail {
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--text-dim);
   line-height: 1.7;
+  word-break: break-all;
 }
 .party-input {
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 5px;
-  padding: 0.45rem 0.7rem;
+  padding: 0.55rem 0.7rem;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 16px; /* iOSズーム防止 */
   color: var(--text);
   margin-top: 0.3rem;
   outline: none;
   transition: border-color 0.2s;
+  -webkit-appearance: none;
 }
 .party-input:focus { border-color: var(--accent); }
-.party-input::placeholder { color: var(--text-dim); font-size: 0.8rem; }
+.party-input::placeholder { color: var(--text-dim); font-size: 0.85rem; }
 .input-label {
   font-size: 0.7rem;
   color: var(--text-dim);
@@ -139,12 +144,13 @@ body {
 
 /* ===== ITEMS TABLE ===== */
 .section-eyebrow {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
+  font-size: 0.63rem;
+  letter-spacing: 0.18em;
   color: var(--accent);
   text-transform: uppercase;
   margin-bottom: 0.6rem;
 }
+/* モバイルでテーブルをカード型に変換 */
 .items-table {
   width: 100%;
   border-collapse: collapse;
@@ -153,10 +159,10 @@ body {
 }
 .items-table th {
   text-align: left;
-  padding: 0.55rem 0.8rem;
+  padding: 0.5rem 0.6rem;
   background: var(--surface2);
   color: var(--text-dim);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 400;
   letter-spacing: 0.1em;
   border-bottom: 2px solid var(--border);
@@ -165,7 +171,7 @@ body {
 .items-table td.td-price,
 .items-table td.td-subtotal { text-align: right; }
 .items-table td {
-  padding: 0.75rem 0.8rem;
+  padding: 0.65rem 0.6rem;
   border-bottom: 1px solid rgba(154,111,58,0.1);
   vertical-align: middle;
   line-height: 1.45;
@@ -173,19 +179,19 @@ body {
 .items-table tr:last-child td { border-bottom: none; }
 .item-row { transition: background 0.15s; }
 .item-row.selected { background: rgba(154,111,58,0.05); }
-.item-row.mandatory td { }
 .item-check-cell { width: 36px; }
 .item-checkbox {
-  width: 18px; height: 18px;
+  width: 22px; height: 22px; /* タップしやすく */
   border-radius: 4px;
   border: 2px solid var(--border);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   transition: all 0.2s;
   flex: none;
   background: var(--bg);
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .item-checkbox.checked {
   background: var(--accent);
@@ -198,17 +204,31 @@ body {
   color: var(--accent);
   cursor: default;
 }
-.item-name { font-weight: 700; line-height: 1.3; }
-.item-desc { font-size: 0.74rem; color: var(--text-dim); margin-top: 0.15rem; line-height: 1.5; }
-.td-qty { width: 50px; text-align: center; color: var(--text-dim); }
-.td-unit { width: 40px; text-align: center; color: var(--text-dim); font-size: 0.78rem; }
-.td-price { width: 90px; font-family: 'Noto Serif JP', serif; }
-.td-subtotal { width: 90px; font-family: 'Noto Serif JP', serif; font-weight: 700; }
+.item-name { font-weight: 700; line-height: 1.3; font-size: 0.85rem; }
+.item-desc { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem; line-height: 1.5; }
+.td-qty { width: 36px; text-align: center; color: var(--text-dim); }
+.td-unit { width: 30px; text-align: center; color: var(--text-dim); font-size: 0.75rem; }
+.td-price { width: 80px; font-family: 'Noto Serif JP', serif; font-size: 0.8rem; }
+.td-subtotal { width: 80px; font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 0.8rem; }
 .td-subtotal.zero { color: var(--text-dim); }
+
+/* スマホでは数量・単位・単価列を非表示 → 小計のみ表示 */
+@media(max-width: 480px) {
+  .items-table th.col-qty,
+  .items-table th.col-unit,
+  .items-table th.col-price,
+  .items-table td.td-qty,
+  .items-table td.td-unit,
+  .items-table td.td-price { display: none; }
+  .td-subtotal { width: auto; }
+  .item-name { font-size: 0.82rem; }
+  .item-desc { font-size: 0.7rem; }
+}
+
 .badge-must {
   display: inline-block;
-  font-size: 0.6rem;
-  padding: 0.1rem 0.4rem;
+  font-size: 0.58rem;
+  padding: 0.1rem 0.35rem;
   background: rgba(154,111,58,0.12);
   color: var(--accent);
   border-radius: 3px;
@@ -218,8 +238,8 @@ body {
 }
 .badge-opt {
   display: inline-block;
-  font-size: 0.6rem;
-  padding: 0.1rem 0.4rem;
+  font-size: 0.58rem;
+  padding: 0.1rem 0.35rem;
   background: rgba(58,122,94,0.1);
   color: var(--green);
   border-radius: 3px;
@@ -233,7 +253,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1rem;
   margin-bottom: 1.5rem;
 }
 .total-row {
@@ -256,7 +276,7 @@ body {
 .total-row.grand-row .total-label { font-weight: 700; font-size: 0.92rem; }
 .total-row.grand-row .total-val {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 5vw, 1.6rem);
   color: var(--accent2);
   font-weight: 700;
 }
@@ -271,13 +291,14 @@ body {
   border-radius: 6px;
   padding: 0.7rem 0.9rem;
   font-family: inherit;
-  font-size: 0.83rem;
+  font-size: 16px; /* iOSズーム防止 */
   color: var(--text);
   resize: vertical;
   min-height: 72px;
   outline: none;
   transition: border-color 0.2s;
   line-height: 1.7;
+  -webkit-appearance: none;
 }
 .note-textarea:focus { border-color: var(--accent); }
 
@@ -286,22 +307,20 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1rem;
   margin-bottom: 1.5rem;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--text-dim);
   line-height: 1.85;
 }
 .legal-box h4 {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.5rem;
   letter-spacing: 0.08em;
 }
-.legal-box ul {
-  padding-left: 1.2rem;
-}
+.legal-box ul { padding-left: 1.1rem; }
 .legal-box li { margin-bottom: 0.25rem; }
 
 /* ===== CONSENT ===== */
@@ -309,7 +328,7 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 0.7rem;
-  padding: 1rem 1.2rem;
+  padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -317,14 +336,15 @@ body {
   cursor: pointer;
   transition: background 0.2s;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .consent-row:hover { background: var(--surface2); }
 .consent-box {
-  width: 20px; height: 20px; flex: none;
+  width: 22px; height: 22px; flex: none;
   border-radius: 4px;
   border: 2px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   transition: all 0.2s;
   margin-top: 1px;
   background: var(--bg);
@@ -336,20 +356,24 @@ body {
 /* ===== SUBMIT ===== */
 .submit-wrap { text-align: center; margin-bottom: 2rem; }
 .btn-submit {
-  padding: 0.9rem 3rem;
+  padding: 1rem 2.5rem;
   background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 30px;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 16px rgba(154,111,58,0.25);
+  width: 100%;
+  max-width: 320px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.btn-submit:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(154,111,58,0.3); }
+.btn-submit:hover { background: var(--accent2); transform: translateY(-1px); }
 .btn-submit:disabled {
   background: var(--surface2);
   color: var(--text-dim);
@@ -360,114 +384,115 @@ body {
 .submit-note { font-size: 0.73rem; color: var(--text-dim); margin-top: 0.6rem; }
 
 /* ===== COMPLETE VIEW ===== */
-.complete-view {
-  display: none;
-}
+.complete-view { display: none; }
 .complete-view.show { display: block; }
 .complete-header {
   text-align: center;
-  padding: 2rem 0 1.5rem;
+  padding: 1.5rem 0 1.2rem;
 }
-.complete-icon {
-  font-size: 3rem;
-  margin-bottom: 0.8rem;
-}
+.complete-icon { font-size: 2.5rem; margin-bottom: 0.6rem; }
 .complete-title {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
   font-weight: 300;
   margin-bottom: 0.4rem;
 }
-.complete-sub { font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+.complete-sub { font-size: 0.83rem; color: var(--text-dim); line-height: 1.7; }
 
-/* ===== ORDER DOCUMENT (print/complete) ===== */
+/* ===== ORDER DOCUMENT ===== */
 .order-doc {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 2rem;
+  padding: 1.5rem 1rem;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow);
+  overflow-x: hidden;
 }
+@media(min-width: 481px) { .order-doc { padding: 2rem; } }
 .order-doc .doc-stamp-area {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 .stamp-box {
-  width: 64px; height: 64px;
+  width: 56px; height: 56px;
   border: 2px solid var(--accent);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   color: var(--accent);
   line-height: 1.5;
   opacity: 0.5;
 }
 .order-doc h2 {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 4vw, 1.3rem);
   font-weight: 400;
   text-align: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.8rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.7rem;
   border-bottom: 2px solid #333;
 }
 .order-parties {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.82rem;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.8rem;
+}
+@media(max-width: 480px) {
+  .order-parties { grid-template-columns: 1fr; gap: 0.8rem; }
 }
 .order-party-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
   color: #888;
-  margin-bottom: 0.3rem;
-}
-.order-party-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.15rem; }
-.order-party-detail { font-size: 0.75rem; color: #666; line-height: 1.7; }
-.order-meta-row {
-  font-size: 0.78rem;
-  color: #555;
   margin-bottom: 0.25rem;
 }
-.order-meta-row span { font-weight: 700; color: #333; }
+.order-party-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.15rem; }
+.order-party-detail { font-size: 0.72rem; color: #666; line-height: 1.7; word-break: break-all; }
 .order-items-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
-  font-size: 0.81rem;
+  font-size: 0.78rem;
 }
 .order-items-table th {
   background: #f5f0e8;
-  padding: 0.5rem 0.7rem;
+  padding: 0.45rem 0.5rem;
   text-align: left;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
   color: #666;
   font-weight: 400;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  white-space: nowrap;
 }
 .order-items-table th:last-child,
 .order-items-table td:last-child { text-align: right; }
 .order-items-table td {
-  padding: 0.6rem 0.7rem;
+  padding: 0.55rem 0.5rem;
   border-bottom: 1px solid #eee;
   vertical-align: top;
   line-height: 1.4;
 }
 .order-items-table tr:last-child td { border-bottom: none; }
+/* スマホで発注書テーブルも数量・単位列を非表示 */
+@media(max-width: 480px) {
+  .order-items-table .col-qty,
+  .order-items-table .col-unit,
+  .order-items-table .col-price { display: none; }
+}
 .order-total-block {
   background: #f9f6f0;
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 0.9rem;
   margin-bottom: 1rem;
   font-size: 0.82rem;
 }
@@ -487,32 +512,32 @@ body {
 }
 .otr.grand .otr-val {
   font-family: 'Noto Serif JP', serif;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   color: #7a5228;
 }
 .order-notes-block {
   margin-bottom: 1rem;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: #555;
   line-height: 1.8;
 }
-.order-notes-block h4 { font-size: 0.72rem; letter-spacing: 0.1em; color: #888; margin-bottom: 0.3rem; }
+.order-notes-block h4 { font-size: 0.7rem; letter-spacing: 0.08em; color: #888; margin-bottom: 0.3rem; }
 .order-legal-block {
   border-top: 1px solid #ddd;
   padding-top: 0.8rem;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: #888;
   line-height: 1.8;
 }
 .order-legal-block h5 {
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
   color: #aaa;
   margin-bottom: 0.3rem;
 }
 .hash-val {
   font-family: monospace;
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   color: #aaa;
   word-break: break-all;
 }
@@ -538,32 +563,36 @@ body {
 .order-party-with-sign {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 0.6rem;
 }
-.order-party-info { flex: 1; }
+.order-party-info { flex: 1; min-width: 0; }
 .sign-box-inline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 80px;
+  flex-shrink: 0;
 }
 .sign-box-label {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   color: #888;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
   white-space: nowrap;
 }
 .sign-box-area {
-  width: 72px;
-  height: 72px;
+  width: 60px; height: 60px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
+}
+@media(min-width: 481px) {
+  .sign-box-area { width: 72px; height: 72px; }
 }
 .sign-box-name {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   color: #666;
   text-align: center;
+  word-break: break-all;
+  max-width: 65px;
 }
 
 /* ===== ACTION BUTTONS ===== */
@@ -575,24 +604,20 @@ body {
   margin-bottom: 1.5rem;
 }
 .btn-action {
-  padding: 0.65rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 24px;
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   cursor: pointer;
   border: 1px solid var(--border);
   transition: all 0.2s;
   letter-spacing: 0.06em;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.btn-print {
-  background: var(--surface);
-  color: var(--text);
-}
+.btn-print { background: var(--surface); color: var(--text); }
 .btn-print:hover { background: var(--surface2); }
-.btn-reset {
-  background: transparent;
-  color: var(--text-dim);
-}
+.btn-reset { background: transparent; color: var(--text-dim); }
 .btn-reset:hover { color: var(--text); border-color: var(--text-dim); }
 
 /* ===== ERROR ===== */
@@ -609,19 +634,9 @@ body {
 .section-divider {
   border: none;
   border-top: 1px solid var(--border);
-  margin: 1.5rem 0;
+  margin: 1.2rem 0;
 }
 
-/* ===== PRINT ===== */
-@media print {
-  .screen-only { display: none !important; }
-  .print-only { display: block !important; }
-  body { background: #fff; }
-  .page-wrap { padding: 0; max-width: 100%; }
-  .order-doc { border: none; box-shadow: none; padding: 0; }
-  .action-buttons { display: none; }
-  .complete-header { padding: 0 0 1rem; }
-}
 /* ===== email status */
 .email-status {
   display: none;
@@ -649,6 +664,39 @@ body {
   color: var(--red);
   border: 1px solid rgba(154,58,58,0.2);
 }
+
+/* ===== ESTIMATE ONLY BUTTON ===== */
+.btn-estimate-only {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 320px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-estimate-only:hover { background: rgba(154,111,58,0.08); }
+
+/* ===== PRINT ===== */
+@media print {
+  .screen-only { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: #fff; }
+  .page-wrap { padding: 0; max-width: 100%; }
+  .order-doc { border: none; box-shadow: none; padding: 0; }
+  .action-buttons { display: none; }
+  .complete-header { padding: 0 0 1rem; }
+}
+
 </style>
 <!-- EmailJS SDK は不要になりました（GASでメール送信） -->
 </head>
@@ -693,7 +741,6 @@ body {
         <div class="party-name">株式会社琉球のタネ</div>
         <div class="party-detail">
           担当：佐渡山 要<br>
-          登録番号：T－（インボイス登録番号）<br>
           TEL：070-5692-4173<br>
           <span>info</span>&#64;<span>ryukyu-tane.com</span>
         </div>
@@ -707,9 +754,9 @@ body {
         <tr>
           <th class="item-check-cell"></th>
           <th>品目・内容</th>
-          <th class="td-qty">数量</th>
-          <th class="td-unit">単位</th>
-          <th class="td-price">単価</th>
+          <th class="td-qty col-qty">数量</th>
+          <th class="td-unit col-unit">単位</th>
+          <th class="td-price col-price">単価</th>
           <th class="td-subtotal">小計</th>
         </tr>
       </thead>
@@ -735,6 +782,16 @@ body {
         <span class="total-val" id="totalGrand">¥0</span>
       </div>
     </div>
+
+    <!-- ESTIMATE ONLY BUTTON -->
+    <div class="submit-wrap" style="margin-bottom:0.5rem;">
+      <button class="btn-estimate-only" id="btnEstimate" onclick="outputEstimate()">
+        📄 見積書を出力する
+      </button>
+      <div class="submit-note">同意チェック不要。内容確認・社内共有用にご利用ください。</div>
+    </div>
+
+    <hr class="section-divider">
 
     <!--備考 -->
     <div class="note-section">
@@ -851,9 +908,9 @@ body {
           <tr>
             <th>No.</th>
             <th>品目・内容</th>
-            <th style="text-align:center">数量</th>
-            <th style="text-align:center">単位</th>
-            <th style="text-align:right">単価（税抜）</th>
+            <th class="col-qty" style="text-align:center">数量</th>
+            <th class="col-unit" style="text-align:center">単位</th>
+            <th class="col-price" style="text-align:right">単価（税抜）</th>
             <th style="text-align:right">小計（税抜）</th>
           </tr>
         </thead>
@@ -897,6 +954,126 @@ body {
 
   </div><!-- /completeView -->
 
+  <!-- ===== ESTIMATE ONLY VIEW ===== -->
+  <div class="complete-view" id="estimateView">
+
+    <div class="complete-header screen-only">
+      <div class="complete-icon">📄</div>
+      <div class="complete-title">お見積書</div>
+      <div class="complete-sub">
+        印刷・PDF保存してご活用ください。<br>
+        発注される場合はフォームに戻って「発注を確定する」を押してください。
+      </div>
+    </div>
+
+    <div class="action-buttons screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
+      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    </div>
+
+    <div class="order-doc" id="estimateDoc">
+
+      <div class="doc-stamp-area">
+        <div class="stamp-box">確認<br>印</div>
+      </div>
+
+      <h2>お 見 積 書</h2>
+
+      <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div>
+          見積番号：<strong id="estDocNum" style="color:#333"></strong><br>
+          発行日時：<strong id="estIssueDate" style="color:#333"></strong>
+        </div>
+        <div style="text-align:right">
+          有効期限：<strong id="estExpiry" style="color:#333"></strong><br>
+          種別：<strong style="color:#9a6f3a">見積書</strong>
+        </div>
+      </div>
+
+      <div class="order-parties">
+        <div class="order-party-with-sign">
+          <div class="order-party-info">
+            <div class="order-party-label">お見積先</div>
+            <div class="order-party-name" id="estClientCompany"></div>
+            <div class="order-party-detail">
+              担当：<span id="estClientName"></span><br>
+              Email：<span id="estClientEmail"></span><br>
+              TEL：<span id="estClientPhone"></span>
+            </div>
+          </div>
+          <div class="sign-box-inline">
+            <div class="sign-box-label">お客様確認印</div>
+            <div class="sign-box-area"></div>
+            <div class="sign-box-name" id="estSignClient"></div>
+          </div>
+        </div>
+        <div class="order-party-with-sign">
+          <div class="order-party-info">
+            <div class="order-party-label">見積作成者</div>
+            <div class="order-party-name">株式会社琉球のタネ</div>
+            <div class="order-party-detail">
+              担当：佐渡山 要<br>
+              TEL：070-5692-4173<br>
+              <span>info</span>&#64;<span>ryukyu-tane.com</span>
+            </div>
+          </div>
+          <div class="sign-box-inline">
+            <div class="sign-box-label">作成者確認印</div>
+            <div class="sign-box-area"></div>
+            <div class="sign-box-name">株式会社琉球のタネ　佐渡山 要</div>
+          </div>
+        </div>
+      </div>
+
+      <table class="order-items-table" id="estItemsTable">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>品目・内容</th>
+            <th class="col-qty" style="text-align:center">数量</th>
+            <th class="col-unit" style="text-align:center">単位</th>
+            <th class="col-price" style="text-align:right">単価（税抜）</th>
+            <th style="text-align:right">小計（税抜）</th>
+          </tr>
+        </thead>
+        <tbody id="estItemsTbody"></tbody>
+      </table>
+
+      <div class="order-total-block">
+        <div class="otr"><span>小計（税抜）</span><span class="otr-val" id="estPretax"></span></div>
+        <div class="otr"><span>消費税（10%）</span><span class="otr-val" id="estTax"></span></div>
+        <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val" id="estGrand"></span></div>
+      </div>
+
+      <div class="order-notes-block" id="estNotesWrap">
+        <h4>備考・特記事項</h4>
+        <div id="estNotes"></div>
+      </div>
+
+      <div class="order-notes-block">
+        <h4>お見積り条件</h4>
+        ・本見積書の有効期限は発行日より30日間です<br>
+        ・金額は税抜表示です（別途消費税10%が加算されます）<br>
+        ・「要現地業務確認」「¥○○〜」の項目は現地確認後に正式金額をご提示します<br>
+        ・ご不明な点はお気軽にお問い合わせください
+      </div>
+
+      <div class="order-legal-block">
+        見積番号：<span id="estLegalNum"></span>　／　
+        発行日時：<span id="estLegalTs"></span>　／　
+        種別：見積書<br>
+        ※本見積書は正式発注ではありません。発注の際は別途「発注を確定する」手続きが必要です。
+      </div>
+
+    </div><!-- /estimateDoc -->
+
+    <div class="action-buttons screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
+      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    </div>
+
+  </div><!-- /estimateView -->
+
 </div><!-- /page-wrap -->
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
@@ -913,16 +1090,58 @@ async function sendToSpreadsheet(payload) {
       method: 'GET',
       mode: 'no-cors',
     });
-    gasEl.className = 'email-status success screen-only';
-    gasEl.textContent = `✅ ${payload.client_email} に発注書を送信しました。`;
-    setTimeout(() => {
-      gasEl.className = 'email-status';
-      gasEl.textContent = '';
-    }, 20000);
+    if (payload.doc_type === '発注') {
+      gasEl.className = 'email-status success screen-only';
+      gasEl.textContent = `✅ ${payload.client_email} に発注書を送信しました。`;
+      setTimeout(() => { gasEl.className = 'email-status'; gasEl.textContent = ''; }, 20000);
+    }
   } catch(err) {
     gasEl.className = 'email-status error';
-    gasEl.textContent = `❌ スプレッドシート送信エラー：${err.message}`;
+    gasEl.textContent = `❌ 送信エラー：${err.message}`;
   }
+}
+
+// ===== BUILD DOC COMMON DATA =====
+function buildDocData() {
+  const now    = new Date();
+  const fmtFull = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
+  const fmtDate = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
+  const company = document.getElementById('clientCompany').value.trim();
+  const name    = document.getElementById('clientName').value.trim();
+  const email   = document.getElementById('clientEmail').value.trim();
+  const phone   = document.getElementById('clientPhone').value.trim();
+  const note    = document.getElementById('orderNote').value.trim();
+  const selected = ITEMS.filter(i => i.checked);
+  const pretax = selected.reduce((s, i) => s + i.price * i.qty, 0);
+  const tax    = Math.floor(pretax * 0.1);
+  const grand  = pretax + tax;
+  let itemsText = '';
+  selected.forEach((item, idx) => {
+    const priceStr = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
+    itemsText += `${idx+1}. ${item.name}　${priceStr}\n`;
+  });
+  return { now, fmtFull, fmtDate, expiry, company, name, email, phone, note, selected, pretax, tax, grand, itemsText };
+}
+
+// ===== FILL DOC TABLE (shared) =====
+function fillDocTable(tbodyId, selected) {
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  selected.forEach((item, idx) => {
+    const tr = document.createElement('tr');
+    const priceDisplay    = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
+    const subtotalDisplay = item.priceLabel ? item.priceLabel : '¥' + (item.price * item.qty).toLocaleString();
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td><strong>${item.name}</strong><br><span style="font-size:0.72rem;color:#666">${item.desc}</span></td>
+      <td class="col-qty" style="text-align:center">${item.qty}</td>
+      <td class="col-unit" style="text-align:center">${item.unit}</td>
+      <td class="col-price" style="text-align:right">${priceDisplay}</td>
+      <td style="text-align:right">${subtotalDisplay}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
 // ===== ITEM DEFINITIONS =====
@@ -984,8 +1203,17 @@ const ITEMS = [
     checked: false,
   },
   {
+    id: 'writing',
+    name: '文章作成（文面サポート）',
+    desc: 'A4用紙1枚・5,000文字以内程度の文章作成・文面サポート',
+    qty: 1, unit: '式',
+    price: 8000,
+    mandatory: false,
+    checked: false,
+  },
+  {
     id: 'menu',
-    name: '配食メニュー表 Googleスプレッドシート整備',
+    name: '業務指示表 Googleスプレッドシート整備',
     desc: '複数人入力・コピペによるズレ防止・1日ごとの印刷対応レイアウト設計（金額は現地業務確認後にご案内します）',
     qty: 1, unit: '式',
     price: 0,
@@ -998,7 +1226,8 @@ const ITEMS = [
     name: 'プロカメラマンによる料理撮影',
     desc: 'カメラマン手配・撮影立ち合い・補正・Webサイト向け納品（撮影内容により変動）',
     qty: 1, unit: '式',
-    price: 50000,
+    price: 0,
+    priceLabel: '¥10,000〜',
     mandatory: false,
     checked: false,
   },
@@ -1103,98 +1332,139 @@ async function submitOrder() {
   const company = document.getElementById('clientCompany').value.trim();
   const name    = document.getElementById('clientName').value.trim();
   const email   = document.getElementById('clientEmail').value.trim();
-  const phone   = document.getElementById('clientPhone').value.trim() || '－';
   if (!company || !name || !email) {
     document.getElementById('err-client').classList.add('show');
     return;
   }
   document.getElementById('err-client').classList.remove('show');
 
-  const now = new Date();
-  const fmtFull = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}:${('0'+d.getSeconds()).slice(-2)}`;
-  const fmtDate = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-  const expiry  = new Date(now); expiry.setDate(expiry.getDate() + 30);
-
+  const d = buildDocData();
   const docNum   = document.getElementById('displayDocNum').dataset.num;
   const orderNum = docNum.replace('EST-', 'ORD-');
+  const fmtFull = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日 ${('0'+d2.getHours()).slice(-2)}:${('0'+d2.getMinutes()).slice(-2)}:${('0'+d2.getSeconds()).slice(-2)}`;
+  const fmtDate = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日`;
+  const now = new Date();
+  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
 
-  // --- Fill order document ---
-  document.getElementById('docOrderNum').textContent    = orderNum;
-  document.getElementById('docIssueDate').textContent   = fmtFull(now);
-  document.getElementById('docExpiry').textContent      = fmtDate(expiry);
-  document.getElementById('docClientCompany').textContent = company;
-  document.getElementById('docClientName').textContent  = name;
-  document.getElementById('docClientEmail').textContent = email;
-  document.getElementById('docClientPhone').textContent = phone;
-  document.getElementById('docSignClient').textContent  = company + '　' + name;
+  document.getElementById('docOrderNum').textContent      = orderNum;
+  document.getElementById('docIssueDate').textContent     = fmtFull(now);
+  document.getElementById('docExpiry').textContent        = fmtDate(expiry);
+  document.getElementById('docClientCompany').textContent = d.company;
+  document.getElementById('docClientName').textContent    = d.name;
+  document.getElementById('docClientEmail').textContent   = d.email;
+  document.getElementById('docClientPhone').textContent   = d.phone || '－';
+  document.getElementById('docSignClient').textContent    = d.company + '　' + d.name;
 
-  // --- Items ---
-  const selected = ITEMS.filter(i => i.checked);
-  const tbody = document.getElementById('docItemsTbody');
-  tbody.innerHTML = '';
-  let itemsText = '';
-  selected.forEach((item, idx) => {
-    const tr = document.createElement('tr');
-    const priceDisplay = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
-    const subtotalDisplay = item.priceLabel ? item.priceLabel : '¥' + (item.price * item.qty).toLocaleString();
-    tr.innerHTML = `
-      <td>${idx+1}</td>
-      <td><strong>${item.name}</strong><br><span style="font-size:0.72rem;color:#666">${item.desc}</span></td>
-      <td style="text-align:center">${item.qty}</td>
-      <td style="text-align:center">${item.unit}</td>
-      <td style="text-align:right">${priceDisplay}</td>
-      <td style="text-align:right">${subtotalDisplay}</td>
-    `;
-    tbody.appendChild(tr);
-    itemsText += `${idx+1}. ${item.name}　¥${item.price.toLocaleString()}\n`;
-  });
+  fillDocTable('docItemsTbody', d.selected);
 
-  // --- Total ---
-  const pretax = selected.reduce((s, i) => s + i.price * i.qty, 0);
-  const tax    = Math.floor(pretax * 0.1);
-  const grand  = pretax + tax;
-  document.getElementById('docPretax').textContent = '¥' + pretax.toLocaleString();
-  document.getElementById('docTax').textContent    = '¥' + tax.toLocaleString();
-  document.getElementById('docGrand').textContent  = '¥' + grand.toLocaleString();
+  document.getElementById('docPretax').textContent = '¥' + d.pretax.toLocaleString();
+  document.getElementById('docTax').textContent    = '¥' + d.tax.toLocaleString();
+  document.getElementById('docGrand').textContent  = '¥' + d.grand.toLocaleString();
 
-  // --- Notes ---
-  const note = document.getElementById('orderNote').value.trim();
   const notesWrap = document.getElementById('docNotesWrap');
-  if (note) {
-    document.getElementById('docNotes').textContent = note;
+  if (d.note) {
+    document.getElementById('docNotes').textContent = d.note;
     notesWrap.style.display = 'block';
   } else {
     notesWrap.style.display = 'none';
   }
 
-  // --- Hash ---
   document.getElementById('docLegalNum').textContent = orderNum;
   document.getElementById('docLegalTs').textContent  = fmtFull(now);
-  const hashInput = [orderNum, company, name, email, pretax, now.toISOString()].join('|');
+  const hashInput = [orderNum, d.company, d.name, d.email, d.pretax, now.toISOString()].join('|');
   const hash = await simpleHash(hashInput);
   document.getElementById('docHash').textContent = hash;
 
-  // --- Switch view ---
   document.getElementById('formView').style.display = 'none';
+  document.getElementById('estimateView').classList.remove('show');
   document.getElementById('completeView').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // --- Send to Spreadsheet (GAS) ---
-  const gasPayload = {
+  sendToSpreadsheet({
+    doc_type:       '発注',
     order_num:      orderNum,
     issue_date:     fmtFull(now),
-    client_company: company,
-    client_name:    name,
-    client_email:   email,
-    client_phone:   phone,
-    items_text:     itemsText.trim(),
-    pretax:         pretax,
-    tax:            tax,
-    grand:          grand,
-    notes:          note || '',
+    client_company: d.company,
+    client_name:    d.name,
+    client_email:   d.email,
+    client_phone:   d.phone || '－',
+    items_text:     d.itemsText.trim(),
+    pretax:         d.pretax,
+    tax:            d.tax,
+    grand:          d.grand,
+    notes:          d.note || '',
     hash:           hash,
-  };
-  sendToSpreadsheet(gasPayload);
+  });
+}
+
+// ===== OUTPUT ESTIMATE ONLY =====
+async function outputEstimate() {
+  const company = document.getElementById('clientCompany').value.trim();
+  const name    = document.getElementById('clientName').value.trim();
+  const email   = document.getElementById('clientEmail').value.trim();
+  if (!company || !name) {
+    document.getElementById('err-client').classList.add('show');
+    return;
+  }
+  document.getElementById('err-client').classList.remove('show');
+
+  const d = buildDocData();
+  const docNum  = document.getElementById('displayDocNum').dataset.num;
+  const estNum  = docNum.replace('EST-', 'QUO-');
+  const fmtFull = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日 ${('0'+d2.getHours()).slice(-2)}:${('0'+d2.getMinutes()).slice(-2)}:${('0'+d2.getSeconds()).slice(-2)}`;
+  const fmtDate = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日`;
+  const now = new Date();
+  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
+
+  document.getElementById('estDocNum').textContent      = estNum;
+  document.getElementById('estIssueDate').textContent   = fmtFull(now);
+  document.getElementById('estExpiry').textContent      = fmtDate(expiry);
+  document.getElementById('estClientCompany').textContent = d.company;
+  document.getElementById('estClientName').textContent  = d.name;
+  document.getElementById('estClientEmail').textContent  = d.email || '－';
+  document.getElementById('estClientPhone').textContent  = d.phone || '－';
+  document.getElementById('estSignClient').textContent   = d.company + '　' + d.name;
+
+  fillDocTable('estItemsTbody', d.selected);
+
+  document.getElementById('estPretax').textContent = '¥' + d.pretax.toLocaleString();
+  document.getElementById('estTax').textContent    = '¥' + d.tax.toLocaleString();
+  document.getElementById('estGrand').textContent  = '¥' + d.grand.toLocaleString();
+
+  const estNotesWrap = document.getElementById('estNotesWrap');
+  if (d.note) {
+    document.getElementById('estNotes').textContent = d.note;
+    estNotesWrap.style.display = 'block';
+  } else {
+    estNotesWrap.style.display = 'none';
+  }
+
+  document.getElementById('estLegalNum').textContent = estNum;
+  document.getElementById('estLegalTs').textContent  = fmtFull(now);
+
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('completeView').classList.remove('show');
+  document.getElementById('estimateView').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // スプレッドシートに見積として記録（メール送信なし）
+  const hashInput = [estNum, d.company, d.name, d.email, d.pretax, now.toISOString()].join('|');
+  const hash = await simpleHash(hashInput);
+  sendToSpreadsheet({
+    doc_type:       '見積',
+    order_num:      estNum,
+    issue_date:     fmtFull(now),
+    client_company: d.company,
+    client_name:    d.name,
+    client_email:   d.email || '',
+    client_phone:   d.phone || '',
+    items_text:     d.itemsText.trim(),
+    pretax:         d.pretax,
+    tax:            d.tax,
+    grand:          d.grand,
+    notes:          d.note || '',
+    hash:           hash,
+  });
 }
 
 async function simpleHash(str) {
@@ -1211,6 +1481,7 @@ async function simpleHash(str) {
 function resetForm() {
   document.getElementById('formView').style.display = 'block';
   document.getElementById('completeView').classList.remove('show');
+  document.getElementById('estimateView').classList.remove('show');
   document.getElementById('gasStatus').className = 'email-status';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
