@@ -905,19 +905,19 @@ const GAS_URL         = 'https://script.google.com/macros/s/AKfycbyTRfJR9WHxht9P
 // ===== GAS SEND =====
 async function sendToSpreadsheet(payload) {
   const gasEl = document.getElementById('gasStatus');
-  gasEl.className = 'email-status sending';
-  gasEl.textContent = '📊 スプレッドシートに記録しています…';
   try {
-    // GASはno-corsのためPOSTのレスポンスが取れない。
-    // GETパラメータ方式ならdoGet()で確実に受け取れる。
     const params = new URLSearchParams();
     Object.entries(payload).forEach(([k, v]) => params.append(k, String(v)));
     await fetch(GAS_URL + '?' + params.toString(), {
       method: 'GET',
       mode: 'no-cors',
     });
-    gasEl.className = 'email-status success';
+    gasEl.className = 'email-status success screen-only';
     gasEl.textContent = `✅ ${payload.client_email} に発注書を送信しました。`;
+    setTimeout(() => {
+      gasEl.className = 'email-status';
+      gasEl.textContent = '';
+    }, 20000);
   } catch(err) {
     gasEl.className = 'email-status error';
     gasEl.textContent = `❌ スプレッドシート送信エラー：${err.message}`;
