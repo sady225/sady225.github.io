@@ -682,6 +682,45 @@ body {
 .hash-val { font-family: monospace; font-size: 0.62rem; color: #aaa; word-break: break-all; }
 
 
+/* ===== CONFIRM BLOCK ===== */
+.confirm-block {
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+.confirm-row:last-child { border-bottom: none; }
+.confirm-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  white-space: nowrap;
+  min-width: 72px;
+}
+.confirm-val {
+  color: var(--text);
+  font-weight: 700;
+  flex: 1;
+}
+.confirm-row-grand {
+  background: rgba(154,111,58,0.05);
+  border-top: 2px solid var(--accent);
+}
+.confirm-grand {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  color: var(--accent2);
+}
+
 /* ===== EMAIL STATUS ===== */
 .email-status { display: none; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-bottom: 1rem; }
 .email-status.success { display: block; background: rgba(46,122,88,0.08); color: var(--green); border: 1px solid rgba(46,122,88,0.25); }
@@ -838,12 +877,36 @@ body {
     </div>
 
     <div class="btn-wrap">
-      <button class="btn-primary" id="btnSubmit" onclick="submitOrder()" disabled>
-        ✅ 発注を確定する
+      <button class="btn-primary" id="btnSubmit" onclick="showConfirm()" disabled>
+        次へ：内容を確認する　→
       </button>
-      <div class="btn-note">確定後、メールで発注書をお送りします</div>
+      <div class="btn-note">確定前にもう一度内容をご確認いただけます</div>
       <button class="btn-outline" style="max-width:360px;" onclick="outputEstimate()">📄 先に見積書を確認する</button>
       <button class="btn-ghost" onclick="goStep(2)">← 作業内容の選択に戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== 確認ビュー（発注書プレビュー） ===== -->
+  <div class="result-view" id="confirmView">
+    <div class="result-header screen-only">
+      <div class="result-icon">🔍</div>
+      <div class="result-title">これでよろしいですか？</div>
+      <div class="result-sub">下の発注書の内容をご確認ください。<br>よろしければ「発注を確定する」を押してください。</div>
+    </div>
+
+    <div class="btn-wrap" style="margin-bottom:1.2rem;">
+      <button class="btn-primary" onclick="submitOrder()">✅ 発注を確定する</button>
+      <div class="btn-note">確定後、メールで発注書をお送りします</div>
+      <button class="btn-ghost" onclick="backToStep3()">← 修正に戻る</button>
+    </div>
+
+    <!-- 発注書プレビュー（order-docを共有） -->
+    <div id="previewDocWrap"></div>
+
+    <div class="btn-wrap" style="margin-top:1.2rem;">
+      <button class="btn-primary" onclick="submitOrder()">✅ 発注を確定する</button>
+      <div class="btn-note">確定後、メールで発注書をお送りします</div>
+      <button class="btn-ghost" onclick="backToStep3()">← 修正に戻る</button>
     </div>
   </div>
 
@@ -867,68 +930,7 @@ body {
       <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
     </div>
     <div class="email-status" id="gasStatus"></div>
-    <div class="order-doc" id="orderDoc">
-      <div class="doc-stamp-area"><div class="stamp-box">受領<br>印</div></div>
-      <h2>発 注 書</h2>
-      <div class="doc-meta-row">
-        <div>発注書番号：<strong id="docOrderNum" style="color:#333"></strong><br>発行日時：<strong id="docIssueDate" style="color:#333"></strong></div>
-        <div style="text-align:right">有効期限：<strong id="docExpiry" style="color:#333"></strong><br>電子帳票：<strong style="color:#2e7a58">保存対象</strong></div>
-      </div>
-      <div class="order-parties">
-        <div class="order-party-with-sign">
-          <div class="order-party-info">
-            <div class="order-party-label">発注者（お客様）</div>
-            <div class="order-party-name" id="docClientCompany"></div>
-            <div class="order-party-detail">担当：<span id="docClientName"></span><br>Email：<span id="docClientEmail"></span><br>TEL：<span id="docClientPhone"></span></div>
-          </div>
-          <div class="sign-box-inline">
-            <div class="sign-box-label">発注者確認印</div>
-            <div class="sign-box-area"></div>
-            <div class="sign-box-name" id="docSignClient"></div>
-          </div>
-        </div>
-        <div class="order-party-with-sign">
-          <div class="order-party-info">
-            <div class="order-party-label">受注者（制作会社）</div>
-            <div class="order-party-name">株式会社琉球のタネ</div>
-            <div class="order-party-detail">担当：佐渡山 要<br>TEL：070-5692-4173<br><span>info</span>&#64;<span>ryukyu-tane.com</span></div>
-          </div>
-          <div class="sign-box-inline">
-            <div class="sign-box-label">受注者確認印</div>
-            <div class="sign-box-area"></div>
-            <div class="sign-box-name">株式会社琉球のタネ　佐渡山 要</div>
-          </div>
-        </div>
-      </div>
-      <table class="order-items-table"><thead><tr>
-        <th>No.</th><th>品目・内容</th>
-        <th class="col-qty" style="text-align:center">数量</th>
-        <th class="col-unit" style="text-align:center">単位</th>
-        <th class="col-price" style="text-align:right">単価（税抜）</th>
-        <th style="text-align:right">小計（税抜）</th>
-      </tr></thead><tbody id="docItemsTbody"></tbody></table>
-      <div class="order-total-block">
-        <div class="otr"><span>小計（税抜）</span><span class="otr-val" id="docPretax"></span></div>
-        <div class="otr"><span>消費税（10%）</span><span class="otr-val" id="docTax"></span></div>
-        <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val" id="docGrand"></span></div>
-      </div>
-      <div class="order-notes-block" id="docNotesWrap">
-        <h4>備考・特記事項</h4>
-        <div id="docNotes"></div>
-      </div>
-      <div class="order-notes-block">
-        <h4>お取引の条件</h4>
-        ・お支払い：納品後30日以内（銀行振込）<br>
-        ・著作権は代金のお支払い完了後にお客様へ移ります<br>
-        ・納品後14日以内の軽微な修正は2回まで無料で対応します<br>
-        ・この発注書は大切に保存してください（7年間の保存が必要です）
-      </div>
-      <div class="order-legal-block">
-        <h5>🔒 改ざん防止情報（電子帳票保存法 対応）</h5>
-        文書番号：<span id="docLegalNum"></span>　発行日時：<span id="docLegalTs"></span><br>
-        確認コード：<span class="hash-val" id="docHash"></span>
-      </div>
-    </div>
+    <div id="completeDocWrap"></div>
     <div class="result-action-btns screen-only">
       <button class="btn-action btn-print" onclick="window.print()">🖨&nbsp;印刷・PDF保存する</button>
       <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
@@ -1135,6 +1137,8 @@ function resetForm() {
   document.getElementById('btnEstSubmit').disabled = true;
   document.getElementById('estOrderNote').value = '';
   document.getElementById('gasStatus').className = 'email-status';
+  // 確認ビューも非表示
+  document.getElementById('confirmView').classList.remove('show');
   goStep(1);
 }
 
@@ -1295,46 +1299,135 @@ function toggleEstConsent() {
   document.getElementById('btnEstSubmit').disabled = !estConsentChecked;
 }
 
-async function submitFromEstimate() {
-  // estOrderNoteの内容をorderNoteに同期してからsubmitOrder呼び出し
+function submitFromEstimate() {
+  // estOrderNoteの内容をorderNoteに同期して確認画面へ
   document.getElementById('orderNote').value = document.getElementById('estOrderNote').value;
-  // consentも同期
   consentChecked = estConsentChecked;
-  await submitOrder();
+  showConfirm();
 }
 
-// ===== SUBMIT (発注確定) =====
-async function submitOrder() {
-  const email = document.getElementById('clientEmail').value.trim();
-  if (!email) { alert('メールアドレスをご入力ください'); return; }
-
+// ===== 確認画面（発注書プレビュー）を表示 =====
+async function showConfirm() {
   const d = buildDocData();
   const orderNum = docNum.replace('EST-', 'ORD-');
   const now = new Date();
   const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
 
-  document.getElementById('docOrderNum').textContent      = orderNum;
-  document.getElementById('docIssueDate').textContent     = fmtFull(now);
-  document.getElementById('docExpiry').textContent        = fmtDate(expiry);
-  document.getElementById('docClientCompany').textContent = d.company;
-  document.getElementById('docClientName').textContent    = d.name;
-  document.getElementById('docClientEmail').textContent   = d.email;
-  document.getElementById('docClientPhone').textContent   = d.phone || '－';
-  document.getElementById('docSignClient').textContent    = d.company + '　' + d.name;
-  fillDocTable('docItemsTbody', d.selected);
-  document.getElementById('docPretax').textContent = '¥' + d.pretax.toLocaleString();
-  document.getElementById('docTax').textContent    = '¥' + d.tax.toLocaleString();
-  document.getElementById('docGrand').textContent  = '¥' + d.grand.toLocaleString();
-  const notesWrap = document.getElementById('docNotesWrap');
-  if (d.note) { document.getElementById('docNotes').textContent = d.note; notesWrap.style.display='block'; }
-  else { notesWrap.style.display='none'; }
-  document.getElementById('docLegalNum').textContent = orderNum;
-  document.getElementById('docLegalTs').textContent  = fmtFull(now);
+  // 発注書HTMLを生成
   const hashInput = [orderNum, d.company, d.name, d.email, d.pretax, now.toISOString()].join('|');
   const hash = await simpleHash(hashInput);
-  document.getElementById('docHash').textContent = hash;
+
+  // プレビュー用データを保存（submitOrderで使い回す）
+  window._pendingOrder = { d, orderNum, now, expiry, hash };
+
+  const docHtml = buildOrderDocHtml(d, orderNum, now, expiry, hash);
+  document.getElementById('previewDocWrap').innerHTML = docHtml;
+
+  showResultView('confirmView');
+}
+
+function buildOrderDocHtml(d, orderNum, now, expiry, hash) {
+  const itemsRows = d.selected.map((item, idx) => {
+    const pd = item.priceLabel || '¥' + item.price.toLocaleString();
+    const sd = item.priceLabel || '¥' + (item.price * item.qty).toLocaleString();
+    return `<tr>
+      <td>${idx+1}</td>
+      <td><strong>${item.name}</strong><br><span style="font-size:0.75rem;color:#666">${item.desc}</span></td>
+      <td class="col-qty" style="text-align:center">${item.qty}</td>
+      <td class="col-unit" style="text-align:center">${item.unit}</td>
+      <td class="col-price" style="text-align:right">${pd}</td>
+      <td style="text-align:right">${sd}</td>
+    </tr>`;
+  }).join('');
+
+  const notesBlock = d.note ? `
+    <div class="order-notes-block">
+      <h4>備考・特記事項</h4>
+      <div>${d.note.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    </div>` : '';
+
+  return `<div class="order-doc">
+    <div class="doc-stamp-area"><div class="stamp-box">受領<br>印</div></div>
+    <h2>発 注 書</h2>
+    <div class="doc-meta-row">
+      <div>発注書番号：<strong style="color:#333">${orderNum}</strong><br>発行日時：<strong style="color:#333">${fmtFull(now)}</strong></div>
+      <div style="text-align:right">有効期限：<strong style="color:#333">${fmtDate(expiry)}</strong><br>電子帳票：<strong style="color:#2e7a58">保存対象</strong></div>
+    </div>
+    <div class="order-parties">
+      <div class="order-party-with-sign">
+        <div class="order-party-info">
+          <div class="order-party-label">発注者（お客様）</div>
+          <div class="order-party-name">${d.company}</div>
+          <div class="order-party-detail">担当：${d.name}<br>Email：${d.email}<br>TEL：${d.phone||'－'}</div>
+        </div>
+        <div class="sign-box-inline">
+          <div class="sign-box-label">発注者確認印</div>
+          <div class="sign-box-area"></div>
+          <div class="sign-box-name">${d.company}　${d.name}</div>
+        </div>
+      </div>
+      <div class="order-party-with-sign">
+        <div class="order-party-info">
+          <div class="order-party-label">受注者（制作会社）</div>
+          <div class="order-party-name">株式会社琉球のタネ</div>
+          <div class="order-party-detail">担当：佐渡山 要<br>TEL：070-5692-4173<br>info&#64;ryukyu-tane.com</div>
+        </div>
+        <div class="sign-box-inline">
+          <div class="sign-box-label">受注者確認印</div>
+          <div class="sign-box-area"></div>
+          <div class="sign-box-name">株式会社琉球のタネ　佐渡山 要</div>
+        </div>
+      </div>
+    </div>
+    <table class="order-items-table"><thead><tr>
+      <th>No.</th><th>品目・内容</th>
+      <th class="col-qty" style="text-align:center">数量</th>
+      <th class="col-unit" style="text-align:center">単位</th>
+      <th class="col-price" style="text-align:right">単価（税抜）</th>
+      <th style="text-align:right">小計（税抜）</th>
+    </tr></thead><tbody>${itemsRows}</tbody></table>
+    <div class="order-total-block">
+      <div class="otr"><span>小計（税抜）</span><span class="otr-val">¥${d.pretax.toLocaleString()}</span></div>
+      <div class="otr"><span>消費税（10%）</span><span class="otr-val">¥${d.tax.toLocaleString()}</span></div>
+      <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val">¥${d.grand.toLocaleString()}</span></div>
+    </div>
+    ${notesBlock}
+    <div class="order-notes-block">
+      <h4>お取引の条件</h4>
+      ・お支払い：納品後30日以内（銀行振込）<br>
+      ・著作権は代金のお支払い完了後にお客様へ移ります<br>
+      ・納品後14日以内の軽微な修正は2回まで無料で対応します<br>
+      ・この発注書は大切に保存してください（7年間の保存が必要です）
+    </div>
+    <div class="order-legal-block">
+      <h5>🔒 改ざん防止情報（電子帳票保存法 対応）</h5>
+      文書番号：${orderNum}　発行日時：${fmtFull(now)}<br>
+      確認コード：<span class="hash-val">${hash}</span>
+    </div>
+  </div>`;
+}
+
+function backToStep3() {
+  document.querySelectorAll('.result-view').forEach(v => v.classList.remove('show'));
+  document.getElementById('progressWrap').style.display = 'flex';
+  goStep(3);
+}
+
+// ===== SUBMIT (発注確定) =====
+async function submitOrder() {
+  // _pendingOrderがない場合（見積書ビューからの直接発注）は生成する
+  if (!window._pendingOrder) {
+    await showConfirm();
+    return;
+  }
+  const { d, orderNum, now, expiry, hash } = window._pendingOrder;
+
+  // プレビューのHTMLをcompleteViewに移動
+  const docWrap = document.getElementById('completeDocWrap');
+  docWrap.innerHTML = document.getElementById('previewDocWrap').innerHTML;
 
   showResultView('completeView');
+  window._pendingOrder = null;
 
   sendToSpreadsheet({
     doc_type:'発注', order_num:orderNum, issue_date:fmtFull(now),
