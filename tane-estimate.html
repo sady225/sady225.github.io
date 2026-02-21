@@ -6,6 +6,9 @@
 <title>お見積り・ご発注フォーム｜琉球のタネ × 長安</title>
 <link rel="icon" type="image/png" href="https://news.ryukyu-tane.com/wp-content/uploads/2022/01/cropped-5bcb7dea-9627-4770-823b-aa04abf73fad_200x200.png">
 <link rel="apple-touch-icon" href="https://news.ryukyu-tane.com/wp-content/uploads/2022/01/cropped-5bcb7dea-9627-4770-823b-aa04abf73fad_200x200.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f5f0e8;
@@ -17,7 +20,7 @@
   --text-dim: #7a6e5e;
   --border: rgba(154,111,58,0.22);
   --green: #2e7a58;
-  --red: #9a3a3a;
+  --red: #c0392b;
   --shadow: 0 2px 16px rgba(44,36,24,0.10);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -25,276 +28,359 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.75;
   min-height: 100vh;
   -webkit-text-size-adjust: 100%;
 }
 
 /* ===== LAYOUT ===== */
 .page-wrap {
-  max-width: 780px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 6rem;
+  padding: 1.5rem 1rem 5rem;
 }
 
-/* ===== SCREEN / PRINT SPLIT ===== */
-.screen-only { }
+/* ===== SCREEN / PRINT ===== */
+.screen-only {}
 .print-only { display: none; }
 
-/* ===== HEADER ===== */
-.doc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding-bottom: 1rem;
+/* ===== PAGE HEADER ===== */
+.page-header {
+  text-align: center;
+  padding-bottom: 1.2rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.5rem;
-  gap: 0.8rem;
-  flex-wrap: wrap;
+  margin-bottom: 1.8rem;
 }
-.doc-header-left { flex: 1; min-width: 0; }
-.doc-type {
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 0.3rem;
-}
-.doc-title {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.2rem, 4vw, 1.6rem);
-  font-weight: 300;
-  line-height: 1.2;
-}
-.doc-subtitle {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  margin-top: 0.3rem;
-}
-.doc-meta {
-  text-align: right;
-  font-size: 0.74rem;
-  color: var(--text-dim);
-  line-height: 1.9;
-  flex-shrink: 0;
-}
-.doc-meta strong { color: var(--text); font-weight: 700; }
-.doc-num {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 0.85rem;
-  color: var(--accent);
-}
-
-/* ===== PARTIES ===== */
-.parties {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  margin-bottom: 1.5rem;
-}
-@media(max-width: 480px) { .parties { grid-template-columns: 1fr; } }
-.party-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
-}
-.party-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
+.page-header-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
   color: var(--accent);
   text-transform: uppercase;
   margin-bottom: 0.4rem;
 }
-.party-name {
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
+.page-header-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.3rem, 5vw, 1.7rem);
+  font-weight: 300;
+  line-height: 1.3;
 }
-.party-detail {
-  font-size: 0.74rem;
+.page-header-sub {
+  font-size: 0.85rem;
   color: var(--text-dim);
-  line-height: 1.7;
-  word-break: break-all;
-}
-.party-input {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 0.55rem 0.7rem;
-  font-family: inherit;
-  font-size: 16px; /* iOSズーム防止 */
-  color: var(--text);
   margin-top: 0.3rem;
-  outline: none;
-  transition: border-color 0.2s;
-  -webkit-appearance: none;
 }
-.party-input:focus { border-color: var(--accent); }
-.party-input::placeholder { color: var(--text-dim); font-size: 0.85rem; }
-.input-label {
-  font-size: 0.7rem;
-  color: var(--text-dim);
-  margin-top: 0.5rem;
-  margin-bottom: 0.1rem;
-  display: block;
-}
-.required-mark { color: var(--red); font-size: 0.65rem; margin-left: 2px; }
 
-/* ===== ITEMS TABLE ===== */
-.section-eyebrow {
-  font-size: 0.63rem;
-  letter-spacing: 0.18em;
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  margin-bottom: 2rem;
+}
+.progress-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+}
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  position: relative;
+}
+.progress-step::after {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background: var(--surface2);
+  z-index: 0;
+}
+.progress-step:last-child::after { display: none; }
+.step-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid var(--surface2);
+  background: #fff;
+  color: var(--text-dim);
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.step-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+.progress-step.active .step-circle {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(154,111,58,0.35);
+  transform: scale(1.1);
+}
+.progress-step.active .step-label { color: var(--accent); font-size: 0.88rem; }
+.progress-step.done .step-circle {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+}
+.progress-step.done::after { background: var(--green); }
+.progress-step.done .step-label { color: var(--green); }
+
+/* ===== STEP PANELS ===== */
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+/* ===== STEP HEADING ===== */
+.step-heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+.step-description {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ===== RECEIVER BOX ===== */
+.receiver-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.88rem;
+}
+.receiver-box-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
   color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.35rem;
 }
-/* モバイルでテーブルをカード型に変換 */
-.items-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 0.5rem;
-  font-size: 0.84rem;
+.receiver-box-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.15rem; }
+.receiver-box-detail { font-size: 0.82rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ===== INPUT FIELDS ===== */
+.field-group { margin-bottom: 1.1rem; }
+.field-label {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.35rem;
 }
-.items-table th {
-  text-align: left;
-  padding: 0.5rem 0.6rem;
-  background: var(--surface2);
-  color: var(--text-dim);
-  font-size: 0.65rem;
+.field-required {
+  display: inline-block;
+  font-size: 0.7rem;
   font-weight: 400;
-  letter-spacing: 0.1em;
-  border-bottom: 2px solid var(--border);
-}
-.items-table th:last-child,
-.items-table td.td-price,
-.items-table td.td-subtotal { text-align: right; }
-.items-table td {
-  padding: 0.65rem 0.6rem;
-  border-bottom: 1px solid rgba(154,111,58,0.1);
+  color: var(--red);
+  margin-left: 6px;
   vertical-align: middle;
-  line-height: 1.45;
 }
-.items-table tr:last-child td { border-bottom: none; }
-.item-row { transition: background 0.15s; }
-.item-row.selected { background: rgba(154,111,58,0.05); }
-.item-check-cell { width: 36px; }
-.item-checkbox {
-  width: 22px; height: 22px; /* タップしやすく */
-  border-radius: 4px;
+.field-optional {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.field-input {
+  width: 100%;
+  background: #fff;
   border: 2px solid var(--border);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem;
-  transition: all 0.2s;
-  flex: none;
-  background: var(--bg);
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
 }
-.item-checkbox.checked {
+.field-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(154,111,58,0.12);
+}
+.field-input::placeholder { color: #bbb; font-size: 0.88rem; }
+.field-error {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--red);
+  margin-top: 0.4rem;
+  display: none;
+  padding: 0.5rem 0.8rem;
+  background: rgba(192,57,43,0.08);
+  border-radius: 6px;
+}
+.field-error.show { display: block; }
+
+/* ===== ITEMS ===== */
+.items-hint {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  background: rgba(154,111,58,0.07);
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 0.9rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.item-card {
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.item-card.selected {
+  border-color: var(--accent);
+  background: rgba(154,111,58,0.04);
+}
+.item-card.mandatory {
+  border-color: var(--surface2);
+  background: var(--surface);
+  cursor: default;
+}
+.item-check {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.2s;
+  margin-top: 2px;
+}
+.item-check.checked {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
-.item-checkbox.fixed {
+.item-check.fixed {
   background: var(--surface2);
-  border-color: var(--border);
+  border-color: var(--surface2);
   color: var(--accent);
-  cursor: default;
 }
-.item-name { font-weight: 700; line-height: 1.3; font-size: 0.85rem; }
-.item-desc { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem; line-height: 1.5; }
-.td-qty { width: 36px; text-align: center; color: var(--text-dim); }
-.td-unit { width: 30px; text-align: center; color: var(--text-dim); font-size: 0.75rem; }
-.td-price { width: 80px; font-family: 'Noto Serif JP', serif; font-size: 0.8rem; }
-.td-subtotal { width: 80px; font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 0.8rem; }
-.td-subtotal.zero { color: var(--text-dim); }
-
-/* スマホでは数量・単位・単価列を非表示 → 小計のみ表示 */
-@media(max-width: 480px) {
-  .items-table th.col-qty,
-  .items-table th.col-unit,
-  .items-table th.col-price,
-  .items-table td.td-qty,
-  .items-table td.td-unit,
-  .items-table td.td-price { display: none; }
-  .td-subtotal { width: auto; }
-  .item-name { font-size: 0.82rem; }
-  .item-desc { font-size: 0.7rem; }
+.item-body { flex: 1; min-width: 0; }
+.item-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.2rem;
 }
-
+.item-name {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
 .badge-must {
-  display: inline-block;
-  font-size: 0.58rem;
-  padding: 0.1rem 0.35rem;
+  font-size: 0.62rem;
+  padding: 0.1rem 0.45rem;
   background: rgba(154,111,58,0.12);
   color: var(--accent);
-  border-radius: 3px;
-  margin-left: 4px;
-  vertical-align: middle;
+  border-radius: 4px;
   border: 1px solid rgba(154,111,58,0.25);
+  white-space: nowrap;
 }
 .badge-opt {
-  display: inline-block;
-  font-size: 0.58rem;
-  padding: 0.1rem 0.35rem;
-  background: rgba(58,122,94,0.1);
+  font-size: 0.62rem;
+  padding: 0.1rem 0.45rem;
+  background: rgba(46,122,88,0.1);
   color: var(--green);
-  border-radius: 3px;
-  margin-left: 4px;
-  vertical-align: middle;
-  border: 1px solid rgba(58,122,94,0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(46,122,88,0.2);
+  white-space: nowrap;
+}
+.item-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 0.35rem;
+}
+.item-price-tag {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent2);
+  font-family: 'Noto Serif JP', serif;
 }
 
-/* ===== TOTAL ===== */
+/* ===== TOTAL BLOCK ===== */
 .total-block {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
-  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0 1.5rem;
 }
 .total-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.35rem 0;
-  font-size: 0.84rem;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
   border-bottom: 1px solid rgba(154,111,58,0.08);
 }
 .total-row:last-child { border-bottom: none; }
-.total-row.subtotal-row { color: var(--text-dim); }
-.total-row.tax-row { color: var(--text-dim); }
-.total-row.grand-row {
-  padding-top: 0.7rem;
+.total-row.dim { color: var(--text-dim); }
+.total-row.grand {
+  padding-top: 0.75rem;
   margin-top: 0.3rem;
   border-top: 2px solid var(--accent);
   border-bottom: none;
 }
-.total-row.grand-row .total-label { font-weight: 700; font-size: 0.92rem; }
-.total-row.grand-row .total-val {
+.total-row.grand .total-label { font-weight: 700; font-size: 1rem; }
+.total-row.grand .total-val {
   font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.3rem, 5vw, 1.6rem);
+  font-size: clamp(1.6rem, 6vw, 2.1rem);
   color: var(--accent2);
   font-weight: 700;
 }
 .total-val { font-family: 'Noto Serif JP', serif; }
 
-/* ===== NOTE ===== */
-.note-section { margin-bottom: 1.5rem; }
+/* ===== NOTE TEXTAREA ===== */
 .note-textarea {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.7rem 0.9rem;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
   font-family: inherit;
-  font-size: 16px; /* iOSズーム防止 */
+  font-size: 16px;
   color: var(--text);
   resize: vertical;
-  min-height: 72px;
+  min-height: 100px;
   outline: none;
   transition: border-color 0.2s;
   line-height: 1.7;
@@ -302,582 +388,498 @@ body {
 }
 .note-textarea:focus { border-color: var(--accent); }
 
-/* ===== LEGAL NOTICE ===== */
+/* ===== LEGAL BOX ===== */
 .legal-box {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.74rem;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.88rem;
   color: var(--text-dim);
   line-height: 1.85;
 }
 .legal-box h4 {
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.5rem;
-  letter-spacing: 0.08em;
 }
-.legal-box ul { padding-left: 1.1rem; }
-.legal-box li { margin-bottom: 0.25rem; }
+.legal-box ul { padding-left: 1.2rem; }
+.legal-box li { margin-bottom: 0.35rem; }
 
 /* ===== CONSENT ===== */
 .consent-row {
   display: flex;
   align-items: flex-start;
-  gap: 0.7rem;
-  padding: 1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 1.2rem;
+  gap: 0.9rem;
+  padding: 1.1rem;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.3rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: border-color 0.2s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.consent-row:hover { background: var(--surface2); }
-.consent-box {
-  width: 22px; height: 22px; flex: none;
-  border-radius: 4px;
+.consent-row:hover { border-color: var(--accent); }
+.consent-row.checked-row { border-color: var(--accent); background: rgba(154,111,58,0.03); }
+.consent-check {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 6px;
   border: 2px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.85rem;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
   transition: all 0.2s;
   margin-top: 1px;
-  background: var(--bg);
 }
-.consent-box.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
-.consent-text { font-size: 0.82rem; line-height: 1.7; }
+.consent-check.checked { background: var(--accent); border-color: var(--accent); color: #fff; }
+.consent-text { font-size: 0.95rem; line-height: 1.7; }
 .consent-text strong { color: var(--text); }
 
-/* ===== SUBMIT ===== */
-.submit-wrap { text-align: center; margin-bottom: 2rem; }
-.btn-submit {
-  padding: 1rem 2.5rem;
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 1.1rem 2rem;
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 30px;
+  border-radius: 50px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 16px rgba(154,111,58,0.25);
-  width: 100%;
-  max-width: 320px;
-  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 18px rgba(154,111,58,0.28);
+  text-align: center;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.btn-submit:hover { background: var(--accent2); transform: translateY(-1px); }
-.btn-submit:disabled {
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+.btn-primary:disabled {
   background: var(--surface2);
   color: var(--text-dim);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-.submit-note { font-size: 0.73rem; color: var(--text-dim); margin-top: 0.6rem; }
+.btn-outline {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-outline:hover { background: rgba(154,111,58,0.08); }
+.btn-ghost {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+.btn-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+.btn-note {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 0.2rem;
+}
 
-/* ===== COMPLETE VIEW ===== */
-.complete-view { display: none; }
-.complete-view.show { display: block; }
-.complete-header {
+/* ===== COMPLETE / ESTIMATE VIEWS ===== */
+.result-view { display: none; }
+.result-view.show { display: block; }
+.result-header {
   text-align: center;
   padding: 1.5rem 0 1.2rem;
 }
-.complete-icon { font-size: 2.5rem; margin-bottom: 0.6rem; }
-.complete-title {
+.result-icon { font-size: 3rem; margin-bottom: 0.6rem; }
+.result-title {
   font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
   font-weight: 300;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
-.complete-sub { font-size: 0.83rem; color: var(--text-dim); line-height: 1.7; }
+.result-sub { font-size: 0.95rem; color: var(--text-dim); line-height: 1.8; }
+.output-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0 1.5rem;
+}
+.output-guide-item { font-size: 0.95rem; color: var(--text); line-height: 1.5; }
+.result-action-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.btn-action {
+  padding: 0.85rem 1.8rem;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-print {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  box-shadow: 0 3px 12px rgba(154,111,58,0.2);
+}
+.btn-print:hover { background: var(--accent2); }
+.btn-back {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1.5px solid var(--border);
+}
+.btn-back:hover { border-color: var(--text-dim); color: var(--text); }
 
-/* ===== ORDER DOCUMENT ===== */
+/* ===== ORDER DOC ===== */
 .order-doc {
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  padding: 1.5rem 1.1rem;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow);
   overflow-x: hidden;
 }
-@media(min-width: 481px) { .order-doc { padding: 2rem; } }
-.order-doc .doc-stamp-area {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
+@media(min-width:481px) { .order-doc { padding: 2rem; } }
+.doc-stamp-area { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
 .stamp-box {
   width: 56px; height: 56px;
   border: 2px solid var(--accent);
   border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.58rem;
-  color: var(--accent);
-  line-height: 1.5;
-  opacity: 0.5;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 0.58rem; color: var(--accent);
+  line-height: 1.5; opacity: 0.5;
 }
 .order-doc h2 {
   font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.1rem, 4vw, 1.3rem);
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
   font-weight: 400;
   text-align: center;
   margin-bottom: 1.2rem;
   padding-bottom: 0.7rem;
   border-bottom: 2px solid #333;
 }
+.doc-meta-row {
+  font-size: 0.82rem;
+  color: #555;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 .order-parties {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-bottom: 1.2rem;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
 }
-@media(max-width: 480px) {
-  .order-parties { grid-template-columns: 1fr; gap: 0.8rem; }
-}
-.order-party-label {
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: #888;
-  margin-bottom: 0.25rem;
-}
-.order-party-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.15rem; }
-.order-party-detail { font-size: 0.72rem; color: #666; line-height: 1.7; word-break: break-all; }
+@media(max-width:480px) { .order-parties { grid-template-columns: 1fr; } }
+.order-party-with-sign { display: flex; align-items: flex-start; gap: 0.6rem; }
+.order-party-info { flex: 1; min-width: 0; }
+.order-party-label { font-size: 0.62rem; letter-spacing: 0.12em; color: #888; margin-bottom: 0.25rem; }
+.order-party-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.15rem; }
+.order-party-detail { font-size: 0.78rem; color: #666; line-height: 1.8; word-break: break-all; }
+.sign-box-inline { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.sign-box-label { font-size: 0.58rem; color: #888; margin-bottom: 0.25rem; white-space: nowrap; }
+.sign-box-area { width: 60px; height: 60px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 0.25rem; }
+@media(min-width:481px) { .sign-box-area { width: 72px; height: 72px; } }
+.sign-box-name { font-size: 0.58rem; color: #666; text-align: center; word-break: break-all; max-width: 65px; }
 .order-items-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-  font-size: 0.78rem;
+  width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.88rem;
 }
 .order-items-table th {
-  background: #f5f0e8;
-  padding: 0.45rem 0.5rem;
-  text-align: left;
-  font-size: 0.64rem;
-  letter-spacing: 0.08em;
-  color: #666;
-  font-weight: 400;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  white-space: nowrap;
+  background: #f5f0e8; padding: 0.5rem 0.6rem;
+  text-align: left; font-size: 0.78rem; letter-spacing: 0.05em;
+  color: #666; font-weight: 700;
+  border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; white-space: nowrap;
 }
-.order-items-table th:last-child,
-.order-items-table td:last-child { text-align: right; }
+.order-items-table th:last-child, .order-items-table td:last-child { text-align: right; }
 .order-items-table td {
-  padding: 0.55rem 0.5rem;
-  border-bottom: 1px solid #eee;
-  vertical-align: top;
-  line-height: 1.4;
+  padding: 0.6rem 0.6rem; border-bottom: 1px solid #eee;
+  vertical-align: top; line-height: 1.5;
 }
 .order-items-table tr:last-child td { border-bottom: none; }
-/* スマホで発注書テーブルも数量・単位列を非表示 */
-@media(max-width: 480px) {
+@media(max-width:480px) {
   .order-items-table .col-qty,
   .order-items-table .col-unit,
   .order-items-table .col-price { display: none; }
 }
 .order-total-block {
-  background: #f9f6f0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 0.7rem 0.9rem;
-  margin-bottom: 1rem;
-  font-size: 0.82rem;
+  background: #f9f6f0; border: 1px solid #ddd; border-radius: 8px;
+  padding: 0.8rem 1rem; margin-bottom: 1rem; font-size: 0.88rem;
 }
-.otr {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.2rem 0;
-  color: #666;
-}
+.otr { display: flex; justify-content: space-between; padding: 0.25rem 0; color: #666; }
 .otr.grand {
-  margin-top: 0.4rem;
-  padding-top: 0.5rem;
-  border-top: 2px solid #9a6f3a;
-  color: #333;
-  font-weight: 700;
-  font-size: 0.95rem;
+  margin-top: 0.5rem; padding-top: 0.6rem;
+  border-top: 2px solid #9a6f3a; color: #333; font-weight: 700; font-size: 1rem;
 }
-.otr.grand .otr-val {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1rem, 4vw, 1.2rem);
-  color: #7a5228;
-}
-.order-notes-block {
-  margin-bottom: 1rem;
-  font-size: 0.76rem;
-  color: #555;
-  line-height: 1.8;
-}
-.order-notes-block h4 { font-size: 0.7rem; letter-spacing: 0.08em; color: #888; margin-bottom: 0.3rem; }
-.order-legal-block {
-  border-top: 1px solid #ddd;
-  padding-top: 0.8rem;
-  font-size: 0.68rem;
-  color: #888;
-  line-height: 1.8;
-}
-.order-legal-block h5 {
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  color: #aaa;
-  margin-bottom: 0.3rem;
-}
-.hash-val {
-  font-family: monospace;
-  font-size: 0.6rem;
-  color: #aaa;
-  word-break: break-all;
-}
-.sign-area {
-  display: flex;
-  justify-content: flex-end;
-  gap: 2rem;
-  margin-top: 1.2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-.sign-block { text-align: center; }
-.sign-label { font-size: 0.68rem; color: #888; margin-bottom: 0.3rem; }
-.sign-line {
-  width: 120px;
-  border-bottom: 1px solid #ccc;
-  margin: 0 auto 0.2rem;
-  padding-bottom: 1.5rem;
-}
-.sign-name { font-size: 0.78rem; color: #555; }
+.otr.grand .otr-val { font-family: 'Noto Serif JP', serif; font-size: clamp(1.2rem,4vw,1.5rem); color: #7a5228; }
+.order-notes-block { margin-bottom: 1rem; font-size: 0.88rem; color: #555; line-height: 1.9; }
+.order-notes-block h4 { font-size: 0.88rem; font-weight: 700; color: #555; margin-bottom: 0.4rem; }
+.order-legal-block { border-top: 1px solid #ddd; padding-top: 0.8rem; font-size: 0.75rem; color: #888; line-height: 1.8; }
+.order-legal-block h5 { font-size: 0.75rem; font-weight: 700; color: #aaa; margin-bottom: 0.3rem; }
+.hash-val { font-family: monospace; font-size: 0.62rem; color: #aaa; word-break: break-all; }
 
-/* ===== INLINE SIGN BOXES ===== */
-.order-party-with-sign {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-}
-.order-party-info { flex: 1; min-width: 0; }
-.sign-box-inline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
-.sign-box-label {
-  font-size: 0.58rem;
-  color: #888;
-  margin-bottom: 0.25rem;
-  white-space: nowrap;
-}
-.sign-box-area {
-  width: 60px; height: 60px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 0.25rem;
-}
-@media(min-width: 481px) {
-  .sign-box-area { width: 72px; height: 72px; }
-}
-.sign-box-name {
-  font-size: 0.58rem;
-  color: #666;
-  text-align: center;
-  word-break: break-all;
-  max-width: 65px;
-}
 
-/* ===== ACTION BUTTONS ===== */
-.action-buttons {
-  display: flex;
-  gap: 0.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-.btn-action {
-  padding: 0.75rem 1.5rem;
-  border-radius: 24px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  transition: all 0.2s;
-  letter-spacing: 0.06em;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.btn-print { background: var(--surface); color: var(--text); }
-.btn-print:hover { background: var(--surface2); }
-.btn-reset { background: transparent; color: var(--text-dim); }
-.btn-reset:hover { color: var(--text); border-color: var(--text-dim); }
-
-/* ===== ERROR ===== */
-.field-error {
-  font-size: 0.72rem;
-  color: var(--red);
-  margin-top: 0.2rem;
-  display: none;
-}
-.field-error.show { display: block; }
-.input-error { border-color: var(--red) !important; }
+/* ===== EMAIL STATUS ===== */
+.email-status { display: none; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-bottom: 1rem; }
+.email-status.success { display: block; background: rgba(46,122,88,0.08); color: var(--green); border: 1px solid rgba(46,122,88,0.25); }
+.email-status.error   { display: block; background: rgba(192,57,43,0.08); color: var(--red); border: 1px solid rgba(192,57,43,0.2); }
 
 /* ===== DIVIDER ===== */
-.section-divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 1.2rem 0;
-}
-
-/* ===== email status */
-.email-status {
-  display: none;
-  text-align: center;
-  padding: 0.7rem 1rem;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  margin-bottom: 1rem;
-}
-.email-status.sending {
-  display: block;
-  background: rgba(154,111,58,0.08);
-  color: var(--accent);
-  border: 1px solid var(--border);
-}
-.email-status.success {
-  display: block;
-  background: rgba(46,122,88,0.08);
-  color: var(--green);
-  border: 1px solid rgba(46,122,88,0.25);
-}
-.email-status.error {
-  display: block;
-  background: rgba(154,58,58,0.08);
-  color: var(--red);
-  border: 1px solid rgba(154,58,58,0.2);
-}
-
-/* ===== ESTIMATE ONLY BUTTON ===== */
-.btn-estimate-only {
-  margin-top: 1rem;
-  padding: 0.75rem 2rem;
-  background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  border-radius: 30px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-  max-width: 320px;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.btn-estimate-only:hover { background: rgba(154,111,58,0.08); }
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
 
 /* ===== PRINT ===== */
 @media print {
   .screen-only { display: none !important; }
   .print-only { display: block !important; }
-  body { background: #fff; }
+  body { background: #fff; font-size: 14px; }
   .page-wrap { padding: 0; max-width: 100%; }
-  .order-doc { border: none; box-shadow: none; padding: 0; }
-  .action-buttons { display: none; }
-  .complete-header { padding: 0 0 1rem; }
+  .order-doc { border: none; box-shadow: none; padding: 0; border-radius: 0; }
+  .result-header, .output-guide, .result-action-btns { display: none; }
 }
-
 </style>
-<!-- EmailJS SDK は不要になりました（GASでメール送信） -->
 </head>
 <body>
 <div class="page-wrap">
 
-  <!-- ===== FORM VIEW ===== -->
-  <div id="formView">
+  <!-- ===== ページヘッダー（常時表示） ===== -->
+  <div class="page-header screen-only">
+    <div class="page-header-eyebrow">Estimate &amp; Order Form</div>
+    <div class="page-header-title">お見積り・ご発注フォーム</div>
+    <div class="page-header-sub">株式会社琉球のタネ ホームページ制作</div>
+  </div>
 
-    <!-- DOC HEADER -->
-    <div class="doc-header">
-      <div class="doc-header-left">
-        <div class="doc-type">Estimate &amp; Order Form</div>
-        <div class="doc-title">お見積り・ご発注フォーム</div>
-        <div class="doc-subtitle">株式会社琉球のタネ ホームページ制作</div>
+  <!-- ===== プログレスバー ===== -->
+  <div class="progress-wrap screen-only" id="progressWrap">
+    <div class="progress-steps">
+      <div class="progress-step" id="ps1">
+        <div class="step-circle">①</div>
+        <div class="step-label">お客様<br>情報</div>
       </div>
-      <div class="doc-meta">
-        <div class="doc-num" id="displayDocNum">見積番号：自動採番</div>
-        <div>発行日：<strong id="displayDate">－</strong></div>
-        <div>有効期限：<strong id="displayExpiry">－</strong></div>
+      <div class="progress-step" id="ps2">
+        <div class="step-circle">②</div>
+        <div class="step-label">作業内容<br>の選択</div>
+      </div>
+      <div class="progress-step" id="ps3">
+        <div class="step-circle">③</div>
+        <div class="step-label">確認・<br>お申し込み</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 1：お客様情報 ===== -->
+  <div class="step-panel" id="step1">
+    <div class="step-heading">📝 お客様の情報をご記入ください</div>
+    <div class="step-description">
+      氏名・会社名・メールアドレスをご入力ください。<br>
+      <span style="font-size:0.85rem;color:var(--red)">※が付いた項目は必須です</span>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="clientCompany">会社名・お店の名前<span class="field-required">※必須</span></label>
+      <input class="field-input" id="clientCompany" type="text" placeholder="例：株式会社おきなわ" autocomplete="organization">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="clientName">ご担当者のお名前<span class="field-required">※必須</span></label>
+      <input class="field-input" id="clientName" type="text" placeholder="例：比嘉 花子" autocomplete="name">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="clientEmail">メールアドレス<span class="field-required">※発注時は必須</span></label>
+      <input class="field-input" id="clientEmail" type="email" placeholder="例：hanako@okinawa.jp" autocomplete="email">
+      <div style="font-size:0.82rem;color:var(--text-dim);margin-top:0.35rem;">発注確定後にこのアドレスへ発注書をお送りします</div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="clientPhone">電話番号<span class="field-optional">任意</span></label>
+      <input class="field-input" id="clientPhone" type="tel" placeholder="例：098-000-0000" autocomplete="tel">
+    </div>
+
+    <div class="field-error" id="err-step1">会社名とご担当者名をご記入ください</div>
+
+    <div class="receiver-box">
+      <div class="receiver-box-label">お見積り・制作担当</div>
+      <div class="receiver-box-name">株式会社琉球のタネ</div>
+      <div class="receiver-box-detail">
+        担当：佐渡山 要 ／ TEL：070-5692-4173<br>
+        <span>info</span>&#64;<span>ryukyu-tane.com</span>
       </div>
     </div>
 
-    <!-- PARTIES -->
-    <div class="parties">
-      <!-- 発注者 -->
-      <div class="party-box">
-        <div class="party-label">発注者（お客様）</div>
-        <span class="input-label">会社名・屋号<span class="required-mark">*</span></span>
-        <input class="party-input" id="clientCompany" type="text" placeholder="例：合同会社 ◯◯◯" value="">
-        <span class="input-label">ご担当者名<span class="required-mark">*</span></span>
-        <input class="party-input" id="clientName" type="text" placeholder="例：田中 太郎" value="">
-        <span class="input-label">メールアドレス<span class="required-mark">*</span></span>
-        <input class="party-input" id="clientEmail" type="email" placeholder="例：tanaka@example.com" value="">
-        <span class="input-label">電話番号</span>
-        <input class="party-input" id="clientPhone" type="tel" placeholder="例：090-0000-0000" value="">
-        <div class="field-error" id="err-client">会社名・担当者名・メールアドレスは必須です</div>
-      </div>
-      <!-- 受注者 -->
-      <div class="party-box">
-        <div class="party-label">受注者（制作会社）</div>
-        <div class="party-name">株式会社琉球のタネ</div>
-        <div class="party-detail">
-          担当：佐渡山 要<br>
-          TEL：070-5692-4173<br>
-          <span>info</span>&#64;<span>ryukyu-tane.com</span>
-        </div>
-      </div>
+    <div class="btn-wrap">
+      <button class="btn-primary" onclick="goStep2()">次へ　→</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2：作業内容の選択 ===== -->
+  <div class="step-panel" id="step2">
+    <div class="step-heading">☑️ ご希望の作業を選んでください</div>
+    <div class="items-hint">
+      チェックを入れると金額が自動で計算されます。<br>
+      グレーの項目は必ずセットになります。
     </div>
 
-    <!-- ITEMS -->
-    <div class="section-eyebrow">ご依頼項目の選択</div>
-    <table class="items-table" id="itemsTable">
-      <thead>
-        <tr>
-          <th class="item-check-cell"></th>
-          <th>品目・内容</th>
-          <th class="td-qty col-qty">数量</th>
-          <th class="td-unit col-unit">単位</th>
-          <th class="td-price col-price">単価</th>
-          <th class="td-subtotal">小計</th>
-        </tr>
-      </thead>
-      <tbody id="itemsTbody">
-        <!-- JS で生成 -->
-      </tbody>
-    </table>
+    <div id="itemsList"><!-- JSで生成 --></div>
 
-    <hr class="section-divider">
-
-    <!-- TOTAL -->
     <div class="total-block">
-      <div class="total-row subtotal-row">
-        <span class="total-label">小計（税抜）</span>
+      <div class="total-row dim">
+        <span class="total-label">金額合計（税抜）</span>
         <span class="total-val" id="totalPretax">¥0</span>
       </div>
-      <div class="total-row tax-row">
+      <div class="total-row dim">
         <span class="total-label">消費税（10%）</span>
         <span class="total-val" id="totalTax">¥0</span>
       </div>
-      <div class="total-row grand-row">
-        <span class="total-label">合計（税込）</span>
+      <div class="total-row grand">
+        <span class="total-label">お支払い合計（税込）</span>
         <span class="total-val" id="totalGrand">¥0</span>
       </div>
     </div>
 
-    <!-- ESTIMATE ONLY BUTTON -->
-    <div class="submit-wrap" style="margin-bottom:0.5rem;">
-      <button class="btn-estimate-only" id="btnEstimate" onclick="outputEstimate()">
-        📄 見積書を出力する
-      </button>
-      <div class="submit-note">同意チェック不要。内容確認・社内共有用にご利用ください。</div>
+    <div class="btn-wrap">
+      <button class="btn-primary" onclick="goStep3()">次へ　→</button>
+      <div class="btn-note">見積書の出力・発注確定は次の画面で選べます</div>
+      <button class="btn-ghost" onclick="goStep(1)">← お客様情報に戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3：発注確定 ===== -->
+  <div class="step-panel" id="step3">
+    <div class="step-heading">✅ 発注内容を確認してください</div>
+    <div class="step-description">
+      選択した作業と金額をご確認のうえ、同意してから「発注を確定する」を押してください。
     </div>
 
-    <hr class="section-divider">
-
-    <!--備考 -->
-    <div class="note-section">
-      <div class="section-eyebrow">備考・ご要望</div>
-      <textarea class="note-textarea" id="orderNote" placeholder="ご不明な点、納期のご希望、その他ご要望などをご記入ください。"></textarea>
+    <!-- 金額サマリー -->
+    <div class="total-block" style="margin-bottom:1.5rem;">
+      <div class="total-row dim" style="flex-direction:column;align-items:flex-start;gap:0.3rem;">
+        <span class="total-label">選択した作業</span>
+        <span id="confirmItems" style="font-size:0.88rem;color:var(--text);line-height:1.8;"></span>
+      </div>
+      <div class="total-row grand">
+        <span class="total-label">お支払い合計（税込）</span>
+        <span class="total-val" id="confirmGrand">¥0</span>
+      </div>
     </div>
 
-    <!-- LEGAL NOTICE -->
-    <div class="legal-box screen-only">
-      <h4>📋 電子取引データとしての保存について（電子帳票保存法 対応）</h4>
-      本フォームより送信された発注データは、電子帳票保存法（電帳法）に基づく電子取引データとして取り扱います。
-      <ul>
-        <li>発注確定後、発注者・受注者双方にPDF形式の発注書を電子メールで送付します。</li>
-        <li>送付データには発行日時・文書番号・改ざん検知用ハッシュ値が付与されます。</li>
-        <li>発注者・受注者は当該データを法定保存期間（原則7年）保存してください。</li>
-        <li>ダウンロードしたPDF／印刷紙面は「正本」として取り扱い可能です。</li>
-        <li>本書面は消費税インボイス制度に基づく適格請求書（見積書兼用）として機能します（登録番号確定後）。</li>
-      </ul>
+    <!-- ご要望 -->
+    <div class="field-group">
+      <label class="field-label" for="orderNote">ご要望・ご質問<span class="field-optional">任意</span></label>
+      <textarea class="note-textarea" id="orderNote" placeholder="例：〇月までに完成させたい、この部分だけ急ぎでお願いしたい、など何でもどうぞ。"></textarea>
     </div>
 
-    <!-- CONSENT -->
+    <!-- 同意 -->
     <div class="consent-row" onclick="toggleConsent()" id="consentRow">
-      <div class="consent-box" id="consentBox"></div>
+      <div class="consent-check" id="consentBox"></div>
       <div class="consent-text">
-        上記内容を確認し、<strong>見積内容・取引条件・電子帳票保存に関する注意事項</strong>に同意の上、発注します。<br>
-        <span style="font-size:0.75rem;color:var(--text-dim)">※発注確定後のキャンセル・変更は受注者との協議のうえ対応します</span>
+        内容を確認し、<strong>お申し込みに同意します</strong><br>
+        <span style="font-size:0.8rem;color:var(--text-dim);">※確定後のキャンセル・変更は担当者にご連絡ください</span>
       </div>
     </div>
 
-    <!-- SUBMIT -->
-    <div class="submit-wrap">
-      <button class="btn-submit" id="btnSubmit" onclick="submitOrder()" disabled>
-        発注を確定する
+    <div class="btn-wrap">
+      <button class="btn-primary" id="btnSubmit" onclick="submitOrder()" disabled>
+        ✅ 発注を確定する
       </button>
-      <div class="submit-note">確定後、このページに発注書が表示されます。印刷・保存してください。</div>
+      <div class="btn-note">確定後、メールで発注書をお送りします</div>
+      <button class="btn-outline" style="max-width:360px;" onclick="outputEstimate()">📄 先に見積書を確認する</button>
+      <button class="btn-ghost" onclick="goStep(2)">← 作業内容の選択に戻る</button>
     </div>
+  </div>
 
-  </div><!-- /formView -->
-
-  <!-- ===== COMPLETE VIEW ===== -->
-  <div class="complete-view" id="completeView">
-
-    <div class="complete-header screen-only">
-      <div class="complete-icon">✅</div>
-      <div class="complete-title">発注が確定されました</div>
-      <div class="complete-sub">
-        下記の発注書をご確認・印刷・保存してください。<br>
-        電子帳票保存法に基づき、双方で7年間の保存をお願いします。
+  <!-- ===== 発注完了ビュー ===== -->
+  <div class="result-view" id="completeView">
+    <div class="result-header screen-only">
+      <div class="result-icon">✅</div>
+      <div class="result-title">発注が完了しました！</div>
+      <div class="result-sub">
+        ご入力のメールアドレスに<strong>発注書</strong>をお送りしました。<br>
+        下の発注書を印刷またはPDF保存して、大切に保管してください。
+      </div>
+      <div class="output-guide">
+        <div class="output-guide-item">📧 メールに発注書が届いています</div>
+        <div class="output-guide-item">🖨 下のボタンから印刷・保存もできます</div>
+        <div class="output-guide-item">📁 保存した発注書は7年間お手元に保管をお願いします</div>
       </div>
     </div>
-
-    <div class="action-buttons screen-only">
-      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
-      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    <div class="result-action-btns screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨&nbsp;印刷・PDF保存する</button>
+      <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
     </div>
-
     <div class="email-status" id="gasStatus"></div>
     <div class="order-doc" id="orderDoc">
-
-      <div class="doc-stamp-area">
-        <div class="stamp-box">受領<br>印</div>
-      </div>
-
+      <div class="doc-stamp-area"><div class="stamp-box">受領<br>印</div></div>
       <h2>発 注 書</h2>
-
-      <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;display:flex;justify-content:space-between;">
-        <div>
-          発注書番号：<strong id="docOrderNum" style="color:#333"></strong><br>
-          発行日時：<strong id="docIssueDate" style="color:#333"></strong>
-        </div>
-        <div style="text-align:right">
-          有効期限：<strong id="docExpiry" style="color:#333"></strong><br>
-          電子帳票：<strong style="color:#2e7a58">保存対象</strong>
-        </div>
+      <div class="doc-meta-row">
+        <div>発注書番号：<strong id="docOrderNum" style="color:#333"></strong><br>発行日時：<strong id="docIssueDate" style="color:#333"></strong></div>
+        <div style="text-align:right">有効期限：<strong id="docExpiry" style="color:#333"></strong><br>電子帳票：<strong style="color:#2e7a58">保存対象</strong></div>
       </div>
-
       <div class="order-parties">
         <div class="order-party-with-sign">
           <div class="order-party-info">
-            <div class="order-party-label">発注者</div>
+            <div class="order-party-label">発注者（お客様）</div>
             <div class="order-party-name" id="docClientCompany"></div>
-            <div class="order-party-detail">
-              担当：<span id="docClientName"></span><br>
-              Email：<span id="docClientEmail"></span><br>
-              TEL：<span id="docClientPhone"></span>
-            </div>
+            <div class="order-party-detail">担当：<span id="docClientName"></span><br>Email：<span id="docClientEmail"></span><br>TEL：<span id="docClientPhone"></span></div>
           </div>
           <div class="sign-box-inline">
             <div class="sign-box-label">発注者確認印</div>
@@ -887,13 +889,9 @@ body {
         </div>
         <div class="order-party-with-sign">
           <div class="order-party-info">
-            <div class="order-party-label">受注者</div>
+            <div class="order-party-label">受注者（制作会社）</div>
             <div class="order-party-name">株式会社琉球のタネ</div>
-            <div class="order-party-detail">
-              担当：佐渡山 要<br>
-              TEL：070-5692-4173<br>
-              <span>info</span>&#64;<span>ryukyu-tane.com</span>
-            </div>
+            <div class="order-party-detail">担当：佐渡山 要<br>TEL：070-5692-4173<br><span>info</span>&#64;<span>ryukyu-tane.com</span></div>
           </div>
           <div class="sign-box-inline">
             <div class="sign-box-label">受注者確認印</div>
@@ -902,104 +900,69 @@ body {
           </div>
         </div>
       </div>
-
-      <table class="order-items-table" id="docItemsTable">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>品目・内容</th>
-            <th class="col-qty" style="text-align:center">数量</th>
-            <th class="col-unit" style="text-align:center">単位</th>
-            <th class="col-price" style="text-align:right">単価（税抜）</th>
-            <th style="text-align:right">小計（税抜）</th>
-          </tr>
-        </thead>
-        <tbody id="docItemsTbody"></tbody>
-      </table>
-
+      <table class="order-items-table"><thead><tr>
+        <th>No.</th><th>品目・内容</th>
+        <th class="col-qty" style="text-align:center">数量</th>
+        <th class="col-unit" style="text-align:center">単位</th>
+        <th class="col-price" style="text-align:right">単価（税抜）</th>
+        <th style="text-align:right">小計（税抜）</th>
+      </tr></thead><tbody id="docItemsTbody"></tbody></table>
       <div class="order-total-block">
         <div class="otr"><span>小計（税抜）</span><span class="otr-val" id="docPretax"></span></div>
         <div class="otr"><span>消費税（10%）</span><span class="otr-val" id="docTax"></span></div>
         <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val" id="docGrand"></span></div>
       </div>
-
       <div class="order-notes-block" id="docNotesWrap">
         <h4>備考・特記事項</h4>
         <div id="docNotes"></div>
       </div>
-
       <div class="order-notes-block">
-        <h4>取引条件</h4>
+        <h4>お取引の条件</h4>
         ・お支払い：納品後30日以内（銀行振込）<br>
-        ・著作権は代金完済後に発注者に帰属します<br>
-        ・制作物に係る修正は納品後14日以内・軽微なもの2回まで無償対応<br>
-        ・本発注書は電子取引記録として双方7年間の保存義務があります
+        ・著作権は代金のお支払い完了後にお客様へ移ります<br>
+        ・納品後14日以内の軽微な修正は2回まで無料で対応します<br>
+        ・この発注書は大切に保存してください（7年間の保存が必要です）
       </div>
-
       <div class="order-legal-block">
-        <h5>電子帳票保存法 対応情報</h5>
-        文書番号：<span id="docLegalNum"></span>　／　
-        発行日時（タイムスタンプ）：<span id="docLegalTs"></span>　／　
-        取引種別：電子取引（発注書）<br>
-        改ざん検知用ハッシュ：<span class="hash-val" id="docHash"></span><br>
-        ※本書面は電子帳票保存法第7条に規定する電子取引データです。法定保存期間（原則7年）の保存が義務付けられています。
-      </div>
-
-    </div><!-- /order-doc -->
-
-    <div class="action-buttons screen-only">
-      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
-      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
-    </div>
-
-  </div><!-- /completeView -->
-
-  <!-- ===== ESTIMATE ONLY VIEW ===== -->
-  <div class="complete-view" id="estimateView">
-
-    <div class="complete-header screen-only">
-      <div class="complete-icon">📄</div>
-      <div class="complete-title">お見積書</div>
-      <div class="complete-sub">
-        印刷・PDF保存してご活用ください。<br>
-        発注される場合はフォームに戻って「発注を確定する」を押してください。
+        <h5>🔒 改ざん防止情報（電子帳票保存法 対応）</h5>
+        文書番号：<span id="docLegalNum"></span>　発行日時：<span id="docLegalTs"></span><br>
+        確認コード：<span class="hash-val" id="docHash"></span>
       </div>
     </div>
-
-    <div class="action-buttons screen-only">
-      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
-      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    <div class="result-action-btns screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨&nbsp;印刷・PDF保存する</button>
+      <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
     </div>
+  </div>
 
+  <!-- ===== 見積書ビュー ===== -->
+  <div class="result-view" id="estimateView">
+    <div class="result-header screen-only">
+      <div class="result-icon">📄</div>
+      <div class="result-title">見積書ができました</div>
+      <div class="result-sub">下の見積書を印刷またはPDF保存してご活用ください。</div>
+      <div class="output-guide">
+        <div class="output-guide-item">🖨 下のボタンから印刷・PDF保存できます</div>
+        <div class="output-guide-item">✅ そのまま発注される場合は「発注を確定する」ボタンを押してください</div>
+      </div>
+    </div>
+    <div class="result-action-btns screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨&nbsp;印刷・PDF保存する</button>
+      <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
+    </div>
     <div class="order-doc" id="estimateDoc">
-
-      <div class="doc-stamp-area">
-        <div class="stamp-box">確認<br>印</div>
-      </div>
-
+      <div class="doc-stamp-area"><div class="stamp-box">確認<br>印</div></div>
       <h2>お 見 積 書</h2>
-
-      <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-        <div>
-          見積番号：<strong id="estDocNum" style="color:#333"></strong><br>
-          発行日時：<strong id="estIssueDate" style="color:#333"></strong>
-        </div>
-        <div style="text-align:right">
-          有効期限：<strong id="estExpiry" style="color:#333"></strong><br>
-          種別：<strong style="color:#9a6f3a">見積書</strong>
-        </div>
+      <div class="doc-meta-row">
+        <div>見積番号：<strong id="estDocNum" style="color:#333"></strong><br>発行日時：<strong id="estIssueDate" style="color:#333"></strong></div>
+        <div style="text-align:right">有効期限：<strong id="estExpiry" style="color:#333"></strong><br>種別：<strong style="color:#9a6f3a">見積書</strong></div>
       </div>
-
       <div class="order-parties">
         <div class="order-party-with-sign">
           <div class="order-party-info">
-            <div class="order-party-label">お見積先</div>
+            <div class="order-party-label">お見積先（お客様）</div>
             <div class="order-party-name" id="estClientCompany"></div>
-            <div class="order-party-detail">
-              担当：<span id="estClientName"></span><br>
-              Email：<span id="estClientEmail"></span><br>
-              TEL：<span id="estClientPhone"></span>
-            </div>
+            <div class="order-party-detail">担当：<span id="estClientName"></span><br>Email：<span id="estClientEmail"></span><br>TEL：<span id="estClientPhone"></span></div>
           </div>
           <div class="sign-box-inline">
             <div class="sign-box-label">お客様確認印</div>
@@ -1011,11 +974,7 @@ body {
           <div class="order-party-info">
             <div class="order-party-label">見積作成者</div>
             <div class="order-party-name">株式会社琉球のタネ</div>
-            <div class="order-party-detail">
-              担当：佐渡山 要<br>
-              TEL：070-5692-4173<br>
-              <span>info</span>&#64;<span>ryukyu-tane.com</span>
-            </div>
+            <div class="order-party-detail">担当：佐渡山 要<br>TEL：070-5692-4173<br><span>info</span>&#64;<span>ryukyu-tane.com</span></div>
           </div>
           <div class="sign-box-inline">
             <div class="sign-box-label">作成者確認印</div>
@@ -1024,61 +983,68 @@ body {
           </div>
         </div>
       </div>
-
-      <table class="order-items-table" id="estItemsTable">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>品目・内容</th>
-            <th class="col-qty" style="text-align:center">数量</th>
-            <th class="col-unit" style="text-align:center">単位</th>
-            <th class="col-price" style="text-align:right">単価（税抜）</th>
-            <th style="text-align:right">小計（税抜）</th>
-          </tr>
-        </thead>
-        <tbody id="estItemsTbody"></tbody>
-      </table>
-
+      <table class="order-items-table"><thead><tr>
+        <th>No.</th><th>品目・内容</th>
+        <th class="col-qty" style="text-align:center">数量</th>
+        <th class="col-unit" style="text-align:center">単位</th>
+        <th class="col-price" style="text-align:right">単価（税抜）</th>
+        <th style="text-align:right">小計（税抜）</th>
+      </tr></thead><tbody id="estItemsTbody"></tbody></table>
       <div class="order-total-block">
         <div class="otr"><span>小計（税抜）</span><span class="otr-val" id="estPretax"></span></div>
         <div class="otr"><span>消費税（10%）</span><span class="otr-val" id="estTax"></span></div>
         <div class="otr grand"><span>合計金額（税込）</span><span class="otr-val" id="estGrand"></span></div>
       </div>
-
       <div class="order-notes-block" id="estNotesWrap">
         <h4>備考・特記事項</h4>
         <div id="estNotes"></div>
       </div>
-
       <div class="order-notes-block">
-        <h4>お見積り条件</h4>
-        ・本見積書の有効期限は発行日より30日間です<br>
-        ・金額は税抜表示です（別途消費税10%が加算されます）<br>
-        ・「要現地業務確認」「¥○○〜」の項目は現地確認後に正式金額をご提示します<br>
-        ・ご不明な点はお気軽にお問い合わせください
+        <h4>お見積りの条件</h4>
+        ・この見積書の有効期限は発行日から30日間です<br>
+        ・金額は税抜き表示です（消費税10%が別途かかります）<br>
+        ・「要現地業務確認」「¥○○〜」の項目は現地確認後に正式な金額をご案内します<br>
+        ・ご不明な点はいつでもお気軽にご連絡ください
       </div>
-
       <div class="order-legal-block">
-        見積番号：<span id="estLegalNum"></span>　／　
-        発行日時：<span id="estLegalTs"></span>　／　
-        種別：見積書<br>
-        ※本見積書は正式発注ではありません。発注の際は別途「発注を確定する」手続きが必要です。
+        見積番号：<span id="estLegalNum"></span>　発行日時：<span id="estLegalTs"></span><br>
+        ※この見積書は正式なお申し込みではありません。
       </div>
-
     </div><!-- /estimateDoc -->
 
-    <div class="action-buttons screen-only">
-      <button class="btn-action btn-print" onclick="window.print()">🖨 印刷・PDF保存</button>
-      <button class="btn-action btn-reset" onclick="resetForm()">← 入力に戻る</button>
+    <!-- 見積書直下の発注ブロック -->
+    <div class="est-order-block screen-only">
+      <div class="est-order-icon">✅</div>
+      <div class="est-order-title">発注を確定する</div>
+      <div class="est-order-desc">確定後、入力したメールアドレスに発注書が届きます。<br>ご要望があれば下の欄にご記入ください。</div>
+      <div class="field-group" style="margin-top:0.9rem;margin-bottom:0.9rem;">
+        <label class="field-label" for="estOrderNote" style="font-size:0.88rem;">ご要望・ご質問<span class="field-optional">任意</span></label>
+        <textarea class="note-textarea" id="estOrderNote" placeholder="例：〇月までに完成させたい、急ぎでお願いしたい部分がある、など何でもどうぞ。" style="min-height:80px;"></textarea>
+      </div>
+      <div class="consent-row" onclick="toggleEstConsent()" id="estConsentRow">
+        <div class="consent-check" id="estConsentBox"></div>
+        <div class="consent-text">
+          内容を確認し、<strong>お申し込みに同意します</strong><br>
+          <span style="font-size:0.8rem;color:var(--text-dim);">※確定後のキャンセル・変更は担当者にご連絡ください</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnEstSubmit" onclick="submitFromEstimate()" disabled style="margin:0 auto;">
+        ✅ 発注を確定する
+      </button>
+      <div class="btn-note" style="margin-top:0.5rem;">確定後、メールで発注書をお送りします</div>
     </div>
 
-  </div><!-- /estimateView -->
+    <div class="result-action-btns screen-only">
+      <button class="btn-action btn-print" onclick="window.print()">🖨&nbsp;印刷・PDF保存する</button>
+      <button class="btn-action btn-back" onclick="resetForm()">← フォームに戻る</button>
+    </div>
+  </div>
 
 </div><!-- /page-wrap -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ===== CONFIG =====
-const GAS_URL         = 'https://script.google.com/macros/s/AKfycbyTRfJR9WHxht9P8hO7oCLOh1c8WKBYWELXiW9NNTdPtgdu1N6fY1vVgBCC9YwuDoZG/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyTRfJR9WHxht9P8hO7oCLOh1c8WKBYWELXiW9NNTdPtgdu1N6fY1vVgBCC9YwuDoZG/exec';
 
 // ===== GAS SEND =====
 async function sendToSpreadsheet(payload) {
@@ -1086,10 +1052,7 @@ async function sendToSpreadsheet(payload) {
   try {
     const params = new URLSearchParams();
     Object.entries(payload).forEach(([k, v]) => params.append(k, String(v)));
-    await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors',
-    });
+    await fetch(GAS_URL + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
     if (payload.doc_type === '発注') {
       gasEl.className = 'email-status success screen-only';
       gasEl.textContent = `✅ ${payload.client_email} に発注書を送信しました。`;
@@ -1101,11 +1064,181 @@ async function sendToSpreadsheet(payload) {
   }
 }
 
-// ===== BUILD DOC COMMON DATA =====
+// ===== ITEMS =====
+const ITEMS = [
+  { id:'base', name:'ホームページ制作一式', desc:'トップページ刷新・サービス一覧セクション・新着情報Googleスプレッドシート連携・Instagramリンク設置・スマートフォン対応（レスポンシブ）', qty:1, unit:'式', price:50000, mandatory:true, checked:true },
+  { id:'server', name:'サーバー移管サポート', desc:'現担当者（弟さん）との調整・移管先ホスティング選定補助・ドメイン移管補助・動作確認', qty:1, unit:'式', price:20000, mandatory:true, checked:true },
+  { id:'form', name:'お問い合わせフォーム 項目追加', desc:'「問い合わせ内容」選択肢（ケータリング・配食・オードブル・仕出し弁当・会宴マッチングなど）の追加・テスト', qty:1, unit:'式', price:5000, mandatory:false, checked:false },
+  { id:'page_creation', name:'ページ制作', desc:'実績・企業名掲載ページや代表プロフィールページなど、追加ページの新規作成。取材内容・掲載件数・構成に応じて積算します。', qty:1, unit:'式', price:0, priceLabel:'¥5,000〜', mandatory:false, checked:false },
+  { id:'estimate_corec', name:'自動お見積りサービス導入（corec）', desc:'coreをWebサイトに設置・連携設定・テスト。coreのサービス自体は無料で維持管理費もかかりません。設置作業費 ¥5,000。', qty:1, unit:'式', price:5000, mandatory:false, checked:false },
+  { id:'estimate_integrated', name:'自動お見積り＋製造指示・在庫管理 連動システム', desc:'見積もり・製造指示・在庫管理を連動させたカスタムシステムの設計・構築（現地業務フローの確認後にお見積りします）', qty:1, unit:'式', price:0, priceLabel:'要現地業務確認', mandatory:false, checked:false },
+  { id:'writing', name:'文章作成（文面サポート）', desc:'A4用紙1枚・5,000文字以内程度の文章作成・文面サポート', qty:1, unit:'式', price:8000, mandatory:false, checked:false },
+  { id:'menu', name:'業務指示表 Googleスプレッドシート整備', desc:'複数人入力・コピペによるズレ防止・1日ごとの印刷対応レイアウト設計（金額は現地業務確認後にご案内します）', qty:1, unit:'式', price:0, priceLabel:'要現地業務確認', mandatory:false, checked:false },
+  { id:'photo', name:'プロカメラマンによる料理撮影', desc:'カメラマン手配・撮影立ち合い・補正・Webサイト向け納品（撮影内容により変動）', qty:1, unit:'式', price:0, priceLabel:'¥10,000〜', mandatory:false, checked:false },
+];
+
+// ===== STATE =====
+let currentStep = 1;
+let consentChecked = false;
+let docNum = '';
+
+// ===== INIT =====
+function init() {
+  const now = new Date();
+  const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
+  docNum = 'EST-' + now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2) + '-' + Math.floor(Math.random()*900+100);
+  renderItems();
+  calcTotal();
+  goStep(1);
+}
+
+// ===== STEP NAVIGATION =====
+function goStep(n) {
+  currentStep = n;
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('step' + n);
+  if (panel) panel.classList.add('active');
+
+  // progress
+  ['ps1','ps2','ps3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    if (i + 1 < n) el.classList.add('done');
+    else if (i + 1 === n) el.classList.add('active');
+  });
+
+  document.getElementById('progressWrap').style.display = 'flex';
+  document.querySelectorAll('.result-view').forEach(v => v.classList.remove('show'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showResultView(viewId) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('progressWrap').style.display = 'none';
+  document.querySelectorAll('.result-view').forEach(v => v.classList.remove('show'));
+  document.getElementById(viewId).classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  consentChecked = false;
+  document.getElementById('consentBox').classList.remove('checked');
+  document.getElementById('consentBox').textContent = '';
+  document.getElementById('consentRow').classList.remove('checked-row');
+  document.getElementById('btnSubmit').disabled = true;
+  // 見積書画面の同意もリセット
+  estConsentChecked = false;
+  document.getElementById('estConsentBox').classList.remove('checked');
+  document.getElementById('estConsentBox').textContent = '';
+  document.getElementById('estConsentRow').classList.remove('checked-row');
+  document.getElementById('btnEstSubmit').disabled = true;
+  document.getElementById('estOrderNote').value = '';
+  document.getElementById('gasStatus').className = 'email-status';
+  goStep(1);
+}
+
+// ===== STEP 1 → 2 =====
+function goStep2() {
+  const company = document.getElementById('clientCompany').value.trim();
+  const name    = document.getElementById('clientName').value.trim();
+  const err = document.getElementById('err-step1');
+  if (!company || !name) {
+    err.classList.add('show');
+    return;
+  }
+  err.classList.remove('show');
+  goStep(2);
+}
+
+// ===== STEP 2 → 3 =====
+function goStep3() {
+  const selected = ITEMS.filter(i => i.checked);
+  const pretax = selected.reduce((s, i) => s + i.price * i.qty, 0);
+  const tax    = Math.floor(pretax * 0.1);
+  const grand  = pretax + tax;
+
+  document.getElementById('confirmItems').innerHTML = selected.map(i => '・' + i.name).join('<br>');
+  document.getElementById('confirmGrand').textContent = '¥' + grand.toLocaleString();
+
+  updateSubmitBtn();
+  goStep(3);
+}
+
+// ===== RENDER ITEMS =====
+function renderItems() {
+  const list = document.getElementById('itemsList');
+  list.innerHTML = '';
+  ITEMS.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'item-card' + (item.checked ? ' selected' : '') + (item.mandatory ? ' mandatory' : '');
+    card.dataset.id = item.id;
+    if (!item.mandatory) card.onclick = () => toggleItem(item.id);
+    const priceStr = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
+    card.innerHTML = `
+      <div class="item-check ${item.mandatory ? 'fixed' : (item.checked ? 'checked' : '')}" id="cb-${item.id}">
+        ${item.checked || item.mandatory ? '✓' : ''}
+      </div>
+      <div class="item-body">
+        <div class="item-title-row">
+          <span class="item-name">${item.name}</span>
+          <span class="${item.mandatory ? 'badge-must' : 'badge-opt'}">${item.mandatory ? '必須' : '任意'}</span>
+        </div>
+        <div class="item-desc">${item.desc}</div>
+        <div class="item-price-tag">${priceStr}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function toggleItem(id) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item || item.mandatory) return;
+  item.checked = !item.checked;
+  const cb   = document.getElementById('cb-' + id);
+  const card = document.querySelector(`.item-card[data-id="${id}"]`);
+  cb.classList.toggle('checked', item.checked);
+  cb.textContent = item.checked ? '✓' : '';
+  card.classList.toggle('selected', item.checked);
+  calcTotal();
+}
+
+function calcTotal() {
+  const pretax = ITEMS.filter(i => i.checked).reduce((s, i) => s + i.price * i.qty, 0);
+  const tax    = Math.floor(pretax * 0.1);
+  const grand  = pretax + tax;
+  document.getElementById('totalPretax').textContent = '¥' + pretax.toLocaleString();
+  document.getElementById('totalTax').textContent    = '¥' + tax.toLocaleString();
+  document.getElementById('totalGrand').textContent  = '¥' + grand.toLocaleString();
+}
+
+// ===== CONSENT =====
+function toggleConsent() {
+  consentChecked = !consentChecked;
+  const box = document.getElementById('consentBox');
+  const row = document.getElementById('consentRow');
+  box.classList.toggle('checked', consentChecked);
+  box.textContent = consentChecked ? '✓' : '';
+  row.classList.toggle('checked-row', consentChecked);
+  updateSubmitBtn();
+}
+
+function updateSubmitBtn() {
+  const email = document.getElementById('clientEmail').value.trim();
+  const hasItems = ITEMS.some(i => i.checked);
+  document.getElementById('btnSubmit').disabled = !(consentChecked && email && hasItems);
+}
+
+// ===== HELPERS =====
+function fmtFull(d) {
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}:${('0'+d.getSeconds()).slice(-2)}`;
+}
+function fmtDate(d) {
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
 function buildDocData() {
   const now    = new Date();
-  const fmtFull = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
-  const fmtDate = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
   const company = document.getElementById('clientCompany').value.trim();
   const name    = document.getElementById('clientName').value.trim();
@@ -1118,231 +1251,65 @@ function buildDocData() {
   const grand  = pretax + tax;
   let itemsText = '';
   selected.forEach((item, idx) => {
-    const priceStr = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
-    itemsText += `${idx+1}. ${item.name}　${priceStr}\n`;
+    itemsText += `${idx+1}. ${item.name}　${item.priceLabel || '¥'+item.price.toLocaleString()}\n`;
   });
-  return { now, fmtFull, fmtDate, expiry, company, name, email, phone, note, selected, pretax, tax, grand, itemsText };
+  return { now, expiry, company, name, email, phone, note, selected, pretax, tax, grand, itemsText };
 }
-
-// ===== FILL DOC TABLE (shared) =====
 function fillDocTable(tbodyId, selected) {
   const tbody = document.getElementById(tbodyId);
   tbody.innerHTML = '';
   selected.forEach((item, idx) => {
     const tr = document.createElement('tr');
-    const priceDisplay    = item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString();
-    const subtotalDisplay = item.priceLabel ? item.priceLabel : '¥' + (item.price * item.qty).toLocaleString();
+    const pd = item.priceLabel || '¥' + item.price.toLocaleString();
+    const sd = item.priceLabel || '¥' + (item.price * item.qty).toLocaleString();
     tr.innerHTML = `
       <td>${idx+1}</td>
-      <td><strong>${item.name}</strong><br><span style="font-size:0.72rem;color:#666">${item.desc}</span></td>
+      <td><strong>${item.name}</strong><br><span style="font-size:0.75rem;color:#666">${item.desc}</span></td>
       <td class="col-qty" style="text-align:center">${item.qty}</td>
       <td class="col-unit" style="text-align:center">${item.unit}</td>
-      <td class="col-price" style="text-align:right">${priceDisplay}</td>
-      <td style="text-align:right">${subtotalDisplay}</td>
-    `;
+      <td class="col-price" style="text-align:right">${pd}</td>
+      <td style="text-align:right">${sd}</td>`;
     tbody.appendChild(tr);
   });
 }
-
-// ===== ITEM DEFINITIONS =====
-const ITEMS = [
-  {
-    id: 'base',
-    name: 'ホームページ制作一式',
-    desc: 'トップページ刷新・サービス一覧セクション・新着情報Googleスプレッドシート連携・Instagramリンク設置・スマートフォン対応（レスポンシブ）',
-    qty: 1, unit: '式',
-    price: 50000,
-    mandatory: true,
-    checked: true,
-  },
-  {
-    id: 'server',
-    name: 'サーバー移管サポート',
-    desc: '現担当者（弟さん）との調整・移管先ホスティング選定補助・ドメイン移管補助・動作確認',
-    qty: 1, unit: '式',
-    price: 20000,
-    mandatory: true,
-    checked: true,
-  },
-  {
-    id: 'form',
-    name: 'お問い合わせフォーム 項目追加',
-    desc: '「問い合わせ内容」選択肢（ケータリング・配食・オードブル・仕出し弁当・会宴マッチングなど）の追加・テスト',
-    qty: 1, unit: '式',
-    price: 5000,
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'page_creation',
-    name: 'ページ制作',
-    desc: '実績・企業名掲載ページ（掲載許可確認補助・実績一覧整理含む）や代表プロフィールページ（経歴・想い・こだわり）など、追加ページの新規作成。取材内容・掲載件数・構成に応じて¥5,000〜積算します。',
-    qty: 1, unit: '式',
-    price: 0,
-    priceLabel: '¥5,000〜',
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'estimate_corec',
-    name: '自動お見積りサービス導入（corec）',
-    desc: 'coreをWebサイトに設置・連携設定・テスト。coreのサービス自体は無料で維持管理費もかかりません。設置作業費 ¥5,000。',
-    qty: 1, unit: '式',
-    price: 5000,
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'estimate_integrated',
-    name: '自動お見積り＋製造指示・在庫管理 連動システム',
-    desc: '見積もり・製造指示・在庫管理を連動させたカスタムシステムの設計・構築（現地業務フローの確認後にお見積りします）',
-    qty: 1, unit: '式',
-    price: 0,
-    priceLabel: '要現地業務確認',
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'writing',
-    name: '文章作成（文面サポート）',
-    desc: 'A4用紙1枚・5,000文字以内程度の文章作成・文面サポート',
-    qty: 1, unit: '式',
-    price: 8000,
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'menu',
-    name: '業務指示表 Googleスプレッドシート整備',
-    desc: '複数人入力・コピペによるズレ防止・1日ごとの印刷対応レイアウト設計（金額は現地業務確認後にご案内します）',
-    qty: 1, unit: '式',
-    price: 0,
-    priceLabel: '要現地業務確認',
-    mandatory: false,
-    checked: false,
-  },
-  {
-    id: 'photo',
-    name: 'プロカメラマンによる料理撮影',
-    desc: 'カメラマン手配・撮影立ち合い・補正・Webサイト向け納品（撮影内容により変動）',
-    qty: 1, unit: '式',
-    price: 0,
-    priceLabel: '¥10,000〜',
-    mandatory: false,
-    checked: false,
-  },
-];
-
-// ===== STATE =====
-let consentChecked = false;
-
-// ===== INIT =====
-function init() {
-  const now = new Date();
-  const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-  const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
-  document.getElementById('displayDate').textContent = fmt(now);
-  document.getElementById('displayExpiry').textContent = fmt(expiry);
-  const docNum = 'EST-' + now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2) + '-' + Math.floor(Math.random()*900+100);
-  document.getElementById('displayDocNum').textContent = '見積番号：' + docNum;
-  document.getElementById('displayDocNum').dataset.num = docNum;
-  renderItems();
-  calcTotal();
-}
-
-function renderItems() {
-  const tbody = document.getElementById('itemsTbody');
-  tbody.innerHTML = '';
-  ITEMS.forEach(item => {
-    const tr = document.createElement('tr');
-    tr.className = 'item-row' + (item.checked ? ' selected' : '') + (item.mandatory ? ' mandatory' : '');
-    tr.dataset.id = item.id;
-    tr.innerHTML = `
-      <td class="item-check-cell">
-        <div class="item-checkbox ${item.mandatory ? 'fixed' : (item.checked ? 'checked' : '')}"
-             id="cb-${item.id}"
-             onclick="${item.mandatory ? '' : 'toggleItem(\''+item.id+'\')'}"
-        >${item.mandatory ? '✓' : (item.checked ? '✓' : '')}</div>
-      </td>
-      <td>
-        <div class="item-name">${item.name}
-          ${item.mandatory ? '<span class="badge-must">必須</span>' : '<span class="badge-opt">任意</span>'}
-        </div>
-        <div class="item-desc">${item.desc}</div>
-      </td>
-      <td class="td-qty">${item.qty}</td>
-      <td class="td-unit">${item.unit}</td>
-      <td class="td-price">${item.priceLabel ? item.priceLabel : '¥'+item.price.toLocaleString()}</td>
-      <td class="td-subtotal ${item.checked ? '' : 'zero'}" id="sub-${item.id}">
-        ${item.checked ? (item.priceLabel ? item.priceLabel : '¥'+item.price.toLocaleString()) : '－'}
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function toggleItem(id) {
-  const item = ITEMS.find(i => i.id === id);
-  if (!item || item.mandatory) return;
-  item.checked = !item.checked;
-  const cb  = document.getElementById('cb-' + id);
-  const row = document.querySelector(`tr[data-id="${id}"]`);
-  const sub = document.getElementById('sub-' + id);
-  cb.classList.toggle('checked', item.checked);
-  cb.textContent = item.checked ? '✓' : '';
-  row.classList.toggle('selected', item.checked);
-  sub.textContent = item.checked ? (item.priceLabel ? item.priceLabel : '¥' + item.price.toLocaleString()) : '－';
-  sub.classList.toggle('zero', !item.checked);
-  calcTotal();
-}
-
-function calcTotal() {
-  const pretax = ITEMS.filter(i => i.checked).reduce((s, i) => s + i.price, 0);
-  const tax = Math.floor(pretax * 0.1);
-  const grand = pretax + tax;
-  document.getElementById('totalPretax').textContent = '¥' + pretax.toLocaleString();
-  document.getElementById('totalTax').textContent    = '¥' + tax.toLocaleString();
-  document.getElementById('totalGrand').textContent  = '¥' + grand.toLocaleString();
-  updateSubmitBtn();
-}
-
-// ===== CONSENT =====
-function toggleConsent() {
-  consentChecked = !consentChecked;
-  const box = document.getElementById('consentBox');
-  box.classList.toggle('checked', consentChecked);
-  box.textContent = consentChecked ? '✓' : '';
-  updateSubmitBtn();
-}
-
-function updateSubmitBtn() {
-  const hasItems = ITEMS.some(i => i.checked);
-  const clientOk = document.getElementById('clientCompany').value.trim()
-    && document.getElementById('clientName').value.trim()
-    && document.getElementById('clientEmail').value.trim();
-  document.getElementById('btnSubmit').disabled = !(consentChecked && hasItems && clientOk);
-}
-
-['clientCompany','clientName','clientEmail'].forEach(id => {
-  document.getElementById(id).addEventListener('input', updateSubmitBtn);
-});
-
-// ===== SUBMIT =====
-async function submitOrder() {
-  const company = document.getElementById('clientCompany').value.trim();
-  const name    = document.getElementById('clientName').value.trim();
-  const email   = document.getElementById('clientEmail').value.trim();
-  if (!company || !name || !email) {
-    document.getElementById('err-client').classList.add('show');
-    return;
+async function simpleHash(str) {
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  } catch(e) {
+    let h = 0;
+    for (let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}
+    return Math.abs(h).toString(16).padStart(8,'0')+'-fallback';
   }
-  document.getElementById('err-client').classList.remove('show');
+}
+
+// ===== 見積書画面からの同意・発注 =====
+let estConsentChecked = false;
+function toggleEstConsent() {
+  estConsentChecked = !estConsentChecked;
+  const box = document.getElementById('estConsentBox');
+  const row = document.getElementById('estConsentRow');
+  box.classList.toggle('checked', estConsentChecked);
+  box.textContent = estConsentChecked ? '✓' : '';
+  row.classList.toggle('checked-row', estConsentChecked);
+  document.getElementById('btnEstSubmit').disabled = !estConsentChecked;
+}
+
+async function submitFromEstimate() {
+  // estOrderNoteの内容をorderNoteに同期してからsubmitOrder呼び出し
+  document.getElementById('orderNote').value = document.getElementById('estOrderNote').value;
+  // consentも同期
+  consentChecked = estConsentChecked;
+  await submitOrder();
+}
+
+// ===== SUBMIT (発注確定) =====
+async function submitOrder() {
+  const email = document.getElementById('clientEmail').value.trim();
+  if (!email) { alert('メールアドレスをご入力ください'); return; }
 
   const d = buildDocData();
-  const docNum   = document.getElementById('displayDocNum').dataset.num;
   const orderNum = docNum.replace('EST-', 'ORD-');
-  const fmtFull = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日 ${('0'+d2.getHours()).slice(-2)}:${('0'+d2.getMinutes()).slice(-2)}:${('0'+d2.getSeconds()).slice(-2)}`;
-  const fmtDate = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日`;
   const now = new Date();
   const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
 
@@ -1354,136 +1321,72 @@ async function submitOrder() {
   document.getElementById('docClientEmail').textContent   = d.email;
   document.getElementById('docClientPhone').textContent   = d.phone || '－';
   document.getElementById('docSignClient').textContent    = d.company + '　' + d.name;
-
   fillDocTable('docItemsTbody', d.selected);
-
   document.getElementById('docPretax').textContent = '¥' + d.pretax.toLocaleString();
   document.getElementById('docTax').textContent    = '¥' + d.tax.toLocaleString();
   document.getElementById('docGrand').textContent  = '¥' + d.grand.toLocaleString();
-
   const notesWrap = document.getElementById('docNotesWrap');
-  if (d.note) {
-    document.getElementById('docNotes').textContent = d.note;
-    notesWrap.style.display = 'block';
-  } else {
-    notesWrap.style.display = 'none';
-  }
-
+  if (d.note) { document.getElementById('docNotes').textContent = d.note; notesWrap.style.display='block'; }
+  else { notesWrap.style.display='none'; }
   document.getElementById('docLegalNum').textContent = orderNum;
   document.getElementById('docLegalTs').textContent  = fmtFull(now);
   const hashInput = [orderNum, d.company, d.name, d.email, d.pretax, now.toISOString()].join('|');
   const hash = await simpleHash(hashInput);
   document.getElementById('docHash').textContent = hash;
 
-  document.getElementById('formView').style.display = 'none';
-  document.getElementById('estimateView').classList.remove('show');
-  document.getElementById('completeView').classList.add('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showResultView('completeView');
 
   sendToSpreadsheet({
-    doc_type:       '発注',
-    order_num:      orderNum,
-    issue_date:     fmtFull(now),
-    client_company: d.company,
-    client_name:    d.name,
-    client_email:   d.email,
-    client_phone:   d.phone || '－',
-    items_text:     d.itemsText.trim(),
-    pretax:         d.pretax,
-    tax:            d.tax,
-    grand:          d.grand,
-    notes:          d.note || '',
-    hash:           hash,
+    doc_type:'発注', order_num:orderNum, issue_date:fmtFull(now),
+    client_company:d.company, client_name:d.name, client_email:d.email,
+    client_phone:d.phone||'－', items_text:d.itemsText.trim(),
+    pretax:d.pretax, tax:d.tax, grand:d.grand, notes:d.note||'', hash,
   });
 }
 
-// ===== OUTPUT ESTIMATE ONLY =====
+// ===== OUTPUT ESTIMATE =====
 async function outputEstimate() {
   const company = document.getElementById('clientCompany').value.trim();
   const name    = document.getElementById('clientName').value.trim();
-  const email   = document.getElementById('clientEmail').value.trim();
   if (!company || !name) {
-    document.getElementById('err-client').classList.add('show');
+    goStep(1);
+    document.getElementById('err-step1').classList.add('show');
     return;
   }
-  document.getElementById('err-client').classList.remove('show');
 
   const d = buildDocData();
-  const docNum  = document.getElementById('displayDocNum').dataset.num;
-  const estNum  = docNum.replace('EST-', 'QUO-');
-  const fmtFull = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日 ${('0'+d2.getHours()).slice(-2)}:${('0'+d2.getMinutes()).slice(-2)}:${('0'+d2.getSeconds()).slice(-2)}`;
-  const fmtDate = d2 => `${d2.getFullYear()}年${d2.getMonth()+1}月${d2.getDate()}日`;
+  const estNum = docNum.replace('EST-', 'QUO-');
   const now = new Date();
   const expiry = new Date(now); expiry.setDate(expiry.getDate() + 30);
 
-  document.getElementById('estDocNum').textContent      = estNum;
-  document.getElementById('estIssueDate').textContent   = fmtFull(now);
-  document.getElementById('estExpiry').textContent      = fmtDate(expiry);
+  document.getElementById('estDocNum').textContent       = estNum;
+  document.getElementById('estIssueDate').textContent    = fmtFull(now);
+  document.getElementById('estExpiry').textContent       = fmtDate(expiry);
   document.getElementById('estClientCompany').textContent = d.company;
-  document.getElementById('estClientName').textContent  = d.name;
+  document.getElementById('estClientName').textContent   = d.name;
   document.getElementById('estClientEmail').textContent  = d.email || '－';
   document.getElementById('estClientPhone').textContent  = d.phone || '－';
   document.getElementById('estSignClient').textContent   = d.company + '　' + d.name;
-
   fillDocTable('estItemsTbody', d.selected);
-
   document.getElementById('estPretax').textContent = '¥' + d.pretax.toLocaleString();
   document.getElementById('estTax').textContent    = '¥' + d.tax.toLocaleString();
   document.getElementById('estGrand').textContent  = '¥' + d.grand.toLocaleString();
-
   const estNotesWrap = document.getElementById('estNotesWrap');
-  if (d.note) {
-    document.getElementById('estNotes').textContent = d.note;
-    estNotesWrap.style.display = 'block';
-  } else {
-    estNotesWrap.style.display = 'none';
-  }
-
+  if (d.note) { document.getElementById('estNotes').textContent = d.note; estNotesWrap.style.display='block'; }
+  else { estNotesWrap.style.display='none'; }
   document.getElementById('estLegalNum').textContent = estNum;
   document.getElementById('estLegalTs').textContent  = fmtFull(now);
 
-  document.getElementById('formView').style.display = 'none';
-  document.getElementById('completeView').classList.remove('show');
-  document.getElementById('estimateView').classList.add('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showResultView('estimateView');
 
-  // スプレッドシートに見積として記録（メール送信なし）
   const hashInput = [estNum, d.company, d.name, d.email, d.pretax, now.toISOString()].join('|');
   const hash = await simpleHash(hashInput);
   sendToSpreadsheet({
-    doc_type:       '見積',
-    order_num:      estNum,
-    issue_date:     fmtFull(now),
-    client_company: d.company,
-    client_name:    d.name,
-    client_email:   d.email || '',
-    client_phone:   d.phone || '',
-    items_text:     d.itemsText.trim(),
-    pretax:         d.pretax,
-    tax:            d.tax,
-    grand:          d.grand,
-    notes:          d.note || '',
-    hash:           hash,
+    doc_type:'見積', order_num:estNum, issue_date:fmtFull(now),
+    client_company:d.company, client_name:d.name, client_email:d.email||'',
+    client_phone:d.phone||'', items_text:d.itemsText.trim(),
+    pretax:d.pretax, tax:d.tax, grand:d.grand, notes:d.note||'', hash,
   });
-}
-
-async function simpleHash(str) {
-  try {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  } catch(e) {
-    let h = 0;
-    for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
-    return Math.abs(h).toString(16).padStart(8,'0') + '-fallback';
-  }
-}
-
-function resetForm() {
-  document.getElementById('formView').style.display = 'block';
-  document.getElementById('completeView').classList.remove('show');
-  document.getElementById('estimateView').classList.remove('show');
-  document.getElementById('gasStatus').className = 'email-status';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===== START =====
