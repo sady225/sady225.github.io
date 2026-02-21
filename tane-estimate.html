@@ -533,6 +533,38 @@ body {
 }
 .sign-name { font-size: 0.78rem; color: #555; }
 
+/* ===== INLINE SIGN BOXES ===== */
+.order-party-with-sign {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.order-party-info { flex: 1; }
+.sign-box-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+.sign-box-label {
+  font-size: 0.62rem;
+  color: #888;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+}
+.sign-box-area {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.3rem;
+}
+.sign-box-name {
+  font-size: 0.62rem;
+  color: #666;
+  text-align: center;
+}
+
 /* ===== ACTION BUTTONS ===== */
 .action-buttons {
   display: flex;
@@ -662,7 +694,7 @@ body {
           担当：佐渡山 要<br>
           登録番号：T－（インボイス登録番号）<br>
           TEL：070-5692-4173<br>
-          Email：<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="10797e767f506269657b69653d64717e753e737f7d">[email&#160;protected]</a>
+          <span>info</span>&#64;<span>ryukyu-tane.com</span>
         </div>
       </div>
     </div>
@@ -779,22 +811,36 @@ body {
       </div>
 
       <div class="order-parties">
-        <div>
-          <div class="order-party-label">発注者</div>
-          <div class="order-party-name" id="docClientCompany"></div>
-          <div class="order-party-detail">
-            担当：<span id="docClientName"></span><br>
-            Email：<span id="docClientEmail"></span><br>
-            TEL：<span id="docClientPhone"></span>
+        <div class="order-party-with-sign">
+          <div class="order-party-info">
+            <div class="order-party-label">発注者</div>
+            <div class="order-party-name" id="docClientCompany"></div>
+            <div class="order-party-detail">
+              担当：<span id="docClientName"></span><br>
+              Email：<span id="docClientEmail"></span><br>
+              TEL：<span id="docClientPhone"></span>
+            </div>
+          </div>
+          <div class="sign-box-inline">
+            <div class="sign-box-label">発注者確認印</div>
+            <div class="sign-box-area"></div>
+            <div class="sign-box-name" id="docSignClient"></div>
           </div>
         </div>
-        <div>
-          <div class="order-party-label">受注者</div>
-          <div class="order-party-name">株式会社琉球のタネ</div>
-          <div class="order-party-detail">
-            担当：佐渡山 要<br>
-            TEL：070-5692-4173<br>
-            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="660f08000926141f130d1f134b120708034805090b">[email&#160;protected]</a>
+        <div class="order-party-with-sign">
+          <div class="order-party-info">
+            <div class="order-party-label">受注者</div>
+            <div class="order-party-name">株式会社琉球のタネ</div>
+            <div class="order-party-detail">
+              担当：佐渡山 要<br>
+              TEL：070-5692-4173<br>
+              <span>info</span>&#64;<span>ryukyu-tane.com</span>
+            </div>
+          </div>
+          <div class="sign-box-inline">
+            <div class="sign-box-label">受注者確認印</div>
+            <div class="sign-box-area"></div>
+            <div class="sign-box-name">株式会社琉球のタネ　佐渡山 要</div>
           </div>
         </div>
       </div>
@@ -830,19 +876,6 @@ body {
         ・著作権は代金完済後に発注者に帰属します<br>
         ・制作物に係る修正は納品後14日以内・軽微なもの2回まで無償対応<br>
         ・本発注書は電子取引記録として双方7年間の保存義務があります
-      </div>
-
-      <div class="sign-area">
-        <div class="sign-block">
-          <div class="sign-label">発注者確認印</div>
-          <div class="sign-line"></div>
-          <div class="sign-name" id="docSignClient"></div>
-        </div>
-        <div class="sign-block">
-          <div class="sign-label">受注者確認印</div>
-          <div class="sign-line"></div>
-          <div class="sign-name">株式会社琉球のタネ　佐渡山 要</div>
-        </div>
       </div>
 
       <div class="order-legal-block">
@@ -883,8 +916,8 @@ async function sendToSpreadsheet(payload) {
       method: 'GET',
       mode: 'no-cors',
     });
-    gasEl.className = 'email-status';
-    gasEl.textContent = '';
+    gasEl.className = 'email-status success';
+    gasEl.textContent = `✅ ${payload.client_email} に発注書を送信しました。`;
   } catch(err) {
     gasEl.className = 'email-status error';
     gasEl.textContent = `❌ スプレッドシート送信エラー：${err.message}`;
