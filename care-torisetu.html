@@ -55,6 +55,88 @@
             --export-bg: #5D4E37;
         }
 
+        [data-theme="okinawa-sea"] {
+            --bg: #E8F6F8;
+            --card: #FFFFFF;
+            --accent: #0277BD;
+            --accent-light: #29B6F6;
+            --accent-bg: #E1F5FE;
+            --text: #014361;
+            --text-mid: #0277BD;
+            --text-light: #4F8BA8;
+            --border: #B3E5FC;
+            --shadow: 0 4px 12px rgba(2, 119, 189, 0.08);
+            --section-1: #E1F5FE;
+            --section-2: #B3E5FC;
+            --section-3: #81D4FA;
+            --section-4: #4FC3F7;
+            --section-5: #29B6F6;
+            --input-bg: #FAFDFF;
+            --input-focus-ring: rgba(41, 182, 246, 0.2);
+            --header-bg: linear-gradient(135deg, #0288D1 0%, #03A9F4 50%, #4FC3F7 100%);
+            --header-text: #FFFFFF;
+            --header-overlay: rgba(255, 255, 255, 0.1);
+            --header-overlay-small: rgba(255, 255, 255, 0.05);
+            --btn-primary-bg: linear-gradient(135deg, #0288D1 0%, #29B6F6 100%);
+            --btn-primary-text: #FFFFFF;
+            --btn-danger-bg: rgba(211, 47, 47, 0.1);
+            --btn-danger-text: #D32F2F;
+            --toast-bg: #01579B;
+            --toast-text: #FFFFFF;
+            --preview-bg: linear-gradient(160deg, #81D4FA 0%, #29B6F6 40%, #0288D1 100%);
+            --preview-text: #FFFFFF;
+            --preview-text-dim: #E1F5FE;
+            --preview-card-bg: rgba(255, 255, 255, 0.2);
+            --preview-card-border: rgba(255, 255, 255, 0.3);
+            --preview-name-bg: rgba(2, 119, 189, 0.6);
+            --preview-tag-bg: rgba(255, 255, 255, 0.9);
+            --preview-tag-text: #0277BD;
+            --preview-vital-bg: rgba(255, 255, 255, 0.2);
+            --preview-empty-bg: rgba(255, 255, 255, 0.6);
+            --export-bg: #0288D1;
+        }
+
+        [data-theme="hibiscus"] {
+            --bg: #FDF3F6;
+            --card: #FFFFFF;
+            --accent: #C2185B;
+            --accent-light: #E91E63;
+            --accent-bg: #FCE4EC;
+            --text: #5C1033;
+            --text-mid: #C2185B;
+            --text-light: #A85A7A;
+            --border: #F8BBD0;
+            --shadow: 0 4px 12px rgba(194, 24, 91, 0.08);
+            --section-1: #FCE4EC;
+            --section-2: #F8BBD0;
+            --section-3: #F48FB1;
+            --section-4: #F06292;
+            --section-5: #EC407A;
+            --input-bg: #FFFAFC;
+            --input-focus-ring: rgba(233, 30, 99, 0.15);
+            --header-bg: linear-gradient(135deg, #C2185B 0%, #E91E63 50%, #F48FB1 100%);
+            --header-text: #FFFFFF;
+            --header-overlay: rgba(255, 255, 255, 0.1);
+            --header-overlay-small: rgba(255, 255, 255, 0.05);
+            --btn-primary-bg: linear-gradient(135deg, #C2185B 0%, #E91E63 100%);
+            --btn-primary-text: #FFFFFF;
+            --btn-danger-bg: rgba(211, 47, 47, 0.1);
+            --btn-danger-text: #D32F2F;
+            --toast-bg: #880E4F;
+            --toast-text: #FFFFFF;
+            --preview-bg: linear-gradient(160deg, #F48FB1 0%, #E91E63 40%, #C2185B 100%);
+            --preview-text: #FFFFFF;
+            --preview-text-dim: #FCE4EC;
+            --preview-card-bg: rgba(255, 255, 255, 0.2);
+            --preview-card-border: rgba(255, 255, 255, 0.3);
+            --preview-name-bg: rgba(194, 24, 91, 0.6);
+            --preview-tag-bg: rgba(255, 255, 255, 0.9);
+            --preview-tag-text: #C2185B;
+            --preview-vital-bg: rgba(255, 255, 255, 0.2);
+            --preview-empty-bg: rgba(255, 255, 255, 0.6);
+            --export-bg: #C2185B;
+        }
+
         [data-theme="high-contrast-bw"] {
             --bg: #FFFFFF;
             --card: #FFFFFF;
@@ -923,9 +1005,11 @@
         }
 
         // テーマ切り替え設定
-        const THEMES = ['default', 'high-contrast-bw', 'high-contrast-by'];
+        const THEMES = ['default', 'okinawa-sea', 'hibiscus', 'high-contrast-bw', 'high-contrast-by'];
         const THEME_LABELS = {
             'default': '🎨 標準',
+            'okinawa-sea': '🌊 沖縄の海',
+            'hibiscus': '🌺 ハイビスカス',
             'high-contrast-bw': '🎨 黒白',
             'high-contrast-by': '🎨 黒黄'
         };
@@ -944,7 +1028,7 @@
             localStorage.setItem('care-torisetu-theme', nextTheme);
 
             // ボタンのラベルを更新
-            document.querySelectorAll('.theme-btn').forEach(btn => {
+            document.querySelectorAll('.theme-switcher').forEach(btn => {
                 btn.textContent = THEME_LABELS[nextTheme];
             });
             showToast('テーマを変更しました');
@@ -956,7 +1040,7 @@
             if (!THEMES.includes(current)) current = 'default';
 
             document.documentElement.setAttribute('data-theme', current);
-            document.querySelectorAll('.theme-btn').forEach(btn => {
+            document.querySelectorAll('.theme-switcher').forEach(btn => {
                 btn.textContent = THEME_LABELS[current];
             });
         }
