@@ -296,6 +296,34 @@
             font-family: inherit;
         }
 
+        .header-photo-area {
+            font-size: 36px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background: #FFFFFF;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .header-photo-area:active {
+            transform: scale(0.95);
+        }
+
+        #profilePhotoInput {
+            display: none;
+        }
+
         .header-emoji {
             font-size: 36px;
             margin-bottom: 8px;
@@ -987,6 +1015,55 @@
             display: inline-block;
             margin-bottom: 4px;
         }
+
+        /* ===== PHOTO HINT BALLOON ===== */
+        .photo-hint-balloon {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--toast-bg);
+            color: var(--toast-text);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            animation: popupBounce 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+            display: none;
+            white-space: nowrap;
+        }
+
+        .photo-hint-balloon::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent var(--toast-bg) transparent;
+        }
+
+        .photo-hint-balloon .close-btn {
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.8;
+            padding: 0 4px;
+        }
+
+        @keyframes popupBounce {
+            0% {
+                transform: translate(-50%, 10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
     </style>
 
     <script>
@@ -1044,6 +1121,80 @@
                 btn.textContent = THEME_LABELS[current];
             });
         }
+        // ===== プロフィール写真（ヘッダー画像）設定 =====
+        const PHOTO_STORAGE_KEY = 'care-torisetu-profile-photo';
+        const HINT_STORAGE_KEY = 'care-torisetu-photo-hint-closed';
+
+        function initProfilePhoto() {
+            const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY);
+            const photoArea = document.getElementById('headerPhotoArea');
+            if (savedPhoto) {
+                photoArea.style.backgroundImage = `url(${savedPhoto})`;
+                photoArea.textContent = ''; // 絵文字を消去
+            } else {
+                photoArea.style.backgroundImage = 'none';
+                photoArea.textContent = '👶'; // デフォルト絵文字
+            }
+        }
+
+        function initPhotoHint() {
+            // 写真が設定済み、または既に吹き出しを閉じた履歴があれば何も表示しない
+            if (localStorage.getItem(PHOTO_STORAGE_KEY) || localStorage.getItem(HINT_STORAGE_KEY)) {
+                return;
+            }
+            const hint = document.getElementById('photoHintBalloon');
+            if (hint) {
+                // アニメーションを目立たせるため少し遅れて表示
+                setTimeout(() => {
+                    hint.style.display = 'block';
+                }, 800);
+            }
+        }
+
+        function closePhotoHint(event) {
+            if (event) event.stopPropagation();
+            const hint = document.getElementById('photoHintBalloon');
+            if (hint) hint.style.display = 'none';
+            localStorage.setItem(HINT_STORAGE_KEY, 'true');
+        }
+
+        function triggerPhotoUpload() {
+            document.getElementById('profilePhotoInput').click();
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // 画像ファイルかチェック
+            if (!file.type.startsWith('image/')) {
+                showToast('⚠️ 画像ファイルを選択してください');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64Data = e.target.result;
+                const photoArea = document.getElementById('headerPhotoArea');
+                photoArea.style.backgroundImage = `url(${base64Data})`;
+                photoArea.textContent = ''; // 絵文字を消去
+
+                // 画像を設定したら吹き出しを閉じる
+                closePhotoHint();
+
+                // localStorageへ保存
+                try {
+                    localStorage.setItem(PHOTO_STORAGE_KEY, base64Data);
+                    showToast('✅ 写真を設定しました');
+                } catch (err) {
+                    console.error('写真の保存エラー:', err);
+                    showToast('⚠️ 写真が大きすぎて保存できませんでした');
+                    // 保存容量を超えた場合は元に戻す
+                    initProfilePhoto();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     </script>
 </head>
 
@@ -1052,7 +1203,14 @@
     <header class="app-header" id="appHeader">
         <button class="theme-btn help-switcher" onclick="showHelp()">❓ 使い方</button>
         <button class="theme-btn theme-switcher" onclick="toggleTheme()">🎨 標準</button>
-        <div class="header-emoji">👶</div>
+
+        <!-- アイコン部分とポップアップ -->
+        <div class="header-photo-area" id="headerPhotoArea" onclick="triggerPhotoUpload()">👶</div>
+        <div class="photo-hint-balloon" id="photoHintBalloon">
+            タップしてお好きな写真に変更できます！ <span class="close-btn" onclick="closePhotoHint(event)">✕</span>
+        </div>
+        <input type="file" id="profilePhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+
         <div class="header-title">ケア・トリセツ</div>
         <div class="header-sub">お子さんの大切な情報を<br>ひとつにまとめるアプリ</div>
     </header>
@@ -1085,7 +1243,11 @@
 
             <div class="help-section">
                 <h3>🎨 便利な機能</h3>
-                <p>画面右上にある「🎨」ボタンを押すと、目の見えやすさに合わせてアプリの色合い（ハイコントラスト白黒・黒黄など）を変更できます。</p>
+                <ol class="help-steps">
+                    <li><strong>カラーテーマの変更</strong><br>画面右上にある「🎨」ボタンを押すと、目の見えやすさに合わせてアプリの色合い（ハイコントラスト白黒・黒黄など）を変更できます。
+                    </li>
+                    <li><strong>ヘッダー写真の変更</strong><br>画面上部中央の「👶」アイコンをタップすると、お好きな写真に変更・保存できます。</li>
+                </ol>
             </div>
         </div>
     </div>
@@ -1957,6 +2119,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            initProfilePhoto();
+            initPhotoHint();
             loadAppData();
         });
     </script>
