@@ -240,7 +240,6 @@
             text-align: center;
             color: var(--header-text);
             position: relative;
-            overflow: hidden;
             border-bottom: 2px solid var(--border);
         }
 
@@ -773,10 +772,20 @@
 
         .preview-avatar {
             font-size: 80px;
-            line-height: 1;
-            display: block;
+            line-height: 80px;
+            width: 80px;
+            height: 80px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
             margin-bottom: 8px;
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+            background-color: transparent;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .preview-name {
@@ -1064,6 +1073,111 @@
                 opacity: 1;
             }
         }
+
+        /* ===== TOUR ALERTS ===== */
+        .tour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tour-highlight {
+            position: relative;
+            z-index: 10001 !important;
+            box-shadow: 0 0 0 4px var(--card), 0 0 0 8px var(--accent-light) !important;
+            background: var(--card) !important;
+            border-radius: 8px;
+            pointer-events: none !important;
+        }
+
+        .header-photo-area.tour-highlight {
+            border-radius: 50%;
+        }
+
+        .tour-tooltip {
+            position: fixed;
+            width: 260px;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 10002;
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .tour-tooltip::before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+        }
+
+        .tour-tooltip.arrow-top::before {
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 8px 8px 8px;
+            border-color: transparent transparent var(--card) transparent;
+        }
+
+        .tour-tooltip.arrow-bottom::before {
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0 8px;
+            border-color: var(--card) transparent transparent transparent;
+        }
+
+        .tour-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .tour-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tour-count {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .btn-tour-next {
+            background: var(--accent);
+            color: var(--card);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ===== SITE FOOTER ===== */
+        .site-footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 40px;
+            padding-bottom: 16px;
+            font-weight: 700;
+        }
     </style>
 
     <script>
@@ -1121,9 +1235,35 @@
                 btn.textContent = THEME_LABELS[current];
             });
         }
-        // ===== プロフィール写真（ヘッダー画像）設定 =====
-        const PHOTO_STORAGE_KEY = 'care-torisetu-profile-photo';
-        const HINT_STORAGE_KEY = 'care-torisetu-photo-hint-closed';
+        // ツアー定義とステップ管理
+        const TOUR_STORAGE_KEY = 'care-torisetu-tour-completed';
+        const TOUR_STEPS = [
+            {
+                elementId: 'headerPhotoArea',
+                text: 'お子さんの写真をタップして設定できます！まずはここから。',
+                arrow: 'top',
+                offsetX: 0, offsetY: 15
+            },
+            {
+                elementId: 'fabAdd',
+                text: 'ここを押して、新しい情報をカードとして追加していきます。',
+                arrow: 'bottom',
+                offsetX: 0, offsetY: -15
+            },
+            {
+                elementId: 'btnThemeSwitcher',
+                text: '画面の色が見にくい時は、ここからテーマを変更できます。',
+                arrow: 'top',
+                offsetX: 0, offsetY: 15
+            },
+            {
+                elementId: 'btnHelp',
+                text: '使い方が分からなくなったら、いつでもここを見てくださいね！',
+                arrow: 'top',
+                offsetX: 0, offsetY: 15
+            }
+        ];
+        let currentTourStep = 0;
 
         function initProfilePhoto() {
             const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY);
@@ -1137,29 +1277,139 @@
             }
         }
 
-        function initPhotoHint() {
-            // 写真が設定済み、または既に吹き出しを閉じた履歴があれば何も表示しない
-            if (localStorage.getItem(PHOTO_STORAGE_KEY) || localStorage.getItem(HINT_STORAGE_KEY)) {
-                return;
-            }
-            const hint = document.getElementById('photoHintBalloon');
-            if (hint) {
-                // アニメーションを目立たせるため少し遅れて表示
+        // ツアーの開始判定（初回のみ）
+        function checkAndStartTour() {
+            if (!localStorage.getItem(TOUR_STORAGE_KEY)) {
+                // 画面描画を待ってからスタート
                 setTimeout(() => {
-                    hint.style.display = 'block';
+                    if (currentView !== 'list') showView('list');
+                    startTour();
                 }, 800);
             }
         }
 
-        function closePhotoHint(event) {
-            if (event) event.stopPropagation();
-            const hint = document.getElementById('photoHintBalloon');
-            if (hint) hint.style.display = 'none';
-            localStorage.setItem(HINT_STORAGE_KEY, 'true');
+        function startTour() {
+            currentTourStep = 0;
+            const overlay = document.getElementById('tourOverlay');
+            if (!overlay) return; // HTML要素がない場合はスキップ
+            overlay.style.display = 'block';
+            setTimeout(() => overlay.style.opacity = '1', 10);
+            showTourStep();
+        }
+
+        function showTourStep() {
+            // 前のハイライトを消す
+            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+
+            if (currentTourStep >= TOUR_STEPS.length) {
+                endTour();
+                return;
+            }
+
+            const step = TOUR_STEPS[currentTourStep];
+            const targetEl = document.getElementById(step.elementId);
+
+            if (!targetEl || (targetEl.offsetWidth === 0 && targetEl.offsetHeight === 0)) {
+                // 要素が画面上に無い、または非表示の場合はスキップ
+                currentTourStep++;
+                showTourStep();
+                return;
+            }
+
+            // ハイライト付与
+            targetEl.classList.add('tour-highlight');
+
+            // ツールチップの配置
+            const tooltip = document.getElementById('tourTooltip');
+            const tooltipText = document.getElementById('tourText');
+            const tooltipCount = document.getElementById('tourStepCount');
+            const btnNext = document.getElementById('tourBtnNext');
+
+            tooltipText.textContent = step.text;
+            tooltipCount.textContent = `${currentTourStep + 1} / ${TOUR_STEPS.length}`;
+            btnNext.textContent = (currentTourStep === TOUR_STEPS.length - 1) ? '完了' : '次へ';
+
+            // クラスリセット
+            tooltip.className = `tour-tooltip arrow-${step.arrow}`;
+            tooltip.style.display = 'block';
+
+            // 位置計算
+            const rect = targetEl.getBoundingClientRect();
+            let topPos, leftPos;
+
+            if (step.arrow === 'top') {
+                topPos = rect.bottom + step.offsetY;
+                leftPos = rect.left + (rect.width / 2) - 125; // 125はtooltip幅250の半分
+            } else {
+                // 画面下部のFABなどの場合（上に吹き出しを出す）
+                topPos = rect.top - tooltip.offsetHeight - Math.abs(step.offsetY);
+                leftPos = rect.left + (rect.width / 2) - 125;
+            }
+
+            // 画面外にはみ出さないよう調整
+            if (leftPos < 10) leftPos = 10;
+            if (leftPos + 250 > window.innerWidth) leftPos = window.innerWidth - 260;
+
+            tooltip.style.top = `${topPos}px`;
+            tooltip.style.left = `${leftPos}px`;
+
+            setTimeout(() => {
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+                tooltip.style.pointerEvents = 'auto';
+            }, 10);
+
+            // スクロール調整（要素が隠れている場合）
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function nextTourStep() {
+            const tooltip = document.getElementById('tourTooltip');
+            tooltip.style.opacity = '0';
+            tooltip.style.transform = 'translateY(10px)';
+            tooltip.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                currentTourStep++;
+                showTourStep();
+            }, 300);
+        }
+
+        function endTour() {
+            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+            const overlay = document.getElementById('tourOverlay');
+            const tooltip = document.getElementById('tourTooltip');
+
+            overlay.style.opacity = '0';
+            tooltip.style.opacity = '0';
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                tooltip.style.display = 'none';
+            }, 300);
+
+            // 完了フラグ保存
+            localStorage.setItem(TOUR_STORAGE_KEY, 'true');
+        }
+
+        function forceRestartTour() {
+            // ツアーに必要な要素が表示されている「一覧画面」に強制遷移
+            showView('list');
+
+            // 画面のトランジションを待ってからスタート
+            setTimeout(() => {
+                startTour();
+            }, 50);
         }
 
         function triggerPhotoUpload() {
             document.getElementById('profilePhotoInput').click();
+        }
+
+        function closePhotoHint(event) {
+            if (event) event.stopPropagation();
+            const balloon = document.getElementById('photoHintBalloon');
+            if (balloon) balloon.style.display = 'none';
         }
 
         function handlePhotoUpload(event) {
@@ -1179,8 +1429,9 @@
                 photoArea.style.backgroundImage = `url(${base64Data})`;
                 photoArea.textContent = ''; // 絵文字を消去
 
-                // 画像を設定したら吹き出しを閉じる
-                closePhotoHint();
+                // （ツアー誘導完了後は表示しない方針なのでここでの呼び出しは削除）
+
+                // localStorageへ保存
 
                 // localStorageへ保存
                 try {
@@ -1201,13 +1452,14 @@
 <body>
 
     <header class="app-header" id="appHeader">
-        <button class="theme-btn help-switcher" onclick="showHelp()">❓ 使い方</button>
-        <button class="theme-btn theme-switcher" onclick="toggleTheme()">🎨 標準</button>
+        <button class="theme-btn help-switcher" id="btnHelp" onclick="showHelp()">❓ 使い方</button>
+        <button class="theme-btn theme-switcher" id="btnThemeSwitcher" onclick="toggleTheme()">🎨 標準</button>
 
         <!-- アイコン部分とポップアップ -->
         <div class="header-photo-area" id="headerPhotoArea" onclick="triggerPhotoUpload()">👶</div>
         <div class="photo-hint-balloon" id="photoHintBalloon">
-            タップしてお好きな写真に変更できます！ <span class="close-btn" onclick="closePhotoHint(event)">✕</span>
+            <span id="photoHintText">タップしてお好きな写真に変更できます！</span> <span class="close-btn"
+                onclick="closePhotoHint(event)">✕</span>
         </div>
         <input type="file" id="profilePhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
 
@@ -1249,6 +1501,17 @@
                     <li><strong>ヘッダー写真の変更</strong><br>画面上部中央の「👶」アイコンをタップすると、お好きな写真に変更・保存できます。</li>
                 </ol>
             </div>
+
+            <div class="help-section">
+                <h3>💡 アプリの使い方ガイド</h3>
+                <p>初めての方向けの画面案内（ポップアップガイド）をもう一度見ることができます。</p>
+                <div style="text-align: center; margin-top: 12px;">
+                    <button class="btn btn-primary" onclick="forceRestartTour()"
+                        style="width: 100%; max-width: 250px;">🔰 ガイドを再開する</button>
+                </div>
+            </div>
+
+            <div class="site-footer">© 2026 琉球のタネ. All rights reserved.</div>
         </div>
     </div>
 
@@ -1261,6 +1524,8 @@
             <div class="list-cards" id="listCards">
                 <!-- JSで動的生成 -->
             </div>
+
+            <div class="site-footer">© 2026 琉球のタネ. All rights reserved.</div>
         </div>
     </div>
 
@@ -1581,6 +1846,7 @@
                 </div>
             </div>
 
+            <div class="site-footer">© 2026 琉球のタネ. All rights reserved.</div>
         </div>
     </div>
 
@@ -1592,19 +1858,20 @@
                 <div class="preview-subtitle">ケア・トリセツ</div>
             </div>
             <div class="preview-center">
-                <span class="preview-avatar">👶</span>
+                <div class="preview-avatar" id="pvAvatar">👶</div>
                 <div class="preview-name" id="pvName">お名前</div>
                 <div class="preview-charm" id="pvCharm"></div>
             </div>
             <div class="bubble-grid" id="bubbleGrid">
                 <!-- JS で動的生成 -->
             </div>
+            <div class="site-footer" style="color: var(--preview-text-dim);">© 2026 琉球のタネ. All rights reserved.</div>
         </div>
     </div>
 
     <!-- ===== FOOTER ===== -->
     <div class="app-footer" id="footerList">
-        <button class="btn btn-primary" onclick="createNewSheet()">➕ 新規シートを作成</button>
+        <button class="btn btn-primary" id="fabAdd" onclick="createNewSheet()">➕ 新規シートを作成</button>
     </div>
     <div class="app-footer" id="footerForm" style="display:none;">
         <button class="btn btn-secondary" onclick="goToList()" style="flex:0.8;">＜ 一覧</button>
@@ -1626,9 +1893,20 @@
     <!-- TOAST -->
     <div id="toast" class="toast"></div>
 
+    <!-- ======== TOUR OVERLAY ======== -->
+    <div class="tour-overlay" id="tourOverlay"></div>
+    <div class="tour-tooltip" id="tourTooltip">
+        <div class="tour-text" id="tourText"></div>
+        <div class="tour-footer">
+            <span class="tour-count" id="tourStepCount"></span>
+            <button class="btn-tour-next" id="tourBtnNext" onclick="nextTourStep()">次へ</button>
+        </div>
+    </div>
+
     <script>
         // ===== 初期データ =====
         const STORAGE_KEY = 'care-torisetu-data';
+        const PHOTO_STORAGE_KEY = 'care-torisetu-photo';
         let currentView = 'form';
 
         const TEXT_IDS = [
@@ -1843,28 +2121,21 @@
             }
         }
 
-        // ===== VIEW切り替え（フットルーチン込） =====
         function showView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.app-footer').forEach(f => f.style.display = 'none');
 
-            if (viewName === 'list') {
-                document.getElementById('listView').classList.add('active');
-                document.getElementById('footerList').style.display = 'flex';
-                document.getElementById('appHeader').style.display = '';
-            } else if (viewName === 'form') {
-                document.getElementById('formView').classList.add('active');
-                document.getElementById('footerForm').style.display = 'flex';
-                document.getElementById('appHeader').style.display = '';
-            } else if (viewName === 'preview') {
-                document.getElementById('previewView').classList.add('active');
-                document.getElementById('footerPreview').style.display = 'flex';
-                document.getElementById('appHeader').style.display = 'none';
-            } else if (viewName === 'help') {
-                document.getElementById('helpView').classList.add('active');
-                document.getElementById('footerHelp').style.display = 'flex';
-                document.getElementById('appHeader').style.display = '';
-            }
+            document.getElementById(viewName + 'View').classList.add('active');
+
+            const footerMap = {
+                'list': 'footerList',
+                'form': 'footerForm',
+                'preview': 'footerPreview',
+                'help': 'footerHelp'
+            };
+            document.getElementById(footerMap[viewName]).style.display = 'flex';
+
+            document.getElementById('appHeader').style.display = (viewName === 'preview') ? 'none' : '';
             currentView = viewName;
         }
 
@@ -2043,6 +2314,17 @@
             document.getElementById('pvTitle').textContent = name + ' 身体情報シート';
             document.getElementById('pvCharm').textContent = charm;
 
+            // プロフィール写真の設定
+            const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY);
+            const pvAvatar = document.getElementById('pvAvatar');
+            if (savedPhoto) {
+                pvAvatar.style.backgroundImage = `url(${savedPhoto})`;
+                pvAvatar.textContent = '';
+            } else {
+                pvAvatar.style.backgroundImage = 'none';
+                pvAvatar.textContent = '👶';
+            }
+
             const grid = document.getElementById('bubbleGrid');
             grid.innerHTML = '';
             let hasContent = false;
@@ -2120,7 +2402,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
             initProfilePhoto();
-            initPhotoHint();
+            checkAndStartTour();
             loadAppData();
         });
     </script>
