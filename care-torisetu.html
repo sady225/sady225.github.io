@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>ケア・トリセツ</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root,
+        [data-theme="default"] {
+            --bg: #F5EDE3;
+            --card: #FFFFFF;
+            --accent: #8B6F4E;
+            --accent-light: #C9A96E;
+            --accent-bg: #EDE4D8;
+            --text: #3E2E1C;
+            --text-mid: #6B5744;
+            --text-light: #9A8672;
+            --border: #D4C4B0;
+            --shadow: 0 2px 12px rgba(62, 46, 28, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --section-1: #E8D5C0;
+            --section-2: #D4C4B0;
+            --section-3: #C9B99A;
+            --section-4: #BFAE8E;
+            --section-5: #B5A07A;
+            --input-bg: #FDFBF8;
+            --input-focus-ring: rgba(201, 169, 110, 0.15);
+            --header-bg: linear-gradient(135deg, #8B6F4E 0%, #A0845C 50%, #C9A96E 100%);
+            --header-text: #FFFFFF;
+            --header-overlay: rgba(255, 255, 255, 0.06);
+            --header-overlay-small: rgba(255, 255, 255, 0.04);
+            --btn-primary-bg: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            --btn-primary-text: #FFFFFF;
+            --btn-danger-bg: rgba(200, 50, 50, 0.1);
+            --btn-danger-text: #d9534f;
+            --toast-bg: var(--text);
+            --toast-text: #FFFFFF;
+            --preview-bg: linear-gradient(160deg, #5D4E37 0%, #4A3D2C 40%, #3E3325 100%);
+            --preview-text: #F5EDE3;
+            --preview-text-dim: #D4C4B0;
+            --preview-card-bg: #7A6B57;
+            --preview-card-border: #8A7B67;
+            --preview-name-bg: rgba(139, 111, 78, 0.6);
+            --preview-tag-bg: rgba(245, 237, 227, 0.8);
+            --preview-tag-text: #5D4E37;
+            --preview-vital-bg: rgba(255, 255, 255, 0.08);
+            --preview-empty-bg: rgba(245, 237, 227, 0.4);
+            --export-bg: #5D4E37;
+        }
+
+        [data-theme="high-contrast-bw"] {
+            --bg: #FFFFFF;
+            --card: #FFFFFF;
+            --accent: #000000;
+            --accent-light: #000000;
+            --accent-bg: #EEEEEE;
+            --text: #000000;
+            --text-mid: #000000;
+            --text-light: #000000;
+            --border: #000000;
+            --shadow: none;
+            --section-1: #FFFFFF;
+            --section-2: #FFFFFF;
+            --section-3: #FFFFFF;
+            --section-4: #FFFFFF;
+            --section-5: #FFFFFF;
+            --input-bg: #FFFFFF;
+            --input-focus-ring: rgba(0, 0, 0, 0.8);
+            --header-bg: #FFFFFF;
+            --header-text: #000000;
+            --header-overlay: transparent;
+            --header-overlay-small: transparent;
+            --btn-primary-bg: #000000;
+            --btn-primary-text: #FFFFFF;
+            --btn-danger-bg: #FFFFFF;
+            --btn-danger-text: #000000;
+            --toast-bg: #000000;
+            --toast-text: #FFFFFF;
+            --preview-bg: #FFFFFF;
+            --preview-text: #000000;
+            --preview-text-dim: #000000;
+            --preview-card-bg: #FFFFFF;
+            --preview-card-border: #000000;
+            --preview-name-bg: #FFFFFF;
+            --preview-tag-bg: #000000;
+            --preview-tag-text: #FFFFFF;
+            --preview-vital-bg: #FFFFFF;
+            --preview-empty-bg: #000000;
+            --export-bg: #FFFFFF;
+        }
+
+        [data-theme="high-contrast-by"] {
+            --bg: #000000;
+            --card: #000000;
+            --accent: #FFFF00;
+            --accent-light: #FFFF00;
+            --accent-bg: #222200;
+            --text: #FFFF00;
+            --text-mid: #FFFF00;
+            --text-light: #FFFF00;
+            --border: #FFFF00;
+            --shadow: none;
+            --section-1: #000000;
+            --section-2: #000000;
+            --section-3: #000000;
+            --section-4: #000000;
+            --section-5: #000000;
+            --input-bg: #000000;
+            --input-focus-ring: rgba(255, 255, 0, 0.8);
+            --header-bg: #000000;
+            --header-text: #FFFF00;
+            --header-overlay: transparent;
+            --header-overlay-small: transparent;
+            --btn-primary-bg: #FFFF00;
+            --btn-primary-text: #000000;
+            --btn-danger-bg: #000000;
+            --btn-danger-text: #FFFF00;
+            --toast-bg: #FFFF00;
+            --toast-text: #000000;
+            --preview-bg: #000000;
+            --preview-text: #FFFF00;
+            --preview-text-dim: #FFFF00;
+            --preview-card-bg: #000000;
+            --preview-card-border: #FFFF00;
+            --preview-name-bg: #000000;
+            --preview-tag-bg: #FFFF00;
+            --preview-tag-text: #000000;
+            --preview-vital-bg: #000000;
+            --preview-empty-bg: #FFFF00;
+            --export-bg: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--text);
+            padding-bottom: 80px;
+        }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            background: var(--header-bg);
+            padding: 28px 20px 24px;
+            text-align: center;
+            color: var(--header-text);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 140px;
+            height: 140px;
+            background: var(--header-overlay);
+            border-radius: 50%;
+        }
+
+        .app-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--header-overlay-small);
+            border-radius: 50%;
+        }
+
+        .theme-switcher {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 10;
+        }
+
+        .help-switcher {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 10;
+        }
+
+        .theme-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: var(--shadow);
+            font-family: inherit;
+        }
+
+        .header-emoji {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .header-title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-mid);
+        }
+
+        .save-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .save-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #5BB85D;
+        }
+
+        .save-dot.unsaved {
+            background: #F5A623;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        .btn-clear {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 11px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ===== VIEWS ===== */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* ===== MAIN (FORM VIEW) ===== */
+        .main-content {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== ACCORDION ===== */
+        .section {
+            margin-bottom: 14px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 18px;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header .section-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .section-header .section-title {
+            font-weight: 900;
+            font-size: 15px;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .section-header .section-count {
+            font-size: 11px;
+            color: var(--text);
+            background: var(--card);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .section-header .chevron {
+            font-size: 14px;
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .section.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .section.open .section-header {
+            border-bottom-color: var(--border);
+        }
+
+        .section-1 .section-header {
+            background: var(--section-1);
+        }
+
+        .section-2 .section-header {
+            background: var(--section-2);
+        }
+
+        .section-3 .section-header {
+            background: var(--section-3);
+        }
+
+        .section-4 .section-header {
+            background: var(--section-4);
+        }
+
+        .section-5 .section-header {
+            background: var(--section-5);
+        }
+
+        .section-body {
+            background: var(--card);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .section.open .section-body {
+            max-height: 5000px;
+        }
+
+        .section-inner {
+            padding: 18px;
+        }
+
+        /* ===== FORM FIELDS ===== */
+        .field-group {
+            margin-bottom: 18px;
+        }
+
+        .field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .field-label .field-emoji {
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text);
+            background: var(--input-bg);
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-light);
+            box-shadow: 0 0 0 3px var(--input-focus-ring);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        textarea.short {
+            min-height: 50px;
+        }
+
+        .field-hint {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .field-divider {
+            border: none;
+            border-top: 1px dashed var(--border);
+            margin: 18px 0;
+        }
+
+        /* ===== CHECKBOX GROUP ===== */
+        .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-appearance: auto;
+            appearance: auto;
+        }
+
+        .check-item label {
+            font-size: 13px;
+            color: var(--text);
+            cursor: pointer;
+            background: var(--accent-bg);
+            padding: 4px 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .check-item input:checked+label {
+            background: var(--accent-light);
+            color: var(--card);
+            font-weight: 700;
+        }
+
+        .other-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            margin-top: 4px;
+        }
+
+        /* ===== VITAL GRID ===== */
+        .vital-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .vital-item {
+            background: var(--input-bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+        }
+
+        .vital-item label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .vital-item input {
+            border: none;
+            padding: 4px 0;
+            font-size: 14px;
+            background: transparent;
+            width: 100%;
+            color: var(--text);
+        }
+
+        .vital-item input:focus {
+            box-shadow: none;
+        }
+
+        /* ========================================= */
+        /* ===== LIST VIEW (HOME) ===== */
+        /* ========================================= */
+        .list-wrap {
+            padding: 24px 16px 100px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .list-header {
+            margin-bottom: 24px;
+        }
+
+        .list-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .list-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .list-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .list-card:active {
+            transform: scale(0.98);
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        .list-name {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .list-date {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .btn-delete-card {
+            background: var(--btn-danger-bg);
+            color: var(--btn-danger-text);
+            border: 1px solid var(--border);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+
+        .empty-list {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-size: 14px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 2px dashed var(--border);
+        }
+
+        /* ========================================= */
+        /* ===== PREVIEW VIEW ===== */
+        /* ========================================= */
+        .preview-wrap {
+            background: var(--preview-bg);
+            min-height: calc(100vh - 80px);
+            padding: 24px 16px 40px;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .preview-title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--preview-text);
+            margin-bottom: 4px;
+        }
+
+        .preview-subtitle {
+            font-size: 11px;
+            color: var(--preview-text-dim);
+        }
+
+        /* Center illustration */
+        .preview-center {
+            text-align: center;
+            margin: 20px auto 28px;
+            position: relative;
+        }
+
+        .preview-avatar {
+            font-size: 80px;
+            line-height: 1;
+            display: block;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .preview-name {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--preview-text);
+            background: var(--preview-name-bg);
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+        }
+
+        .preview-charm {
+            font-size: 12px;
+            color: var(--preview-text-dim);
+            margin-top: 6px;
+        }
+
+        /* Bubble cards */
+        .bubble-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .bubble-card {
+            background: var(--preview-card-bg);
+            border-radius: 18px;
+            padding: 14px;
+            border: 1px solid var(--preview-card-border);
+            animation: bubbleIn 0.4s ease both;
+        }
+
+        .bubble-card.wide {
+            grid-column: 1 / -1;
+        }
+
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .bubble-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .bubble-icon {
+            font-size: 18px;
+        }
+
+        .bubble-title {
+            font-size: 12px;
+            font-weight: 900;
+            color: var(--preview-text);
+        }
+
+        .bubble-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .bubble-tag {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--preview-tag-text);
+            background: var(--preview-tag-bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .bubble-text {
+            font-size: 11px;
+            color: var(--preview-text-dim);
+            line-height: 1.6;
+            white-space: pre-line;
+            word-break: break-word;
+        }
+
+        .bubble-vital-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .bubble-vital {
+            font-size: 10px;
+            color: var(--preview-text-dim);
+            background: var(--preview-vital-bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .bubble-vital strong {
+            color: var(--preview-text);
+        }
+
+        .preview-empty {
+            text-align: center;
+            color: var(--preview-empty-bg);
+            font-size: 14px;
+            padding: 40px 20px;
+        }
+
+        /* ===== FOOTER ===== */
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+        }
+
+        .btn-secondary {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--toast-bg);
+            color: var(--toast-text);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== HELP VIEW ===== */
+        .help-wrapper {
+            padding: 24px 16px 120px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .help-header-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .help-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            color: var(--text-mid);
+            box-shadow: var(--shadow);
+            line-height: 1.6;
+        }
+
+        .help-section h3 {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+        }
+
+        .help-section p {
+            font-size: 13px;
+        }
+
+        .help-section strong {
+            color: var(--text);
+        }
+
+        .help-steps {
+            padding-left: 20px;
+            font-size: 13px;
+        }
+
+        .help-steps li {
+            margin-bottom: 12px;
+        }
+
+        .help-steps strong {
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+    </style>
+
+    <script>
+        let previousView = 'list';
+
+        function showHelp() {
+            if (currentView !== 'help') {
+                // Return to prev view logic
+                previousView = currentView;
+                showView('help');
+            }
+        }
+
+        function closeHelp() {
+            showView(previousView);
+        }
+
+        // テーマ切り替え設定
+        const THEMES = ['default', 'high-contrast-bw', 'high-contrast-by'];
+        const THEME_LABELS = {
+            'default': '🎨 標準',
+            'high-contrast-bw': '🎨 黒白',
+            'high-contrast-by': '🎨 黒黄'
+        };
+
+        function getComputedExportBg() {
+            // CSS変数からエクスポート用の背景色を取得
+            return getComputedStyle(document.documentElement).getPropertyValue('--export-bg').trim() || '#FFFFFF';
+        }
+
+        function toggleTheme() {
+            let current = localStorage.getItem('care-torisetu-theme') || 'default';
+            let nextIndex = (THEMES.indexOf(current) + 1) % THEMES.length;
+            let nextTheme = THEMES[nextIndex];
+
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('care-torisetu-theme', nextTheme);
+
+            // ボタンのラベルを更新
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.textContent = THEME_LABELS[nextTheme];
+            });
+            showToast('テーマを変更しました');
+        }
+
+        function initTheme() {
+            let current = localStorage.getItem('care-torisetu-theme') || 'default';
+            // 古いか不正な値ならデフォルトに戻す
+            if (!THEMES.includes(current)) current = 'default';
+
+            document.documentElement.setAttribute('data-theme', current);
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.textContent = THEME_LABELS[current];
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <header class="app-header" id="appHeader">
+        <button class="theme-btn help-switcher" onclick="showHelp()">❓ 使い方</button>
+        <button class="theme-btn theme-switcher" onclick="toggleTheme()">🎨 標準</button>
+        <div class="header-emoji">👶</div>
+        <div class="header-title">ケア・トリセツ</div>
+        <div class="header-sub">お子さんの大切な情報を<br>ひとつにまとめるアプリ</div>
+    </header>
+
+    <!-- ======== HELP VIEW ======== -->
+    <div id="helpView" class="view">
+        <div class="help-wrapper">
+            <div class="help-header-title">使い方・ご利用ガイド</div>
+
+            <div class="help-section">
+                <h3>このアプリについて</h3>
+                <p>「ケア・トリセツ」は、お子さんの大切な情報（身体情報やケア手順など）をひとつにまとめ、医療・福祉関係者とスムーズに共有するためのツールです。</p>
+            </div>
+
+            <div class="help-section">
+                <h3>🔒 データの保存について</h3>
+                <p>入力したデータは<strong>今お使いの端末（スマホやパソコン）の内部にのみ</strong>保存されます。<br>通信によって外部のサーバーに送信されたり、他の人に見られたりすることはありませんので安心してお使いください。
+                </p>
+            </div>
+
+            <div class="help-section">
+                <h3>📝 基本的な使い方</h3>
+                <ol class="help-steps">
+                    <li><strong>情報を入力する</strong><br>ホーム画面から「＋ 新規作成」を選び、項目を埋めていきます。</li>
+                    <li><strong>プレビューする</strong><br>画面下の「👁 プレビュー」ボタンを押すと、入力した内容がカード型にまとまった画面が表示されます。</li>
+                    <li><strong>共有する</strong><br>プレビュー画面にある「📷 画像」「📄 PDF」ボタンを押すと、お手元の端末に保存されます。それをLINEやメールに添付してご活用ください。
+                    </li>
+                </ol>
+            </div>
+
+            <div class="help-section">
+                <h3>🎨 便利な機能</h3>
+                <p>画面右上にある「🎨」ボタンを押すと、目の見えやすさに合わせてアプリの色合い（ハイコントラスト白黒・黒黄など）を変更できます。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== LIST VIEW ======== -->
+    <div id="listView" class="view active">
+        <div class="list-wrap">
+            <div class="list-header">
+                <div class="list-title">登録シート一覧</div>
+            </div>
+            <div class="list-cards" id="listCards">
+                <!-- JSで動的生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== FORM VIEW ======== -->
+    <div id="formView" class="view">
+
+        <div class="status-bar">
+            <div class="save-status">
+                <span class="save-dot" id="saveDot"></span>
+                <span id="saveLabel">保存済み</span>
+            </div>
+            <button class="btn-clear" onclick="confirmClear()">🗑 リセット</button>
+        </div>
+
+        <div class="main-content">
+
+            <!-- Section 1: 基本情報 -->
+            <div class="section section-1 open">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-icon">👤</span>
+                    <span class="section-title">基本情報</span>
+                    <span class="section-count">3項目</span>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="section-inner">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">😊</span> ニックネーム</div>
+                            <input type="text" id="nickname" placeholder="例：ゆうちゃん" oninput="autoSave()">
+                        </div>
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🎂</span> 生年月日</div>
+                            <input type="date" id="birthday" oninput="autoSave()">
+                        </div>
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">💎</span> チャームポイント</div>
+                            <textarea class="short" id="charmpoint" placeholder="例：クルクル頭がチャームポイント♡"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: 身体ケア -->
+            <div class="section section-2">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-icon">🩺</span>
+                    <span class="section-title">身体ケア</span>
+                    <span class="section-count">3項目</span>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="section-inner">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🫁</span> 気切・吸引</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_trach_kiri"
+                                        onchange="autoSave()"><label for="chk_trach_kiri">気切あり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_trach_bunri"
+                                        onchange="autoSave()"><label for="chk_trach_bunri">喉頭気管分離</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_trach_jinkobi"
+                                        onchange="autoSave()"><label for="chk_trach_jinkobi">人工鼻使用</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_trach_kokyuki"
+                                        onchange="autoSave()"><label for="chk_trach_kokyuki">呼吸器使用</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_trach_kyuin"
+                                        onchange="autoSave()"><label for="chk_trach_kyuin">吸引必要</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="tracheostomy" placeholder="カニューレの種類・サイズ、吸引の長さ・頻度など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🍼</span> 胃ろう・食事</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_feed_irou"
+                                        onchange="autoSave()"><label for="chk_feed_irou">胃ろうあり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_feed_button"
+                                        onchange="autoSave()"><label for="chk_feed_button">ボタン型</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_feed_tube"
+                                        onchange="autoSave()"><label for="chk_feed_tube">チューブ型</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_feed_keiko"
+                                        onchange="autoSave()"><label for="chk_feed_keiko">経口摂取</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_feed_chunyu"
+                                        onchange="autoSave()"><label for="chk_feed_chunyu">経管注入</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="feeding" placeholder="サイズ、交換頻度、注入内容・速度など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🚽</span> 排泄</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_exc_omutsu"
+                                        onchange="autoSave()"><label for="chk_exc_omutsu">オムツ使用</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_exc_toilet"
+                                        onchange="autoSave()"><label for="chk_exc_toilet">トイレ可</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_exc_kancho"
+                                        onchange="autoSave()"><label for="chk_exc_kancho">浣腸あり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_exc_zenkaijo"
+                                        onchange="autoSave()"><label for="chk_exc_zenkaijo">全介助</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_exc_control"
+                                        onchange="autoSave()"><label for="chk_exc_control">排便コントロール必要</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="excretion" placeholder="オムツのサイズ・銘柄、浣腸の方法など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: 症状・感覚 -->
+            <div class="section section-3">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-icon">⚡</span>
+                    <span class="section-title">症状・感覚</span>
+                    <span class="section-count">4項目</span>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="section-inner">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">⚡</span> てんかん</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_epi_ari"
+                                        onchange="autoSave()"><label for="chk_epi_ari">発作あり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_epi_zayaku"
+                                        onchange="autoSave()"><label for="chk_epi_zayaku">座薬使用</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_epi_kincho"
+                                        onchange="autoSave()"><label for="chk_epi_kincho">筋緊張あり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_epi_teikincho"
+                                        onchange="autoSave()"><label for="chk_epi_teikincho">低緊張</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細（発作時の対応など）</div>
+                            <textarea class="short" id="epilepsy" placeholder="発作の種類、頻度、対応手順など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">👀</span> 目・耳</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_eye_mienai"
+                                        onchange="autoSave()"><label for="chk_eye_mienai">目が見えない</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_eye_mienik"
+                                        onchange="autoSave()"><label for="chk_eye_mienik">見えにくい</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_eye_kikoen"
+                                        onchange="autoSave()"><label for="chk_eye_kikoen">聞こえにくい</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_eye_binkan"
+                                        onchange="autoSave()"><label for="chk_eye_binkan">音に敏感</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_eye_tengan"
+                                        onchange="autoSave()"><label for="chk_eye_tengan">点眼あり</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="eyesears" placeholder="視覚・聴覚の詳細、対応方法など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">💓</span> バイタルサイン（基準値）</div>
+                            <div class="vital-grid">
+                                <div class="vital-item"><label>🌡 体温</label><input type="text" id="vital_temp"
+                                        placeholder="36.0〜37.0℃" oninput="autoSave()"></div>
+                                <div class="vital-item"><label>💗 脈拍</label><input type="text" id="vital_pulse"
+                                        placeholder="80〜110回/分" oninput="autoSave()"></div>
+                                <div class="vital-item"><label>🩸 血圧</label><input type="text" id="vital_bp"
+                                        placeholder="90/65前後mmHG" oninput="autoSave()"></div>
+                                <div class="vital-item"><label>🫧 SpO2</label><input type="text" id="vital_spo2"
+                                        placeholder="96〜100%" oninput="autoSave()"></div>
+                                <div class="vital-item"><label>🌬 呼吸回数</label><input type="text" id="vital_resp"
+                                        placeholder="25回/分" oninput="autoSave()"></div>
+                            </div>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🩹</span> 皮膚トラブル</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_skin_tape"
+                                        onchange="autoSave()"><label for="chk_skin_tape">テープかぶれ</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_skin_asemo"
+                                        onchange="autoSave()"><label for="chk_skin_asemo">あせも</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_skin_kanso"
+                                        onchange="autoSave()"><label for="chk_skin_kanso">乾燥肌</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_skin_silicon"
+                                        onchange="autoSave()"><label for="chk_skin_silicon">シリコーンテープ使用</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="skin" placeholder="注意事項、対処法など" oninput="autoSave()"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: 生活・好み -->
+            <div class="section section-4">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-icon">🌟</span>
+                    <span class="section-title">生活・好み</span>
+                    <span class="section-count">3項目</span>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="section-inner">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">😴</span> 睡眠</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_slp_jikan"
+                                        onchange="autoSave()"><label for="chk_slp_jikan">寝つきに時間がかかる</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_slp_chuto"
+                                        onchange="autoSave()"><label for="chk_slp_chuto">中途覚醒あり</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_slp_hirune"
+                                        onchange="autoSave()"><label for="chk_slp_hirune">昼寝あり</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="sleep" placeholder="睡眠時間帯、入眠の工夫など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">💕</span> 好きなこと</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_fav_uta"
+                                        onchange="autoSave()"><label for="chk_fav_uta">歌・音楽</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_fav_yure"
+                                        onchange="autoSave()"><label for="chk_fav_yure">ゆれる遊び</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_fav_touch"
+                                        onchange="autoSave()"><label for="chk_fav_touch">スキンシップ</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_fav_ehon"
+                                        onchange="autoSave()"><label for="chk_fav_ehon">絵本・読み聞かせ</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_fav_soto"
+                                        onchange="autoSave()"><label for="chk_fav_soto">お散歩・外出</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="favorites" placeholder="好きな曲、遊び方の工夫など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">💬</span> コミュニケーション</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_com_hyojo"
+                                        onchange="autoSave()"><label for="chk_com_hyojo">表情で伝える</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_com_koe"
+                                        onchange="autoSave()"><label for="chk_com_koe">声を出す</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_com_kabin"
+                                        onchange="autoSave()"><label for="chk_com_kabin">触覚に過敏</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_com_yukkuri"
+                                        onchange="autoSave()"><label for="chk_com_yukkuri">ゆっくり声かけ</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="communication" placeholder="意思表示の方法、落ち着く関わり方など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: 医療・緊急 -->
+            <div class="section section-5">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-icon">🏥</span>
+                    <span class="section-title">医療・緊急</span>
+                    <span class="section-count">3項目</span>
+                    <span class="chevron">▼</span>
+                </div>
+                <div class="section-body">
+                    <div class="section-inner">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">💊</span> アレルギー</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_alg_yakuzai"
+                                        onchange="autoSave()"><label for="chk_alg_yakuzai">薬剤</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_alg_alcohol"
+                                        onchange="autoSave()"><label for="chk_alg_alcohol">アルコール</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_alg_tape"
+                                        onchange="autoSave()"><label for="chk_alg_tape">テープ</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_alg_nyu"
+                                        onchange="autoSave()"><label for="chk_alg_nyu">乳製品</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_alg_tamago"
+                                        onchange="autoSave()"><label for="chk_alg_tamago">卵</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_alg_komugi"
+                                        onchange="autoSave()"><label for="chk_alg_komugi">小麦</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="allergies" placeholder="具体的なアレルギー物質、症状など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">🩻</span> 必要な医ケア</div>
+                            <div class="check-group">
+                                <div class="check-item"><input type="checkbox" id="chk_med_kyuin"
+                                        onchange="autoSave()"><label for="chk_med_kyuin">吸引</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_med_keikan"
+                                        onchange="autoSave()"><label for="chk_med_keikan">経管栄養</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_med_sanso"
+                                        onchange="autoSave()"><label for="chk_med_sanso">酸素投与</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_med_kokyuki"
+                                        onchange="autoSave()"><label for="chk_med_kokyuki">人工呼吸器</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_med_dochu"
+                                        onchange="autoSave()"><label for="chk_med_dochu">導尿</label></div>
+                                <div class="check-item"><input type="checkbox" id="chk_med_tsuyu"
+                                        onchange="autoSave()"><label for="chk_med_tsuyu">ネブライザー</label></div>
+                            </div>
+                            <div class="other-label">📝 その他・詳細</div>
+                            <textarea class="short" id="medcare" placeholder="各ケアの頻度、方法、注意点など"
+                                oninput="autoSave()"></textarea>
+                        </div>
+                        <hr class="field-divider">
+                        <div class="field-group">
+                            <div class="field-label"><span class="field-emoji">👋</span> ご挨拶・紹介文</div>
+                            <textarea id="greeting" placeholder="例：ボクはゆうちゃん。&#10;クルクル頭がチャームポイント♡"
+                                oninput="autoSave()"></textarea>
+                            <div class="field-hint">初めて関わるスタッフへの紹介文にもなります</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======== PREVIEW VIEW ======== -->
+    <div id="previewView" class="view">
+        <div class="preview-wrap">
+            <div class="preview-header">
+                <div class="preview-title" id="pvTitle">身体情報シート</div>
+                <div class="preview-subtitle">ケア・トリセツ</div>
+            </div>
+            <div class="preview-center">
+                <span class="preview-avatar">👶</span>
+                <div class="preview-name" id="pvName">お名前</div>
+                <div class="preview-charm" id="pvCharm"></div>
+            </div>
+            <div class="bubble-grid" id="bubbleGrid">
+                <!-- JS で動的生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="app-footer" id="footerList">
+        <button class="btn btn-primary" onclick="createNewSheet()">➕ 新規シートを作成</button>
+    </div>
+    <div class="app-footer" id="footerForm" style="display:none;">
+        <button class="btn btn-secondary" onclick="goToList()" style="flex:0.8;">＜ 一覧</button>
+        <button class="btn btn-secondary" onclick="saveData()">💾 保存</button>
+        <button class="btn btn-primary" onclick="switchView()">👁 プレビュー</button>
+    </div>
+    <!-- ===== FOOTER (PREVIEW) ===== -->
+    <div class="app-footer" id="footerPreview" style="display: none;">
+        <button class="btn btn-secondary" onclick="switchView()">✏️ 編集へ戻る</button>
+        <button class="btn btn-primary" onclick="exportImage()">📷 画像を保存</button>
+        <button class="btn btn-primary" onclick="exportPDF()">📄 PDFを保存</button>
+    </div>
+
+    <!-- ===== FOOTER (HELP) ===== -->
+    <div class="app-footer" id="footerHelp" style="display: none;">
+        <button class="btn btn-secondary" onclick="closeHelp()">＜ 元の画面に戻る</button>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // ===== 初期データ =====
+        const STORAGE_KEY = 'care-torisetu-data';
+        let currentView = 'form';
+
+        const TEXT_IDS = [
+            'nickname', 'birthday', 'charmpoint',
+            'tracheostomy', 'feeding', 'excretion',
+            'epilepsy', 'eyesears', 'vital_temp', 'vital_pulse', 'vital_bp', 'vital_spo2', 'vital_resp', 'skin',
+            'sleep', 'favorites', 'communication',
+            'allergies', 'medcare', 'greeting'
+        ];
+
+        // ===== カテゴリ定義（プレビュー用） =====
+        const CATEGORIES = [
+            { icon: '👋', title: 'ご挨拶', textId: 'greeting', checks: [], wide: true },
+            {
+                icon: '🫁', title: '気切・吸引', textId: 'tracheostomy',
+                checks: ['chk_trach_kiri', 'chk_trach_bunri', 'chk_trach_jinkobi', 'chk_trach_kokyuki', 'chk_trach_kyuin']
+            },
+            {
+                icon: '🍼', title: '胃ろう・食事', textId: 'feeding',
+                checks: ['chk_feed_irou', 'chk_feed_button', 'chk_feed_tube', 'chk_feed_keiko', 'chk_feed_chunyu']
+            },
+            {
+                icon: '🚽', title: '排泄', textId: 'excretion',
+                checks: ['chk_exc_omutsu', 'chk_exc_toilet', 'chk_exc_kancho', 'chk_exc_zenkaijo', 'chk_exc_control']
+            },
+            {
+                icon: '👀', title: '目・耳', textId: 'eyesears',
+                checks: ['chk_eye_mienai', 'chk_eye_mienik', 'chk_eye_kikoen', 'chk_eye_binkan', 'chk_eye_tengan']
+            },
+            {
+                icon: '⚡', title: 'てんかん', textId: 'epilepsy',
+                checks: ['chk_epi_ari', 'chk_epi_zayaku', 'chk_epi_kincho', 'chk_epi_teikincho']
+            },
+            {
+                icon: '💓', title: 'バイタルサイン', textId: null, checks: [],
+                vitals: ['vital_temp', 'vital_pulse', 'vital_bp', 'vital_spo2', 'vital_resp']
+            },
+            {
+                icon: '🩹', title: '皮膚トラブル', textId: 'skin',
+                checks: ['chk_skin_tape', 'chk_skin_asemo', 'chk_skin_kanso', 'chk_skin_silicon']
+            },
+            {
+                icon: '😴', title: '睡眠', textId: 'sleep',
+                checks: ['chk_slp_jikan', 'chk_slp_chuto', 'chk_slp_hirune']
+            },
+            {
+                icon: '💕', title: '好きなこと', textId: 'favorites',
+                checks: ['chk_fav_uta', 'chk_fav_yure', 'chk_fav_touch', 'chk_fav_ehon', 'chk_fav_soto']
+            },
+            {
+                icon: '💬', title: 'コミュニケーション', textId: 'communication',
+                checks: ['chk_com_hyojo', 'chk_com_koe', 'chk_com_kabin', 'chk_com_yukkuri']
+            },
+            {
+                icon: '💊', title: 'アレルギー', textId: 'allergies',
+                checks: ['chk_alg_yakuzai', 'chk_alg_alcohol', 'chk_alg_tape', 'chk_alg_nyu', 'chk_alg_tamago', 'chk_alg_komugi']
+            },
+            {
+                icon: '🩻', title: '必要な医ケア', textId: 'medcare',
+                checks: ['chk_med_kyuin', 'chk_med_keikan', 'chk_med_sanso', 'chk_med_kokyuki', 'chk_med_dochu', 'chk_med_tsuyu']
+            },
+        ];
+
+        let appData = { list: [] };
+        let currentSheetId = null;
+
+        // ===== データの読み込みと初期化 =====
+        function loadAppData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    // マイグレーション（旧バージョンは単一オブジェクトだった）
+                    if (!parsed.list) {
+                        const oldId = Date.now().toString();
+                        appData = {
+                            list: [{
+                                id: oldId,
+                                updatedAt: parsed._savedAt || new Date().toISOString(),
+                                data: parsed
+                            }]
+                        };
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                    } else {
+                        appData = parsed;
+                    }
+                }
+            } catch (e) { console.warn('データの読み込みに失敗:', e); }
+            renderList();
+        }
+
+        // ===== 一覧画面の描画 =====
+        function renderList() {
+            const container = document.getElementById('listCards');
+            container.innerHTML = '';
+
+            if (appData.list.length === 0) {
+                container.innerHTML = '<div class="empty-list">シートがありません。<br>「新規シートを作成」から追加してください。</div>';
+                return;
+            }
+
+            // 更新日の降順でソートして表示
+            const sortedList = [...appData.list].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+            sortedList.forEach(sheet => {
+                const d = new Date(sheet.updatedAt);
+                const dateStr = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+                const name = sheet.data.nickname || 'なまえ未設定';
+
+                const card = document.createElement('div');
+                card.className = 'list-card';
+                card.innerHTML = `
+                    <div class="list-info" onclick="openSheet('${sheet.id}')">
+                        <div class="list-name">${name}</div>
+                        <div class="list-date">最終更新: ${dateStr}</div>
+                    </div>
+                    <button class="btn-delete-card" onclick="deleteSheet('${sheet.id}', event)">🗑</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== シート操作 =====
+        function createNewSheet() {
+            currentSheetId = Date.now().toString();
+            clearForm();
+            showView('form');
+        }
+
+        function openSheet(id) {
+            currentSheetId = id;
+            const sheet = appData.list.find(s => s.id === id);
+            if (sheet) {
+                fillForm(sheet.data);
+                showView('form');
+            }
+        }
+
+        function deleteSheet(id, e) {
+            e.stopPropagation();
+            if (confirm('このシートを削除しますか？\n元には戻せません。')) {
+                appData.list = appData.list.filter(s => s.id !== id);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                renderList();
+                showToast('🗑 削除しました');
+            }
+        }
+
+        function goToList() {
+            saveData(true);
+            renderList();
+            showView('list');
+            currentSheetId = null;
+        }
+
+        // ===== フォーム制御 =====
+        function clearForm() {
+            TEXT_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('saveDot').classList.remove('unsaved');
+            document.getElementById('saveLabel').textContent = '新規編集中…';
+        }
+
+        function fillForm(data) {
+            TEXT_IDS.forEach(id => { const el = document.getElementById(id); if (el && data[id] !== undefined) el.value = data[id]; });
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => { if (data[cb.id] !== undefined) cb.checked = data[cb.id]; });
+            document.getElementById('saveDot').classList.remove('unsaved');
+            document.getElementById('saveLabel').textContent = '読み込み完了';
+        }
+
+        // ===== 自動保存 =====
+        let saveTimeout;
+        function autoSave() {
+            if (!currentSheetId) return;
+            document.getElementById('saveDot').classList.add('unsaved');
+            document.getElementById('saveLabel').textContent = '変更あり…';
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => saveData(true), 1500);
+        }
+
+        // ===== 保存 =====
+        function saveData(silent) {
+            if (!currentSheetId) return;
+
+            const data = {};
+            TEXT_IDS.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => { data[cb.id] = cb.checked; });
+
+            const index = appData.list.findIndex(s => s.id === currentSheetId);
+            const newSheet = { id: currentSheetId, updatedAt: new Date().toISOString(), data: data };
+
+            if (index >= 0) {
+                appData.list[index] = newSheet;
+            } else {
+                appData.list.push(newSheet);
+            }
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                document.getElementById('saveDot').classList.remove('unsaved');
+                document.getElementById('saveLabel').textContent = '保存済み';
+                if (!silent) showToast('✅ 保存しました');
+            } catch (e) { showToast('⚠️ 保存に失敗しました'); }
+        }
+
+        // ===== リセット (現シートのデータクリア) =====
+        function confirmClear() {
+            if (confirm('入力内容をすべてリセットしますか？\nこの操作は元に戻せません。')) {
+                clearForm();
+                autoSave();
+                showToast('🗑 リセットしました');
+            }
+        }
+
+        // ===== VIEW切り替え（フットルーチン込） =====
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.app-footer').forEach(f => f.style.display = 'none');
+
+            if (viewName === 'list') {
+                document.getElementById('listView').classList.add('active');
+                document.getElementById('footerList').style.display = 'flex';
+                document.getElementById('appHeader').style.display = '';
+            } else if (viewName === 'form') {
+                document.getElementById('formView').classList.add('active');
+                document.getElementById('footerForm').style.display = 'flex';
+                document.getElementById('appHeader').style.display = '';
+            } else if (viewName === 'preview') {
+                document.getElementById('previewView').classList.add('active');
+                document.getElementById('footerPreview').style.display = 'flex';
+                document.getElementById('appHeader').style.display = 'none';
+            } else if (viewName === 'help') {
+                document.getElementById('helpView').classList.add('active');
+                document.getElementById('footerHelp').style.display = 'flex';
+                document.getElementById('appHeader').style.display = '';
+            }
+            currentView = viewName;
+        }
+
+        function switchView() {
+            if (currentView === 'form') {
+                saveData(true);
+                buildPreview();
+                showView('preview');
+            } else {
+                showView('form');
+            }
+        }
+
+        // ===== 日付プレフィックス =====
+        function getDatePrefix() {
+            const d = new Date();
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        // ===== キャプチャ準備・復元 =====
+        function prepareForCapture(target) {
+            const saved = {
+                minHeight: target.style.minHeight,
+                height: target.style.height,
+                width: target.style.width,
+                margin: target.style.margin,
+                scrollY: window.scrollY
+            };
+
+            // スクロール切り取り対策として画面トップへ
+            window.scrollTo(0, 0);
+
+            // 要素を内包コンテンツの高さに合わせて拡張
+            target.style.minHeight = 'auto';
+            target.style.height = 'max-content';
+            target.style.width = '100%';
+            target.style.margin = '0 auto';
+
+            // アニメーション無効化スタイル追加（描画途中のキャプチャ防止）
+            const noAnimStyle = document.createElement('style');
+            noAnimStyle.id = 'no-anim-style';
+            noAnimStyle.textContent = '* { animation: none !important; transition: none !important; }';
+            document.head.appendChild(noAnimStyle);
+
+            return saved;
+        }
+
+        function restoreAfterCapture(target, saved) {
+            target.style.minHeight = saved.minHeight;
+            target.style.height = saved.height;
+            target.style.width = saved.width;
+            target.style.margin = saved.margin;
+
+            const noAnimStyle = document.getElementById('no-anim-style');
+            if (noAnimStyle) noAnimStyle.remove();
+
+            window.scrollTo(0, saved.scrollY);
+        }
+
+        // ===== キャプチャスケールの安全な取得（iOSクラッシュ回避） =====
+        function getSafeScale(targetElement) {
+            // iOS Safariはキャンバスの寸法が一定以上（概ね幅x高さで16Mピクセル、あるいは4096px超過）でクラッシュする
+            const h = targetElement.scrollHeight || 1000;
+            const w = targetElement.scrollWidth || 500;
+            // 余裕を持って面積が10,000,000px以内、かつ縦・横どちらも4000px以内に収まる倍率を計算
+            const maxDimension = 4000;
+            const maxArea = 8000000;
+
+            let scale = window.devicePixelRatio || 1;
+            // 高画質すぎると重いので最大でも2に制限
+            if (scale > 2) scale = 2;
+
+            // 寸法チェック
+            if (w * scale > maxDimension) scale = maxDimension / w;
+            if (h * scale > maxDimension) scale = maxDimension / h;
+
+            // 面積チェック
+            if (w * h * scale * scale > maxArea) {
+                scale = Math.sqrt(maxArea / (w * h));
+            }
+
+            return Math.max(scale, 1); // 最低でも等倍
+        }
+
+        // ===== 画像書き出し =====
+        async function exportImage() {
+            showToast('📷 画像を生成中…');
+            try {
+                const target = document.querySelector('.preview-wrap');
+                const saved = prepareForCapture(target);
+
+                await new Promise(r => setTimeout(r, 200)); // スタイル適用の余裕をもたせる
+
+                const safeScale = getSafeScale(target);
+
+                const canvas = await html2canvas(target, {
+                    backgroundColor: getComputedExportBg(),
+                    scale: safeScale,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false
+                });
+
+                restoreAfterCapture(target, saved);
+
+                const link = document.createElement('a');
+                const name = document.getElementById('nickname').value || 'ケアトリセツ';
+                link.download = `${getDatePrefix()}-ケアトリセツ_${name}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('✅ 画像を保存しました');
+            } catch (e) {
+                console.error(e);
+                showToast('⚠️ 画像の生成に失敗しました');
+            }
+        }
+
+        // ===== PDF書き出し =====
+        async function exportPDF() {
+            showToast('📄 PDFを生成中…');
+            try {
+                const target = document.querySelector('.preview-wrap');
+                const saved = prepareForCapture(target);
+
+                await new Promise(r => setTimeout(r, 200));
+
+                const safeScale = getSafeScale(target);
+
+                const canvas = await html2canvas(target, {
+                    backgroundColor: getComputedExportBg(),
+                    scale: safeScale,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false
+                });
+
+                restoreAfterCapture(target, saved);
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageW = 210;
+                const pageH = 297;
+                const margin = 10;
+                const contentW = pageW - margin * 2;
+                const imgH = (canvas.height * contentW) / canvas.width;
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+
+                if (imgH <= pageH - margin * 2) {
+                    pdf.addImage(imgData, 'JPEG', margin, margin, contentW, imgH);
+                } else {
+                    let y = 0;
+                    while (y < imgH) {
+                        if (y > 0) pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', margin, margin - y, contentW, imgH);
+                        y += (pageH - margin * 2);
+                    }
+                }
+
+                const name = document.getElementById('nickname').value || 'ケアトリセツ';
+                pdf.save(`${getDatePrefix()}-ケアトリセツ_${name}.pdf`);
+                showToast('✅ PDFを保存しました');
+            } catch (e) {
+                console.error(e);
+                showToast('⚠️ PDFの生成に失敗しました');
+            }
+        }
+
+        // ===== プレビュー生成 =====
+        function buildPreview() {
+            const name = document.getElementById('nickname').value || 'お名前';
+            const charm = document.getElementById('charmpoint').value || '';
+            document.getElementById('pvName').textContent = name + ' のからだ';
+            document.getElementById('pvTitle').textContent = name + ' 身体情報シート';
+            document.getElementById('pvCharm').textContent = charm;
+
+            const grid = document.getElementById('bubbleGrid');
+            grid.innerHTML = '';
+            let hasContent = false;
+
+            CATEGORIES.forEach((cat, i) => {
+                // チェック済み項目を収集
+                const checkedLabels = [];
+                cat.checks.forEach(cid => {
+                    const cb = document.getElementById(cid);
+                    if (cb && cb.checked) {
+                        const lbl = document.querySelector(`label[for="${cid}"]`);
+                        if (lbl) checkedLabels.push(lbl.textContent);
+                    }
+                });
+
+                // テキスト
+                const text = cat.textId ? (document.getElementById(cat.textId)?.value || '') : '';
+
+                // バイタルサイン
+                let vitalsHtml = '';
+                if (cat.vitals) {
+                    const vLabels = ['体温', '脈拍', '血圧', 'SpO2', '呼吸'];
+                    const vIcons = ['🌡', '💗', '🩸', '🫧', '🌬'];
+                    const filledVitals = [];
+                    cat.vitals.forEach((vid, vi) => {
+                        const v = document.getElementById(vid)?.value || '';
+                        if (v) filledVitals.push(`<div class="bubble-vital"><strong>${vIcons[vi]} ${vLabels[vi]}</strong> ${v}</div>`);
+                    });
+                    if (filledVitals.length > 0) vitalsHtml = `<div class="bubble-vital-grid">${filledVitals.join('')}</div>`;
+                }
+
+                // 何もなければスキップ
+                if (checkedLabels.length === 0 && !text.trim() && !vitalsHtml) return;
+
+                hasContent = true;
+                const card = document.createElement('div');
+                card.className = 'bubble-card' + (cat.wide ? ' wide' : '');
+                card.style.animationDelay = (i * 0.06) + 's';
+
+                let html = `<div class="bubble-header"><span class="bubble-icon">${cat.icon}</span><span class="bubble-title">${cat.title}</span></div>`;
+
+                if (checkedLabels.length > 0) {
+                    html += '<div class="bubble-tags">' + checkedLabels.map(l => `<span class="bubble-tag">✓ ${l}</span>`).join('') + '</div>';
+                }
+                if (vitalsHtml) html += vitalsHtml;
+                if (text.trim()) html += `<div class="bubble-text">${escHtml(text)}</div>`;
+
+                card.innerHTML = html;
+                grid.appendChild(card);
+            });
+
+            if (!hasContent) {
+                grid.innerHTML = '<div class="preview-empty">まだ入力がありません。<br>編集画面で情報を入力してください。</div>';
+            }
+        }
+
+        function escHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // ===== アコーディオン =====
+        function toggleSection(header) {
+            header.parentElement.classList.toggle('open');
+        }
+
+        // ===== トースト表示 =====
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadAppData();
+        });
+    </script>
+
+</body>
+
+</html>
