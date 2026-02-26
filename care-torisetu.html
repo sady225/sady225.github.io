@@ -1097,6 +1097,12 @@
             pointer-events: none !important;
         }
 
+        /* ツアー時のボタン位置ズレ防止（box-shadowによる見かけの膨張を防ぐ・あるいは固定位置を維持する） */
+        .theme-switcher.tour-highlight,
+        .help-switcher.tour-highlight {
+            margin: 0 !important;
+        }
+
         .header-photo-area.tour-highlight {
             border-radius: 50%;
         }
@@ -1489,6 +1495,14 @@
                     <li><strong>情報を入力する</strong><br>ホーム画面から「＋ 新規作成」を選び、項目を埋めていきます。</li>
                     <li><strong>プレビューする</strong><br>画面下の「👁 プレビュー」ボタンを押すと、入力した内容がカード型にまとまった画面が表示されます。</li>
                     <li><strong>共有する</strong><br>プレビュー画面にある「📷 画像」「📄 PDF」ボタンを押すと、お手元の端末に保存されます。それをLINEやメールに添付してご活用ください。
+                        <div
+                            style="font-size: 11px; color: var(--text-light); margin-top: 4px; padding: 6px; background: var(--card); border-radius: 6px; border: 1px dashed var(--border);">
+                            💡 <strong>スマホでの保存先について</strong><br>
+                            ・<b>PDFの場合</b>:
+                            本体内のファイルアプリ（iOSは青いフォルダの「ファイル」内のダウンロード項目、AndroidはFiles等の「ダウンロード」項目）に保存されることが多いです。<br>
+                            ・<b>画像の場合</b>: 「画像を保存」ボタンを押すとメニューが出ますので、「画像を保存（Save Image）」を選部と、ご自身の写真アプリ内に直接入ります。<br>
+                            ※LINE等のアプリ内から開いていて保存できない場合は、右上のメニューから「Safari(ブラウザ)で開く」等を選んでからお試しください。
+                        </div>
                     </li>
                 </ol>
             </div>
@@ -2046,7 +2060,7 @@
         }
 
         function deleteSheet(id, e) {
-            e.stopPropagation();
+            if (e) e.stopPropagation();
             if (confirm('このシートを削除しますか？\n元には戻せません。')) {
                 appData.list = appData.list.filter(s => s.id !== id);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
@@ -2244,12 +2258,50 @@
 
                 restoreAfterCapture(target, saved);
 
-                const link = document.createElement('a');
                 const name = document.getElementById('nickname').value || 'ケアトリセツ';
-                link.download = `${getDatePrefix()}-ケアトリセツ_${name}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast('✅ 画像を保存しました');
+                const filename = `${getDatePrefix()}-ケアトリセツ_${name}.png`;
+
+                canvas.toBlob(async (blob) => {
+                    if (!blob) {
+                        showToast('⚠️ 画像データの生成に失敗しました');
+                        return;
+                    }
+
+                    // Web Share APIが使えるかチェック（スマホ等の場合のみ実行）
+                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile && navigator.share && navigator.canShare) {
+                        const file = new File([blob], filename, { type: 'image/png' });
+                        if (navigator.canShare({ files: [file] })) {
+                            try {
+                                await navigator.share({
+                                    files: [file],
+                                    title: 'ケアトリセツ',
+                                    text: `${name}さんの身体情報シートです`
+                                });
+                                showToast('✅ 共有メニューを開きました');
+                                return; // 共有に成功したらここで終了
+                            } catch (err) {
+                                // ユーザーがキャンセルした場合はエラーになるが無視して良い
+                                if (err.name !== 'AbortError') {
+                                    console.error('共有エラー:', err);
+                                    // 失敗した場合は下のダウンロード処理にフォールバックする
+                                } else {
+                                    return; // キャンセルの場合は何もせず終了
+                                }
+                            }
+                        }
+                    }
+
+                    // Web Share APIが使えない、または失敗した場合は従来のダウンロード
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    showToast('✅ 画像を保存しました');
+                }, 'image/png');
+
             } catch (e) {
                 console.error(e);
                 showToast('⚠️ 画像の生成に失敗しました');
@@ -2282,18 +2334,87 @@
                 const pageW = 210;
                 const pageH = 297;
                 const margin = 10;
+
                 const contentW = pageW - margin * 2;
-                const imgH = (canvas.height * contentW) / canvas.width;
+                const contentH = pageH - margin * 2;
+
+                let renderW = contentW;
+                let renderH = (canvas.height * contentW) / canvas.width;
+                let offsetX = margin;
+
+                // 項目が少ない（スマホ縦画面1〜2画面分程度）場合は、1ページに収まるように縮小
+                if (renderH > contentH) {
+                    const scaledW = contentH * (canvas.width / canvas.height);
+                    // A4幅の約60%以上（文字が十分に読めるサイズ）を保てるなら1ページに収める
+                    if (scaledW >= contentW * 0.6) {
+                        renderW = scaledW;
+                        renderH = contentH;
+                        offsetX = margin + (contentW - renderW) / 2; // 中央揃え
+                    }
+                }
+
                 const imgData = canvas.toDataURL('image/jpeg', 0.85);
 
-                if (imgH <= pageH - margin * 2) {
-                    pdf.addImage(imgData, 'JPEG', margin, margin, contentW, imgH);
+                let scaleRef = canvas.width / renderW;
+
+                if (renderH <= contentH) {
+                    pdf.addImage(imgData, 'JPEG', offsetX, margin, renderW, renderH);
                 } else {
-                    let y = 0;
-                    while (y < imgH) {
-                        if (y > 0) pdf.addPage();
-                        pdf.addImage(imgData, 'JPEG', margin, margin - y, contentW, imgH);
-                        y += (pageH - margin * 2);
+                    // 要素の切れ目で改ページするロジック
+                    const children = Array.from(target.children);
+                    // グリッド内の要素も考慮
+                    const grid = target.querySelector('.bubble-grid');
+                    if (grid) {
+                        const gridChildren = Array.from(grid.children);
+                        children.push(...gridChildren);
+                    }
+
+                    let yPos = 0; // 現在の描画Y開始位置(pdf空間)
+                    let currentLimit = contentH; // 現在のページの限界
+
+                    // A4に収めるため、ページの下端をオーバーする要素を探す
+                    // （※ここでは厳密なDOMごとの切り出しではなく、画像全体のy座標シフトを用いて改ページします）
+                    let sliceOffsets = [0];
+                    let currentY = 0;
+
+                    // 単純に一定の高さ（contentH）ごとにスライスしつつ、
+                    // もしその境界線に跨っている要素があれば、スライス位置を少し上（要素の上端）にずらして調整するアプローチ
+                    while (currentY + contentH < renderH) {
+                        let sliceY = currentY + contentH;
+                        let adjustedSliceY = sliceY;
+
+                        // Canvas上のY座標に変換
+                        let canvasSliceY = sliceY * scaleRef;
+
+                        // このカットラインに重なっている要素を検索
+                        for (let el of children) {
+                            const rect = el.getBoundingClientRect();
+                            const targetRect = target.getBoundingClientRect();
+                            const elTop = rect.top - targetRect.top;
+                            const elBottom = rect.bottom - targetRect.top;
+
+                            // 要素がカットラインをまたいでいる場合
+                            if (elTop < canvasSliceY && elBottom > canvasSliceY) {
+                                // カットラインを要素の上端に引き上げる（マージン等考慮して少し余裕をもたせる）
+                                adjustedSliceY = (elTop / scaleRef) - 2;
+                                break;
+                            }
+                        }
+
+                        // もし要素が大きすぎて1ページに収まらない等で調整Yが更新されなかった（無限ループ防止）
+                        if (adjustedSliceY <= currentY) {
+                            adjustedSliceY = sliceY;
+                        }
+
+                        sliceOffsets.push(adjustedSliceY);
+                        currentY = adjustedSliceY;
+                    }
+
+                    // 算出したスライス位置で描画
+                    for (let i = 0; i < sliceOffsets.length; i++) {
+                        if (i > 0) pdf.addPage();
+                        let sy = sliceOffsets[i];
+                        pdf.addImage(imgData, 'JPEG', offsetX, margin - sy, renderW, renderH);
                     }
                 }
 
