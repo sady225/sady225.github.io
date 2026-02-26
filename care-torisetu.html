@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ケア・トリセツ</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap"
@@ -219,6 +220,14 @@
             --export-bg: #000000;
         }
 
+        html,
+        body {
+            overflow-x: hidden;
+            /* 横スクロール（画面幅が大きくなる・はみ出す問題）を防止 */
+            width: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -230,17 +239,22 @@
             background: var(--bg);
             min-height: 100vh;
             color: var(--text);
-            padding-bottom: 80px;
+            /* 下部のホームバー（iPhone等）と被らないように余白を追加 */
+            padding-bottom: calc(80px + env(safe-area-inset-bottom));
         }
 
         /* ===== HEADER ===== */
         .app-header {
             background: var(--header-bg);
-            padding: 28px 20px 24px;
+            /* 上部のノッチ（カメラ部分）と被らないように余白を追加 */
+            padding: calc(28px + env(safe-area-inset-top)) 20px 24px;
             text-align: center;
             color: var(--header-text);
             position: relative;
             border-bottom: 2px solid var(--border);
+            overflow: hidden;
+            /* 背景装飾のはみ出しを防ぐ */
+            box-sizing: border-box;
         }
 
         .app-header::before {
@@ -531,12 +545,15 @@
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 12px 14px;
-            font-size: 14px;
+            /* iOS特有の「入力時に勝手にズームされて画面幅がおかしくなる」現象を防ぐため、16px以上に固定 */
+            font-size: 16px;
             font-family: inherit;
             color: var(--text);
             background: var(--input-bg);
             transition: border-color 0.2s;
             -webkit-appearance: none;
+            box-sizing: border-box;
+            /* コンテナからのはみ出し防止 */
         }
 
         input:focus,
@@ -655,7 +672,7 @@
         /* ===== LIST VIEW (HOME) ===== */
         /* ========================================= */
         .list-wrap {
-            padding: 24px 16px 100px;
+            padding: calc(24px + env(safe-area-inset-top)) 16px calc(100px + env(safe-area-inset-bottom));
             max-width: 600px;
             margin: 0 auto;
         }
@@ -742,7 +759,7 @@
         .preview-wrap {
             background: var(--preview-bg);
             min-height: calc(100vh - 80px);
-            padding: 24px 16px 40px;
+            padding: calc(24px + env(safe-area-inset-top)) 16px calc(100px + env(safe-area-inset-bottom));
         }
 
         .preview-header {
@@ -912,12 +929,14 @@
             right: 0;
             background: var(--card);
             border-top: 1px solid var(--border);
-            padding: 12px 20px;
+            /* 下部のホームバー（iPhone等）と被らないように余白を追加 */
+            padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
             display: flex;
             gap: 10px;
             z-index: 100;
             max-width: 600px;
             margin: 0 auto;
+            box-sizing: border-box;
         }
 
         .btn {
@@ -971,7 +990,7 @@
 
         /* ===== HELP VIEW ===== */
         .help-wrapper {
-            padding: 24px 16px 120px;
+            padding: calc(24px + env(safe-area-inset-top)) 16px calc(120px + env(safe-area-inset-bottom));
             max-width: 600px;
             margin: 0 auto;
         }
@@ -1453,6 +1472,7 @@
             reader.readAsDataURL(file);
         }
     </script>
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 
 <body>
@@ -1470,7 +1490,7 @@
         <input type="file" id="profilePhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
 
         <div class="header-title">ケア・トリセツ</div>
-        <div class="header-sub">お子さんの大切な情報を<br>ひとつにまとめるアプリ</div>
+        <div class="header-sub">児童デイや学校へ<br>お子さんの情報をカンタン共有</div>
     </header>
 
     <!-- ======== HELP VIEW ======== -->
@@ -1480,7 +1500,7 @@
 
             <div class="help-section">
                 <h3>このアプリについて</h3>
-                <p>「ケア・トリセツ」は、お子さんの大切な情報（身体情報やケア手順など）をひとつにまとめ、医療・福祉関係者とスムーズに共有するためのツールです。</p>
+                <p>「ケア・トリセツ」は、お子さんの大切な情報（身体情報やケア手順など）をひとつにまとめ、「児童デイサービスと学校」とスムーズに共有するためのツールです。</p>
             </div>
 
             <div class="help-section">
@@ -1500,7 +1520,7 @@
                             💡 <strong>スマホでの保存先について</strong><br>
                             ・<b>PDFの場合</b>:
                             本体内のファイルアプリ（iOSは青いフォルダの「ファイル」内のダウンロード項目、AndroidはFiles等の「ダウンロード」項目）に保存されることが多いです。<br>
-                            ・<b>画像の場合</b>: 「画像を保存」ボタンを押すとメニューが出ますので、「画像を保存（Save Image）」を選部と、ご自身の写真アプリ内に直接入ります。<br>
+                            ・<b>画像の場合</b>: 「画像を保存」ボタンを押すとメニューが出ますので、「画像を保存（Save Image）」を選ぶと、ご自身の写真アプリ内に直接入ります。<br>
                             ※LINE等のアプリ内から開いていて保存できない場合は、右上のメニューから「Safari(ブラウザ)で開く」等を選んでからお試しください。
                         </div>
                     </li>
@@ -1522,6 +1542,52 @@
                 <div style="text-align: center; margin-top: 12px;">
                     <button class="btn btn-primary" onclick="forceRestartTour()"
                         style="width: 100%; max-width: 250px;">🔰 ガイドを再開する</button>
+                </div>
+            </div>
+
+            <div class="help-section"
+                style="background: var(--bg); border: none; padding: 12px; margin-top: 24px; text-align: center; font-size: 13px;">
+                <h3 style="margin-bottom: 8px; font-size: 14px; text-align: center;">💬 ご意見・ご要望</h3>
+                <p style="margin-bottom: 12px; line-height: 1.5; text-align: left;">
+                    「こんな機能が欲しい」「ここが使いにくい」などのご意見をお聞かせください。今後の開発の参考にさせていただきます。
+                </p>
+                <a href="https://forms.gle/8tFF9vksKx6JJDfZA" target="_blank" rel="noopener noreferrer"
+                    style="display: inline-block; padding: 10px 20px; background: var(--text); color: var(--bg); border-radius: 20px; text-decoration: none; font-weight: 700; width: 100%; max-width: 250px;">
+                    📋 要望・フィードバックを送る
+                </a>
+
+                <div
+                    style="margin-top: 24px; text-align: left; background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4
+                        style="margin-top: 0; margin-bottom: 8px; font-size: 12px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
+                        🛠 開発履歴 <span style="font-weight: normal; color: var(--text-light);">(現在: v1.2.0)</span></h4>
+                    <ul
+                        style="margin: 0; padding-left: 20px; font-size: 12px; color: var(--text-light); line-height: 1.6;">
+                        <li>v1.2.0 (2026.02) - 使い方ガイド機能、プロフィール写真機能追加、UI調整</li>
+                        <li>v1.1.0 (2026.02) - PDFと画像での保存機能（共有機能）追加</li>
+                        <li>v1.0.0 (2026.02.25) - アプリ公開（初期版リリース）</li>
+                    </ul>
+                </div>
+
+                <!-- Stripe アシスト権販売ボタン -->
+                <div
+                    style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed var(--border); text-align: center;">
+                    <h3 style="margin-bottom: 8px; font-size: 15px;">☕️ 開発をアシストする</h3>
+                    <p
+                        style="font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 16px; text-align: left;">
+                        「ケア・トリセツ」は、「子育て勉強会」や<a href="http://mikata.ryukyu-tane.com" target="_blank"
+                            rel="noopener noreferrer"
+                            style="color: var(--accent); text-decoration: underline;">「子どものMIKATA研究会」</a>における調査・研究をもとに開発されました。<br>
+                        ご利用は無料ですが、今後のサーバー維持やさらなる機能改善のため、<strong>「開発アシスト権（サンクスメール付き）」</strong>を販売しております。<br>
+                        もしよろしければ、開発・研究活動へのご支援として下記のボタンよりご購入いただけますと幸いです！🙇‍♂️
+                    </p>
+                    <stripe-buy-button buy-button-id="buy_btn_1T4shDCX0SDYX6T6eZVq5b1U"
+                        publishable-key="pk_live_bzIbtifxztk8A83vMxbU0rs000Hjw7MonH">
+                    </stripe-buy-button>
+                    <div style="margin-top: 12px; font-size: 11px;">
+                        <a href="tokushoho.html"
+                            style="color: var(--text-light); text-decoration: underline;">特定商取引法に基づく表記</a>
+                    </div>
                 </div>
             </div>
 
