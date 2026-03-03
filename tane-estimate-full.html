@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お見積り・ご発注フォーム｜琉球のタネ × 長安</title>
+    <link rel="icon" type="image/png"
+        href="https://news.ryukyu-tane.com/wp-content/uploads/2022/01/cropped-5bcb7dea-9627-4770-823b-aa04abf73fad_200x200.png">
+    <link rel="apple-touch-icon"
+        href="https://news.ryukyu-tane.com/wp-content/uploads/2022/01/cropped-5bcb7dea-9627-4770-823b-aa04abf73fad_200x200.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f0e8;
+            --surface: #ede7db;
+            --surface2: #e4ddd0;
+            --accent: #9a6f3a;
+            --accent2: #7a5228;
+            --text: #2c2418;
+            --text-dim: #7a6e5e;
+            --border: rgba(154, 111, 58, 0.22);
+            --green: #2e7a58;
+            --red: #c0392b;
+            --shadow: 0 2px 16px rgba(44, 36, 24, 0.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: 400;
+            font-size: 17px;
+            line-height: 1.75;
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* ===== ADMIN UI ===== */
+        .admin-trigger {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .btn-admin-login {
+            background: var(--surface2);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .admin-controls {
+            display: none;
+            background: #fff;
+            border: 2px dashed var(--accent);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .admin-mode .admin-controls {
+            display: block;
+        }
+
+        .admin-only {
+            display: none;
+        }
+
+        .admin-mode .admin-only {
+            display: inline-block;
+        }
+
+        .admin-edit-bar {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .btn-sm {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-del {
+            background: var(--red);
+            color: #fff;
+        }
+
+        /* ===== LAYOUT ===== */
+        .page-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 5rem;
+            position: relative;
+        }
+
+        /* ===== SCREEN / PRINT ===== */
+        .screen-only {}
+
+        .print-only {
+            display: none;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            padding-bottom: 1.2rem;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 1.8rem;
+        }
+
+        .page-header-eyebrow {
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .page-header-title {
+            font-family: 'Noto Serif JP', serif;
+            font-size: clamp(1.3rem, 5vw, 1.7rem);
+            font-weight: 300;
+            line-height: 1.3;
+        }
+
+        .page-header-sub {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: 0.3rem;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-wrap {
+            margin-bottom: 2rem;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: var(--surface2);
+            z-index: 0;
+        }
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .step-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--surface2);
+            background: #fff;
+            color: var(--text-dim);
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .step-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-align: center;
+            line-height: 1.4;
+            transition: color 0.3s;
+        }
+
+        .progress-step.active .step-circle {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(154, 111, 58, 0.35);
+            transform: scale(1.1);
+        }
+
+        .progress-step.active .step-label {
+            color: var(--accent);
+            font-size: 0.88rem;
+        }
+
+        .progress-step.done .step-circle {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .progress-step.done::after {
+            background: var(--green);
+        }
+
+        .progress-step.done .step-label {
+            color: var(--green);
+        }
+
+        /* ===== STEP PANELS ===== */
+        .step-panel {
+            display: none;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        /* ===== STEP HEADING ===== */
+        .step-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+
+        .step-description {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* ===== RECEIVER BOX ===== */
+        .receiver-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.9rem 1.1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .receiver-box-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .receiver-box-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .receiver-box-detail {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* ===== INPUT FIELDS ===== */
+        .field-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+
+        .field-required {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--red);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .field-optional {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-dim);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .field-input {
+            width: 100%;
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-size: 16px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .field-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(154, 111, 58, 0.12);
+        }
+
+        .field-input::placeholder {
+            color: #bbb;
+            font-size: 0.88rem;
+        }
+
+        .field-error {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--red);
+            margin-top: 0.4rem;
+            display: none;
+            padding: 0.5rem 0.8rem;
+            background: rgba(192, 57, 43, 0.08);
+            border-radius: 6px;
+        }
+
+        .field-error.show {
+            display: block;
+        }
+
+        /* ===== ITEMS ===== */
+        .items-hint {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            background: rgba(154, 111, 58, 0.07);
+            border-left: 3px solid var(--accent);
+            padding: 0.6rem 0.9rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .item-card {
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .item-card-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+        }
+
+        .item-card.selected {
+            border-color: var(--accent);
+            background: rgba(154, 111, 58, 0.04);
+        }
+
+        .item-check {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-top: 2px;
+        }
+
+        .item-check.checked {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .item-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.2rem;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .item-desc {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 0.35rem;
+        }
+
+        .item-price-tag {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent2);
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ===== TOTAL BLOCK ===== */
+        .total-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(154, 111, 58, 0.08);
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
+        }
+
+        .total-row.dim {
+            color: var(--text-dim);
+        }
+
+        .total-row.grand {
+            padding-top: 0.75rem;
+            margin-top: 0.3rem;
+            border-top: 2px solid var(--accent);
+            border-bottom: none;
+        }
+
+        .total-row.grand .total-label {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .total-row.grand .total-val {
+            font-family: 'Noto Serif JP', serif;
+            font-size: clamp(1.6rem, 6vw, 2.1rem);
+            color: var(--accent2);
+            font-weight: 700;
+        }
+
+        .total-val {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            padding: 1.1rem 2rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1.08rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 18px rgba(154, 111, 58, 0.28);
+        }
+
+        .btn-primary:disabled {
+            background: var(--surface2);
+            color: var(--text-dim);
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            color: var(--text-dim);
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* ===== RESULT VIEWS (Same as before) ===== */
+        .result-view {
+            display: none;
+        }
+
+        .result-view.show {
+            display: block;
+        }
+
+        .order-doc {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .order-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            font-size: 0.88rem;
+        }
+
+        .order-items-table th {
+            background: #f5f0e8;
+            padding: 0.5rem;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .order-items-table td {
+            padding: 0.6rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        @media print {
+            .screen-only {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body id="bodyRoot">
+
+    <div class="page-wrap">
+        <div class="admin-trigger screen-only">
+            <button class="btn-admin-login" id="adminBtn" onclick="toggleAdminMode()">管理者入口</button>
+        </div>
+
+        <div class="page-header screen-only">
+            <div class="page-header-eyebrow">Estimate &amp; Order Form</div>
+            <div class="page-header-title">お見積り・ご発注フォーム</div>
+            <div class="page-header-sub">株式会社琉球のタネ</div>
+        </div>
+
+        <div class="progress-wrap screen-only" id="progressWrap">
+            <div class="progress-steps">
+                <div class="progress-step" id="ps1">
+                    <div class="step-circle">①</div>
+                    <div class="step-label">お客様情報</div>
+                </div>
+                <div class="progress-step" id="ps2">
+                    <div class="step-circle">②</div>
+                    <div class="step-label">作業内容</div>
+                </div>
+                <div class="progress-step" id="ps3">
+                    <div class="step-circle">③</div>
+                    <div class="step-label">確認</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-panel" id="step1">
+            <div class="field-group">
+                <label class="field-label">会社名・お店の名前<span class="field-required">※必須</span></label>
+                <input class="field-input" id="clientCompany" type="text" placeholder="例：株式会社おきなわ">
+            </div>
+            <div class="field-group">
+                <label class="field-label">ご担当者のお名前<span class="field-required">※必須</span></label>
+                <input class="field-input" id="clientName" type="text" placeholder="例：比嘉 花子">
+            </div>
+            <div class="field-group">
+                <label class="field-label">メールアドレス<span class="field-required">※必須</span></label>
+                <input class="field-input" id="clientEmail" type="email" placeholder="例：hanako@okinawa.jp">
+            </div>
+            <div class="btn-wrap">
+                <button class="btn-primary" onclick="goStep2()">次へ　→</button>
+            </div>
+        </div>
+
+        <div class="step-panel" id="step2">
+            <div class="admin-controls">
+                <h4 style="margin-bottom:10px; font-size:14px; color:var(--accent);">【管理者】項目を追加</h4>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+                    <input id="new_name" class="field-input" placeholder="項目名" style="padding:5px;">
+                    <input id="new_price" class="field-input" type="number" placeholder="単価" style="padding:5px;">
+                </div>
+                <textarea id="new_desc" class="field-input" placeholder="説明文"
+                    style="padding:5px; height:60px; margin-bottom:10px;"></textarea>
+                <button class="btn-sm btn-edit" style="width:100%; padding:8px;" onclick="addItem()">＋ リストに追加保存</button>
+            </div>
+
+            <div class="items-hint">ご希望の作業を選んでください。</div>
+            <div id="itemsList"></div>
+
+            <div class="total-block">
+                <div class="total-row grand">
+                    <span class="total-label">お支払い合計（税込）</span>
+                    <span class="total-val" id="totalGrand">¥0</span>
+                </div>
+            </div>
+            <div class="btn-wrap" style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-primary" onclick="goStep3()">次へ　→</button>
+                <button class="btn-ghost" onclick="goStep(1)">← 戻る</button>
+            </div>
+        </div>
+
+        <div class="step-panel" id="step3">
+            <div class="step-heading">内容を確認してください</div>
+            <div class="total-block">
+                <div id="confirmItems" style="font-size:0.9rem; margin-bottom:10px;"></div>
+                <div class="total-row grand">
+                    <span class="total-label">合計金額</span>
+                    <span class="total-val" id="confirmGrand">¥0</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="showResultView('completeView')">発注を確定する</button>
+            <button class="btn-ghost" style="margin-top:10px;" onclick="goStep(2)">← 修正する</button>
+        </div>
+
+        <div class="result-view" id="completeView">
+            <div class="order-doc">
+                <h2 style="text-align:center; margin-bottom:20px;">発 注 完 了</h2>
+                <p>ご注文ありがとうございました。内容を確認次第ご連絡いたします。</p>
+            </div>
+            <button class="btn-primary screen-only" onclick="location.reload()">トップに戻る</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ===== INITIAL DATA =====
+        const DEFAULT_ITEMS = [
+            { id: 'base', name: 'ホームページ制作一式', desc: 'トップページ刷新・レスポンシブ対応', qty: 1, unit: '式', price: 50000, checked: true },
+            { id: 'server', name: 'サーバー移管サポート', desc: '現担当者との調整・ドメイン移管補助', qty: 1, unit: '式', price: 20000, checked: true },
+            { id: 'form', name: 'お問い合わせフォーム 項目追加', desc: '「問い合わせ内容」選択肢の追加', qty: 1, unit: '式', price: 5000, checked: false }
+        ];
+
+        let ITEMS = JSON.parse(localStorage.getItem('tane_items')) || DEFAULT_ITEMS;
+        let isAdmin = false;
+
+        // ===== ADMIN LOGIC =====
+        function toggleAdminMode() {
+            if (!isAdmin) {
+                const id = prompt("管理者IDを入力してください");
+                const pass = prompt("パスワードを入力してください");
+                if (id === "admin" && pass === "tane0320") {
+                    isAdmin = true;
+                    document.getElementById('bodyRoot').classList.add('admin-mode');
+                    document.getElementById('adminBtn').textContent = "管理者モード終了";
+                    renderItems();
+                } else {
+                    alert("認証に失敗しました");
+                }
+            } else {
+                isAdmin = false;
+                document.getElementById('bodyRoot').classList.remove('admin-mode');
+                document.getElementById('adminBtn').textContent = "管理者入口";
+                renderItems();
+            }
+        }
+
+        function addItem() {
+            const name = document.getElementById('new_name').value;
+            const price = parseInt(document.getElementById('new_price').value);
+            const desc = document.getElementById('new_desc').value;
+            if (!name || isNaN(price)) return alert("項目名と価格を入力してください");
+
+            const newItem = {
+                id: 'item_' + Date.now(),
+                name: name,
+                desc: desc,
+                qty: 1,
+                unit: '式',
+                price: price,
+                checked: false
+            };
+            ITEMS.push(newItem);
+            saveAndRender();
+            // Clear inputs
+            document.getElementById('new_name').value = "";
+            document.getElementById('new_price').value = "";
+            document.getElementById('new_desc').value = "";
+        }
+
+        function deleteItem(id) {
+            if (!confirm("この項目を削除しますか？")) return;
+            ITEMS = ITEMS.filter(i => i.id !== id);
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('tane_items', JSON.stringify(ITEMS));
+            renderItems();
+            calcTotal();
+        }
+
+        // ===== CORE LOGIC =====
+        function renderItems() {
+            const list = document.getElementById('itemsList');
+            list.innerHTML = '';
+            ITEMS.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card' + (item.checked ? ' selected' : '');
+
+                let html = `
+      <div class="item-card-inner" onclick="toggleItem('${item.id}')">
+        <div class="item-check ${item.checked ? 'checked' : ''}">${item.checked ? '✓' : ''}</div>
+        <div class="item-body">
+          <div class="item-title-row"><span class="item-name">${item.name}</span></div>
+          <div class="item-desc">${item.desc}</div>
+          <div class="item-price-tag">¥${item.price.toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+
+                if (isAdmin) {
+                    html += `
+        <div class="admin-edit-bar">
+          <button class="btn-sm btn-del" onclick="deleteItem('${item.id}')">削除</button>
+        </div>
+      `;
+                }
+
+                card.innerHTML = html;
+                list.appendChild(card);
+            });
+        }
+
+        function toggleItem(id) {
+            const item = ITEMS.find(i => i.id === id);
+            if (!item) return;
+            item.checked = !item.checked;
+            renderItems();
+            calcTotal();
+        }
+
+        function calcTotal() {
+            const selected = ITEMS.filter(i => i.checked);
+            const pretax = selected.reduce((s, i) => s + i.price * i.qty, 0);
+            const grand = Math.floor(pretax * 1.1);
+            document.getElementById('totalGrand').textContent = '¥' + grand.toLocaleString();
+            return { selected, grand };
+        }
+
+        function goStep(n) {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+            document.querySelectorAll('.progress-step').forEach((s, i) => {
+                s.classList.remove('active', 'done');
+                if (i + 1 < n) s.classList.add('done');
+                if (i + 1 === n) s.classList.add('active');
+            });
+        }
+
+        function goStep2() {
+            if (!document.getElementById('clientCompany').value || !document.getElementById('clientEmail').value) {
+                return alert("必須項目を入力してください");
+            }
+            goStep(2);
+        }
+
+        function goStep3() {
+            const data = calcTotal();
+            if (data.selected.length === 0) return alert("項目を1つ以上選択してください");
+            document.getElementById('confirmItems').innerHTML = data.selected.map(i => "・" + i.name).join("<br>");
+            document.getElementById('confirmGrand').textContent = "¥" + data.grand.toLocaleString();
+            goStep(3);
+        }
+
+        function showResultView(id) {
+            document.querySelectorAll('.step-panel, .progress-wrap').forEach(el => el.style.display = 'none');
+            document.getElementById(id).classList.add('show');
+        }
+
+        // Init
+        renderItems();
+        goStep(1);
+    </script>
+
+</body>
+
+</html>
