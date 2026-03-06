@@ -31,7 +31,7 @@
             font-family: 'Noto Sans JP', sans-serif;
             background-color: var(--sand-white);
             color: #333;
-            overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         header {
@@ -42,25 +42,10 @@
             color: var(--shuri-red);
         }
 
-        /* バーガーメニュー（ドロワー） */
-        #side-menu {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
-            z-index: 2000;
-        }
-
-        #side-menu.open {
-            transform: translateX(0);
-        }
-
-        #overlay {
-            display: none;
-            z-index: 1999;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        #overlay.open {
-            display: block;
+        .active-tab {
+            background-color: white !important;
+            color: var(--shuri-red) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         /* エリア別クラス */
@@ -113,18 +98,32 @@
             display: block;
         }
 
+        /* 地図の表示を保証するスタイル */
         #map {
+            display: block;
             width: 100%;
-            height: calc(100vh - 180px);
+            height: calc(100vh - 300px);
+            min-height: 400px;
             z-index: 1;
-            border-radius: 1.5rem;
+            border-radius: 2rem;
             background: #e5e7eb;
+            /* 読み込み前の色 */
         }
 
         @media (max-width: 768px) {
             #map {
-                height: 60vh;
+                height: 50vh;
+                min-height: 350px;
             }
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
         }
 
         * {
@@ -133,36 +132,31 @@
     </style>
 </head>
 
-<body>
-    <div id="overlay" class="fixed inset-0" onclick="toggleMenu()"></div>
+<body class="px-4 md:px-8">
 
-    <aside id="side-menu" class="fixed inset-y-0 left-0 w-64 bg-white shadow-2xl p-6 flex flex-col pt-20">
-        <h2 class="text-xs font-bold text-slate-400 mb-6 tracking-widest uppercase">メニュー</h2>
-        <nav class="flex flex-col gap-4">
-            <button onclick="showPage('home')"
-                class="flex items-center gap-3 text-lg font-bold text-slate-700 hover:text-shuri">
-                <span>📋</span> リスト表示
-            </button>
-            <button onclick="showPage('map-page')"
-                class="flex items-center gap-3 text-lg font-bold text-slate-700 hover:text-shuri">
-                <span>🗺️</span> 地図で探す
-            </button>
-        </nav>
-        <div class="mt-auto border-t pt-6">
-            <p class="text-[10px] text-slate-400">&copy; AsonProject</p>
-        </div>
-    </aside>
-
-    <div class="max-w-7xl mx-auto min-h-screen flex flex-col">
-        <header class="sticky top-0 z-[1000] py-4 bg-[#F7F3F0]/95 backdrop-blur-sm px-4">
-            <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-md border border-orange-100">
-                <button onclick="toggleMenu()" class="p-2 text-shuri text-2xl">☰</button>
-                <h1 class="text-sm md:text-xl font-bold text-shuri text-center flex-grow">沖縄県 自立支援窓口一覧</h1>
-                <div class="w-10"></div>
+    <div class="max-w-7xl mx-auto">
+        <header class="sticky top-0 z-[1000] py-4 bg-[#F7F3F0]/95 backdrop-blur-sm">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-[2rem] shadow-md border border-orange-100">
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold text-shuri flex items-center gap-2">
+                        <span>🌺</span> 沖縄県 自立支援窓口一覧
+                    </h1>
+                    <a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/_page_/001/007/902/r7soudanmadoguchi.pdf"
+                        target="_blank" class="text-[10px] md:text-[11px] text-blue-600 font-bold underline">
+                        📄 公式PDF資料を参照
+                    </a>
+                </div>
+                <div class="flex bg-slate-100 p-1 rounded-xl shrink-0">
+                    <button onclick="showPage('home')" id="tab-home"
+                        class="px-6 py-2 rounded-lg font-bold text-xs active-tab">リスト</button>
+                    <button onclick="showPage('map-page')" id="tab-map"
+                        class="px-6 py-2 rounded-lg font-bold text-xs text-slate-500">地図</button>
+                </div>
             </div>
         </header>
 
-        <main class="flex-grow p-4">
+        <main class="mt-4">
             <div id="page-home" class="page-content active">
                 <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-orange-50">
                     <h3 class="font-bold text-slate-800 mb-4 text-lg">📍 県内全域 窓口リスト</h3>
@@ -171,44 +165,34 @@
             </div>
 
             <div id="page-map-page" class="page-content">
-                <div class="flex flex-col bg-white rounded-[2rem] shadow-sm border border-orange-100 overflow-hidden">
-                    <div class="p-4 border-b bg-slate-50">
-                        <div class="flex gap-2 overflow-x-auto pb-2 custom-scroll no-scrollbar">
+                <div
+                    class="flex flex-col md:flex-row bg-white rounded-[2.5rem] shadow-sm border border-orange-100 overflow-hidden">
+                    <aside class="w-full md:w-80 border-r flex flex-col bg-orange-50/20">
+                        <div
+                            class="p-4 border-b bg-white font-bold text-xs text-shuri text-center uppercase tracking-wider">
+                            地域を絞り込む</div>
+                        <div class="p-3 grid grid-cols-2 gap-2 bg-white">
                             <button onclick="filterRegion('すべて')"
-                                class="region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border">すべて</button>
+                                class="region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100">すべて</button>
                             <button onclick="filterRegion('北部')"
-                                class="region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border">北部</button>
+                                class="region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100">北部</button>
                             <button onclick="filterRegion('中部')"
-                                class="region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border">中部</button>
+                                class="region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100">中部</button>
                             <button onclick="filterRegion('南部')"
-                                class="region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border">南部</button>
+                                class="region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100">南部</button>
                             <button onclick="filterRegion('離島')"
-                                class="region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border">離島</button>
+                                class="region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100 col-span-2">離島</button>
                         </div>
-                    </div>
-                    <div class="p-2">
+                        <div id="mapSidebarList"
+                            class="flex-grow max-h-[30vh] md:max-h-none overflow-y-auto custom-scroll p-4 space-y-2 border-t">
+                        </div>
+                    </aside>
+                    <main class="flex-grow p-4 bg-white">
                         <div id="map"></div>
-                    </div>
-                    <div id="mapSidebarList" class="p-4 space-y-2 max-h-[40vh] overflow-y-auto bg-slate-50 border-t">
-                    </div>
+                    </main>
                 </div>
             </div>
         </main>
-
-        <footer class="p-8 text-center bg-white mt-8 rounded-t-[3rem] shadow-inner">
-            <div class="max-w-3xl mx-auto mb-6">
-                <h2 class="text-sm font-bold text-shuri mb-2 tracking-widest uppercase">出典・公式情報</h2>
-                <a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/_page_/001/007/902/r7soudanmadoguchi.pdf"
-                    target="_blank"
-                    class="inline-flex items-center gap-2 text-blue-600 font-bold underline text-sm py-2">
-                    📄 沖縄県内の自立相談支援機関 相談窓口一覧 (PDF)
-                </a>
-                <p class="text-[11px] text-slate-400 mt-4 leading-relaxed">
-                    本サイトは、沖縄県が実施する「暮らしサポート事業」の情報を分かりやすく提供するためのポータルサイトです。
-                </p>
-            </div>
-            <p class="text-slate-300 text-[11px] tracking-widest font-medium uppercase mt-4">&copy; AsonProject</p>
-        </footer>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -235,32 +219,33 @@
         let map, markers = [];
         const regionColorMap = { "北部": "border-north", "中部": "border-central", "南部": "border-south", "離島": "border-islands" };
 
-        function toggleMenu() {
-            document.getElementById('side-menu').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('open');
-        }
-
-        function showPage(pageId) {
-            toggleMenu();
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            if (pageId === 'map-page') {
-                setTimeout(() => { if (!map) initMap(); map.invalidateSize(); }, 300);
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
         function initMap() {
+            if (map) return;
             map = L.map('map', { zoomControl: false }).setView([26.3, 127.8], 9);
             L.control.zoom({ position: 'bottomright' }).addTo(map);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             filterRegion('すべて');
         }
 
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.getElementById('tab-home').classList.toggle('active-tab', pageId === 'home');
+            document.getElementById('tab-map').classList.toggle('active-tab', pageId === 'map-page');
+
+            if (pageId === 'map-page') {
+                // 地図が隠れていた状態で描画されると崩れるため、少し遅らせて初期化とサイズ更新を行う
+                setTimeout(() => {
+                    if (!map) initMap();
+                    map.invalidateSize();
+                }, 200);
+            }
+        }
+
         function filterRegion(region) {
             const buttons = document.querySelectorAll('.region-btn');
             buttons.forEach(btn => {
-                btn.className = "region-btn shrink-0 px-4 py-2 rounded-full text-[10px] font-bold bg-white border transition-all";
+                btn.className = "region-btn p-2 rounded-lg text-[10px] font-bold bg-slate-100 transition-all";
                 if (btn.innerText === region) {
                     const cls = region === 'すべて' ? 'active-all' :
                         region === '北部' ? 'active-north' :
@@ -269,15 +254,18 @@
                     btn.classList.add(cls);
                 }
             });
+
             const sidebar = document.getElementById('mapSidebarList');
             sidebar.innerHTML = '';
             markers.forEach(m => map.removeLayer(m));
             markers = [];
+
             const filtered = region === 'すべて' ? locations : locations.filter(l => l.region === region);
             filtered.forEach(loc => {
                 const marker = L.marker([loc.lat, loc.lng]).addTo(map);
-                marker.bindPopup(`<div class="text-xs"><b>${loc.name}</b><br><a href="tel:${loc.tel}" class="text-blue-600 font-bold underline">📞 ${loc.tel}</a></div>`);
+                marker.bindPopup(`<div class="text-xs"><b>${loc.name}</b><br>${loc.tel}</div>`);
                 markers.push(marker);
+
                 const card = document.createElement('div');
                 card.className = `p-3 bg-white rounded-xl border border-orange-100 shadow-sm text-[11px] ${regionColorMap[loc.region]}`;
                 card.innerHTML = `<div class="font-bold text-slate-700">${loc.name}</div><div class="text-shuri font-bold mt-1">📞 ${loc.tel}</div>`;
@@ -294,7 +282,7 @@
                     <div class="p-4 bg-white rounded-2xl border border-orange-100 shadow-sm ${regionColorMap[loc.region]}">
                         <div class="font-bold text-slate-800 text-sm">${loc.city}</div>
                         <div class="text-[10px] text-slate-500 mb-2 leading-tight">${loc.name}</div>
-                        <a href="tel:${loc.tel}" class="text-shuri font-bold text-sm active:opacity-50">📞 ${loc.tel}</a>
+                        <a href="tel:${loc.tel}" class="text-shuri font-bold text-sm">📞 ${loc.tel}</a>
                     </div>`;
             });
         };
