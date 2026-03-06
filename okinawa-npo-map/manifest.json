@@ -1,0 +1,24 @@
+{
+    "name": "沖縄県 NPO・相談窓口マップ",
+    "short_name": "NPOマップ",
+    "description": "沖縄県のNPO法人と生活困窮者支援の相談窓口を地図上で検索できるアプリ",
+    "start_url": "./gatta3.html",
+    "display": "standalone",
+    "background_color": "#f1f5f9",
+    "theme_color": "#0d9488",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

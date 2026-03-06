@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沖縄県 統合マップ | データ連携版</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+    <style>
+        :root {
+            --npo-color: #0d948a;
+            --soudan-color: #0ea5e9;
+            --bg-dark: #1e293b;
+            --border-color: #e2e8f0;
+            --sidebar-width: 380px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            color: #1e293b;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background: white;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #f8fafc;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-panel {
+            padding: 1.2rem;
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .list-panel {
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 1.2rem;
+        }
+
+        .filter-btn {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--bg-dark);
+            color: white;
+            border-color: var(--bg-dark);
+        }
+
+        .type-switches {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .switch-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .switch-btn.npo {
+            background: #f0fdfa;
+            color: var(--npo-color);
+            border-color: var(--npo-color);
+        }
+
+        .switch-btn.soudan {
+            background: #f0f9ff;
+            color: var(--soudan-color);
+            border-color: var(--soudan-color);
+        }
+
+        .switch-btn.active {
+            opacity: 1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #f8fafc;
+        }
+
+        .card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .badge.npo {
+            background: var(--npo-color);
+        }
+
+        .badge.soudan {
+            background: var(--soudan-color);
+        }
+
+        #map {
+            flex: 1;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Hamburger Menu */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hamburger {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .hamburger:hover {
+            background: #f1f5f9;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: #475569;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 8px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            min-width: 200px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #1e293b;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.15s;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f1f5f9;
+        }
+
+        .dropdown-menu a .menu-icon {
+            font-size: 18px;
+        }
+
+        .dropdown-menu .current {
+            color: var(--npo-color);
+            background: #f0fdfa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader" class="loading-overlay">
+        <p>JSONデータを読み込んでいます...</p>
+    </div>
+
+    <header style="position:relative;">
+        <h1>🗺️ 沖縄県 NPO・相談窓口 統合マップ</h1>
+        <div class="header-right">
+            <div id="status-bar" style="font-size: 0.8rem; color: #64748b;">
+                表示中: <span id="resultCount">0</span>件
+            </div>
+            <button class="hamburger" id="menuBtn" aria-label="メニュー">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index-for-mobile.html">
+                <span class="menu-icon">📱</span>モバイル版
+            </a>
+            <a href="index-for-desktop.html" class="current">
+                <span class="menu-icon">💻</span>デスクトップ版（現在）
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <aside class="sidebar">
+            <div class="filter-panel">
+                <span class="section-label">1. 地域を選択</span>
+                <div class="grid-2" id="regionGrid">
+                    <button class="filter-btn active" data-region="">全域</button>
+                    <button class="filter-btn" data-region="北部">北部</button>
+                    <button class="filter-btn" data-region="中部">中部</button>
+                    <button class="filter-btn" data-region="南部">南部</button>
+                    <button class="filter-btn" data-region="離島">離島</button>
+                </div>
+
+                <span class="section-label">2. 市町村を選択</span>
+                <div class="grid-2" id="muniGrid">
+                    <p style="font-size: 12px; color: #94a3b8; grid-column: 1/-1;">地域を選択してください</p>
+                </div>
+
+                <span class="section-label">3. 表示種別 (ON/OFF)</span>
+                <div class="type-switches">
+                    <button id="toggleNpo" class="switch-btn npo active">🏢 NPO法人</button>
+                    <button id="toggleSoudan" class="switch-btn soudan active">🤝 相談窓口</button>
+                </div>
+            </div>
+
+            <div class="list-panel" id="resultList">
+                <div style="padding: 2rem; text-align: center; color: #94a3b8;">条件を選択してください</div>
+            </div>
+        </aside>
+
+        <div id="map"></div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="gatta_data.js"></script>
+
+    <script>
+        const MUNICIPALITIES = {
+            '北部': ['名護市', '国頭村', '大宜味村', '東村', '今帰仁村', '本部町', '恩納村', '宜野座村', '金武町', '伊江村'],
+            '中部': ['沖縄市', 'うるま市', '宜野湾市', '北谷町', '嘉手納町', '西原町', '読谷村', '北中城村', '中城村'],
+            '南部': ['那覇市', '浦添市', '豊見城市', '糸満市', '南城市', '与那原町', '南風原町', '八重瀬町'],
+            '離島': ['石垣市', '宮古島市', '久米島町', '竹富町', '与那国町', '多良間村', '北大東村', '南大東村', '粟国村', '渡名喜村', '座間味村', '渡嘉敷村', '伊平屋村', '伊是名村']
+        };
+
+        // 逆引き用：市町村名 -> 地域
+        const MUNI_TO_REGION = {};
+        for (const [region, munis] of Object.entries(MUNICIPALITIES)) {
+            munis.forEach(m => MUNI_TO_REGION[m] = region);
+        }
+
+        // 地域の中心座標とズームレベル
+        const REGION_VIEWS = {
+            '': [26.5, 127.5, 8],
+            '北部': [26.7, 128.0, 11],
+            '中部': [26.35, 127.78, 12],
+            '南部': [26.2, 127.7, 12],
+            '離島': [25.5, 126.0, 7]
+        };
+
+        const state = {
+            allData: [],
+            region: '',
+            muni: null,
+            showNpo: true,
+            showSoudan: true,
+            map: null,
+            clusters: null
+        };
+
+        function init() {
+            // 地図の初期化
+            state.map = L.map('map').setView([26.3, 127.8], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(state.map);
+            state.clusters = L.markerClusterGroup().addTo(state.map);
+
+            // データの正規化と地域判定 (gatta_data.js から GATTA_DATA を読み込み済み)
+            state.allData = GATTA_DATA.map(item => {
+                // 市町村名の正規化 (郡名を除去)
+                let cleanMuni = item.municipality || "";
+                cleanMuni = cleanMuni.replace(/.*郡/, "");
+
+                // 地域判定 (NPOデータなど region がない場合)
+                const region = item.region || MUNI_TO_REGION[cleanMuni] || "その他";
+
+                return {
+                    ...item,
+                    region: region,
+                    municipality: cleanMuni
+                };
+            });
+
+            document.getElementById('loader').style.display = 'none';
+
+            bindEvents();
+            update();
+        }
+
+        function bindEvents() {
+            // 地域選択ボタン
+            document.querySelectorAll('#regionGrid .filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('#regionGrid .filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    state.region = e.target.dataset.region;
+                    state.muni = null;
+                    renderMuniGrid();
+
+                    // 地図を地域に連動
+                    const view = REGION_VIEWS[state.region] || REGION_VIEWS[''];
+                    state.map.setView([view[0], view[1]], view[2], { animate: true });
+
+                    update();
+                });
+            });
+
+            // 表示スイッチ
+            document.getElementById('toggleNpo').addEventListener('click', (e) => {
+                state.showNpo = !state.showNpo;
+                e.target.classList.toggle('active', state.showNpo);
+                update();
+            });
+            document.getElementById('toggleSoudan').addEventListener('click', (e) => {
+                state.showSoudan = !state.showSoudan;
+                e.target.classList.toggle('active', state.showSoudan);
+                update();
+            });
+        }
+
+        function renderMuniGrid() {
+            const container = document.getElementById('muniGrid');
+            const munis = MUNICIPALITIES[state.region] || [];
+            container.innerHTML = munis.map(m => `
+                <button class="filter-btn muni-btn" data-muni="${m}">${m}</button>
+            `).join('');
+
+            document.querySelectorAll('.muni-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.muni-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    state.muni = e.target.dataset.muni;
+                    update();
+                });
+            });
+        }
+
+        function update() {
+            // フィルタリング処理
+            const filtered = state.allData.filter(item => {
+                const matchRegion = !state.region || item.region === state.region;
+                const matchMuni = !state.muni || item.municipality === state.muni;
+
+                const isNpo = item.type === 'npo';
+                const isSoudan = item.type === 'soudan';
+                const matchType = (state.showNpo && isNpo) || (state.showSoudan && isSoudan);
+
+                return matchRegion && matchMuni && matchType;
+            });
+
+            // リスト表示の更新
+            document.getElementById('resultCount').textContent = filtered.length;
+            const list = document.getElementById('resultList');
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<p style="padding:2rem; text-align:center; color:#94a3b8;">該当するデータがありません</p>`;
+            } else {
+                list.innerHTML = filtered.map(item => `
+                    <div class="card" onclick="state.map.setView([${item.lat}, ${item.lon}], 16)">
+                        <span class="badge ${item.type}">${item.type === 'npo' ? 'NPO' : '相談窓口'}</span>
+                        <h3>${item.name}</h3>
+                        <p style="font-size:0.8rem; color:#64748b; margin-bottom:4px;">📍 ${item.address}</p>
+                        ${item.tel ? `<p style="font-size:0.8rem; color:#64748b;">📞 ${item.tel}</p>` : ""}
+                        ${item.categories ? `<p style="font-size:0.7rem; color:#94a3b8; margin-top:4px;">${item.categories.join(' / ')}</p>` : ""}
+                    </div>
+                `).join('');
+            }
+
+            // マーカー（クラスター）の更新
+            state.clusters.clearLayers();
+            filtered.forEach(item => {
+                if (item.lat && item.lon) {
+                    const color = item.type === 'npo' ? '#0d948a' : '#0ea5e9';
+                    const marker = L.circleMarker([item.lat, item.lon], {
+                        radius: 8, color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.8, fillColor: color
+                    }).bindPopup(`
+                        <div style="font-family:sans-serif; min-width: 200px;">
+                            <span class="badge ${item.type}">${item.type === 'npo' ? 'NPO' : '相談窓口'}</span>
+                            <div style="font-weight: bold; font-size: 1.1rem; margin: 4px 0;">${item.name}</div>
+                            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 8px;">${item.address}</div>
+                            ${item.tel ? `<div style="font-size: 0.85rem;">📞 ${item.tel}</div>` : ""}
+                            ${item.categories ? `<div style="font-size: 0.75rem; color: #64748b; margin-top: 8px; border-top: 1px solid #e2e8f0; padding-top: 4px;">テーマ: ${item.categories.join(', ')}</div>` : ""}
+                        </div>
+                    `);
+                    state.clusters.addLayer(marker);
+                }
+            });
+        }
+
+        window.onload = init;
+
+        // ハンバーガーメニュー
+        document.getElementById('menuBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('menuBtn').classList.toggle('open');
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('menuBtn').classList.remove('open');
+            document.getElementById('dropdownMenu').classList.remove('show');
+        });
+    </script>
+</body>
+
+</html>
