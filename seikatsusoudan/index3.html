@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>沖縄県 窓口一覧 PWA</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="沖縄サポート">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2555/2555572.png">
+    <link rel="manifest" id="my-manifest">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --shuri-red: #B33E3E;
+            --sand-white: #F7F3F0;
+            --color-north: #0ea5e9;
+            --color-central: #10b981;
+            --color-south: #f59e0b;
+            --color-islands: #8b5cf6;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--sand-white);
+            color: #333;
+            overflow-x: hidden;
+            /* iOSのバウンス抑制 */
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        header {
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .text-shuri {
+            color: var(--shuri-red);
+        }
+
+        /* バーガーメニュー */
+        #side-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-100%);
+            z-index: 2000;
+        }
+
+        #side-menu.open {
+            transform: translateX(0);
+        }
+
+        #overlay {
+            display: none;
+            z-index: 1999;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        #overlay.open {
+            display: block;
+        }
+
+        /* 地域ボタンの改行対応 */
+        .region-grid {
+            display: flex;
+            flex-wrap: wrap;
+            /* 自動改行 */
+            gap: 8px;
+            justify-content: center;
+        }
+
+        /* ページ切替 */
+        .page-content {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* 地図とリストの高さ固定（見切れ防止） */
+        .map-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            /* ヘッダー分を引く */
+        }
+
+        #map {
+            flex: 0 0 50%;
+            /* 画面の半分を地図に */
+            width: 100%;
+            z-index: 1;
+            border-radius: 1.5rem;
+            background: #e5e7eb;
+        }
+
+        #mapSidebarList {
+            flex: 1;
+            /* 残りをリストに */
+            overflow-y: auto;
+            background: white;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        /* エリア別ボーダー */
+        .border-north {
+            border-left: 5px solid var(--color-north);
+        }
+
+        .border-central {
+            border-left: 5px solid var(--color-central);
+        }
+
+        .border-south {
+            border-left: 5px solid var(--color-south);
+        }
+
+        .border-islands {
+            border-left: 5px solid var(--color-islands);
+        }
+
+        /* 地域別アクティブ */
+        .region-btn.active-all {
+            background-color: #475569 !important;
+            color: white;
+        }
+
+        .region-btn.active-north {
+            background-color: var(--color-north) !important;
+            color: white;
+        }
+
+        .region-btn.active-central {
+            background-color: var(--color-central) !important;
+            color: white;
+        }
+
+        .region-btn.active-south {
+            background-color: var(--color-south) !important;
+            color: white;
+        }
+
+        .region-btn.active-islands {
+            background-color: var(--color-islands) !important;
+            color: white;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="overlay" class="fixed inset-0" onclick="toggleMenu()"></div>
+
+    <aside id="side-menu" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl p-6 flex flex-col pt-24">
+        <nav class="flex flex-col gap-6">
+            <button onclick="showPage('home')"
+                class="flex items-center justify-between p-4 rounded-xl bg-slate-50 text-lg font-bold text-slate-700 active:scale-95 transition-transform">
+                <span>📋 リストで見る</span>
+                <span>▶︎</span>
+            </button>
+            <button onclick="showPage('map-page')"
+                class="flex items-center justify-between p-4 rounded-xl bg-slate-50 text-lg font-bold text-slate-700 active:scale-95 transition-transform">
+                <span>🗺️ 地図で探す</span>
+                <span>▶︎</span>
+            </button>
+        </nav>
+        <div class="mt-auto border-t pt-6 text-center">
+            <p class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">&copy; AsonProject</p>
+        </div>
+    </aside>
+
+    <div class="max-w-7xl mx-auto h-screen flex flex-col">
+        <header class="z-[1000] py-3 px-4 flex-shrink-0">
+            <div
+                class="flex items-center justify-between bg-white px-4 py-3 rounded-2xl shadow-lg border border-orange-100">
+                <button onclick="toggleMenu()"
+                    class="flex items-center gap-1 bg-orange-50 px-3 py-1.5 rounded-full text-shuri active:opacity-50 transition-opacity">
+                    <span class="text-[10px] font-bold">☰ メニュー</span>
+                </button>
+                <h1 class="text-[13px] md:text-lg font-black text-shuri text-center flex-grow px-2 leading-tight">
+                    沖縄県 自立相談支援機関<br><span class="text-[10px] text-slate-400 font-normal">相談窓口一覧ポータル</span>
+                </h1>
+                <div class="w-12"></div>
+            </div>
+        </header>
+
+        <main class="flex-grow overflow-hidden relative">
+            <div id="page-home" class="page-content active px-4">
+                <div class="bg-white rounded-3xl p-5 shadow-sm border border-orange-50 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 text-md flex items-center gap-2">📍 県内全域 窓口リスト</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="homeList"></div>
+                    <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+                        <a href="https://www.pref.okinawa.lg.jp/_res/projects/default_project/_page_/001/007/902/r7soudanmadoguchi.pdf"
+                            target="_blank" class="text-blue-600 font-bold underline text-[11px] block py-3">
+                            📄 公式PDF資料を参照 (沖縄県公式サイト)
+                        </a>
+                        <p class="text-[10px] text-slate-400 px-4">※本情報は公式PDFに基づきAsonProjectが整理したものです。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-map-page" class="page-content px-4">
+                <div class="map-wrapper bg-white rounded-3xl shadow-lg border border-orange-100 overflow-hidden">
+                    <div class="p-3 bg-slate-50 border-b">
+                        <p class="text-[9px] font-bold text-slate-400 text-center mb-2 uppercase tracking-widest">
+                            エリアで絞り込む</p>
+                        <div class="region-grid">
+                            <button onclick="filterRegion('すべて')"
+                                class="region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border">すべて</button>
+                            <button onclick="filterRegion('北部')"
+                                class="region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border">北部</button>
+                            <button onclick="filterRegion('中部')"
+                                class="region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border">中部</button>
+                            <button onclick="filterRegion('南部')"
+                                class="region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border">南部</button>
+                            <button onclick="filterRegion('離島')"
+                                class="region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border">離島</button>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                    <div class="p-2 bg-blue-50 text-[9px] text-blue-600 text-center font-bold">💡 地図のピンをタップすると詳細が表示されます
+                    </div>
+                    <div id="mapSidebarList" class="p-4 space-y-2 custom-scroll"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const locations = [
+            { region: "南部", city: "那覇市", name: "那覇市 就職・生活支援パーソナルサポートセンター", tel: "098-917-5348", addr: "那覇市泉崎1-20-1 カフーナ旭橋A街区６階", lat: 26.2117, lng: 127.6788 },
+            { region: "中部", city: "宜野湾市", name: "宜野湾市 福祉総務課 生活支援係", tel: "098-893-4480", addr: "宜野湾市野嵩1-1-1 宜野湾市役所内", lat: 26.2816, lng: 127.7778 },
+            { region: "離島", city: "石垣市", name: "石垣市 福祉部 福祉総務課 総務係", tel: "0980-87-6025", addr: "沖縄県石垣市真栄里672番地", lat: 24.3468, lng: 124.1852 },
+            { region: "中部", city: "浦添市", name: "浦添市 自立サポートセンター・てだこ未来", tel: "098-875-5065", addr: "浦添市安波茶1-1-1 浦添市役所内", lat: 26.2483, lng: 127.7246 },
+            { region: "北部", city: "名護市", name: "名護市 くらしと仕事の応援センター さぽんちゅ", tel: "0980-53-1212", addr: "名護市港1-1-1 名護市役所内", lat: 26.5915, lng: 127.9775 },
+            { region: "南部", city: "糸満市", name: "糸満市 くらしのサポートセンター きづき", tel: "098-840-8182", addr: "糸満市潮崎町1-1 糸満市役所内", lat: 26.1241, lng: 127.6695 },
+            { region: "中部", city: "沖縄市", name: "沖縄市 就職・生活支援パーソナルサポートセンター", tel: "098-923-3624", addr: "沖縄市仲宗根町35-3", lat: 26.3387, lng: 127.8028 },
+            { region: "南部", city: "豊見城市", name: "豊見城市 就職・生活支援パーソナルサポートセンター", tel: "098-850-1067", addr: "豊見城市宜保一丁目1番地1 豊見城市役所2階", lat: 26.1738, lng: 127.6749 },
+            { region: "中部", city: "うるま市", name: "うるま市 就職・生活支援パーソナルサポートセンター", tel: "098-989-3972", addr: "うるま市みどり町1-1-1 うるま市役所内", lat: 26.3745, lng: 127.8604 },
+            { region: "離島", city: "宮古島市", name: "宮古島市 生活福祉課 地域福祉係", tel: "0980-73-1962", addr: "宮古島市平良字西里1140番地", lat: 24.8055, lng: 125.2811 },
+            { region: "南部", city: "南城市", name: "南城市 就職・生活支援パーソナルサポートセンター", tel: "098-917-5334", addr: "南城市佐敷字新里1870番地 南城市役所内", lat: 26.1586, lng: 127.7758 },
+            { region: "北部", city: "沖縄県(北部)", name: "就職・生活支援パーソナルサポートセンター 北部", tel: "0980-43-0240", addr: "名護市大中3-9-1 官公労2階", lat: 26.5947, lng: 127.9814 },
+            { region: "中部", city: "沖縄県(中部)", name: "就職・生活支援パーソナルサポートセンター 中部", tel: "098-923-0881", addr: "沖縄市明道1-21-5 1階", lat: 26.3686, lng: 127.8225 },
+            { region: "南部", city: "沖縄県(南部支所)", name: "就職・生活支援パーソナルサポートセンター 南部支所", tel: "098-917-5407", addr: "那覇市泉崎1-22-1 カフーナ旭橋A街区 6階", lat: 26.2120, lng: 127.6791 },
+            { region: "南部", city: "沖縄県(南部)", name: "就職・生活支援パーソナルサポートセンター 南部", tel: "098-851-7105", addr: "南風原町宮平496-21 SKSビル 1F", lat: 26.1956, lng: 127.7214 },
+            { region: "離島", city: "沖縄県(久米島)", name: "久米島町就職・生活支援パーソナルサポートセンター", tel: "098-851-8335", addr: "久米島町字儀間5番地 協議会内", lat: 26.3315, lng: 126.7410 }
+        ];
+
+        let map, markers = [];
+        const regionColorMap = { "北部": "border-north", "中部": "border-central", "南部": "border-south", "離島": "border-islands" };
+
+        function toggleMenu() {
+            document.getElementById('side-menu').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('open');
+        }
+
+        function showPage(pageId) {
+            toggleMenu();
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            if (pageId === 'map-page') {
+                setTimeout(() => { if (!map) initMap(); map.invalidateSize(); }, 300);
+            }
+        }
+
+        function initMap() {
+            map = L.map('map', { zoomControl: false }).setView([26.3, 127.8], 9);
+            L.control.zoom({ position: 'bottomright' }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            filterRegion('すべて');
+        }
+
+        function filterRegion(region) {
+            const buttons = document.querySelectorAll('.region-btn');
+            buttons.forEach(btn => {
+                btn.className = "region-btn px-4 py-1.5 rounded-full text-[10px] font-bold bg-white border transition-all";
+                if (btn.innerText === region) {
+                    const cls = region === 'すべて' ? 'active-all' :
+                        region === '北部' ? 'active-north' :
+                            region === '中部' ? 'active-central' :
+                                region === '南部' ? 'active-south' : 'active-islands';
+                    btn.classList.add(cls);
+                }
+            });
+            const sidebar = document.getElementById('mapSidebarList');
+            sidebar.innerHTML = '';
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            const filtered = region === 'すべて' ? locations : locations.filter(l => l.region === region);
+            filtered.forEach(loc => {
+                const marker = L.marker([loc.lat, loc.lng]).addTo(map);
+                marker.bindPopup(`<div class="text-[11px] p-1"><b>${loc.name}</b><br>${loc.tel}</div>`);
+                markers.push(marker);
+                const card = document.createElement('div');
+                card.className = `p-4 bg-white rounded-2xl border border-slate-100 shadow-sm text-[12px] ${regionColorMap[loc.region]}`;
+                card.innerHTML = `<div class="font-bold text-slate-700">${loc.name}</div><div class="text-shuri font-bold mt-2">📞 ${loc.tel}</div>`;
+                card.onclick = () => { map.flyTo([loc.lat, loc.lng], 14); marker.openPopup(); };
+                sidebar.appendChild(card);
+            });
+            if (region === '離島') map.flyTo([25.0, 125.5], 7);
+        }
+
+        window.onload = () => {
+            const container = document.getElementById('homeList');
+            locations.forEach(loc => {
+                container.innerHTML += `
+                    <div class="p-4 bg-white rounded-2xl border border-slate-50 shadow-sm ${regionColorMap[loc.region]}">
+                        <div class="font-bold text-slate-800 text-[13px]">${loc.city}</div>
+                        <div class="text-[10px] text-slate-400 mb-2 leading-tight">${loc.name}</div>
+                        <a href="tel:${loc.tel}" class="text-shuri font-bold text-sm">📞 ${loc.tel}</a>
+                    </div>`;
+            });
+        };
+    </script>
+</body>
+
+</html>
