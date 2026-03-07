@@ -2,112 +2,106 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>心血管リスク管理(iPhone版完全版)</title>
+  <title>心血管リスク管理(Blood Pressure Calc)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="theme">
 
   <style>
-    :root {
-      --accent: #2b6cb0; --accent2: #2f855a; --warn: #c53030; --soft: #f7fafc;
+    /* 認証画面 */
+    #auth-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f7fafc; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 9999;
     }
-    .reveal { font-size: 22px; }
-    .reveal h2 { font-size: 1.1em; color: var(--accent); border-bottom: 2px solid var(--accent); display: inline-block; margin-bottom: 15px; }
+    .auth-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+    input[type="tel"] { width: 100%; padding: 12px; font-size: 18px; border: 2px solid #e2e8f0; border-radius: 8px; margin: 15px 0; text-align: center; }
+    button { background: #2b6cb0; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; width: 100%; }
+
+    /* Reveal.js 本体 */
+    .reveal { display: none; font-size: 20px; }
+    :root { --accent: #2b6cb0; --accent2: #2f855a; --warn: #c53030; --soft: #f7fafc; }
+    .reveal h2 { font-size: 1.2em; color: var(--accent); border-left: 8px solid var(--accent); padding-left: 15px; text-align: left; margin-bottom: 20px; }
     
-    /* 薬のまとめレイアウト */
-    .med-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.55em;
+    /* 血圧計算カード */
+    .bp-calc-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+      border-radius: 15px; padding: 20px; margin: 10px 0; border: 1px solid #dbeafe;
     }
-    .med-card {
-      padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; background: white; text-align: left;
-    }
-    .med-tag { font-weight: bold; font-size: 0.8em; display: block; margin-bottom: 2px; }
+    .bp-value { font-size: 1.8em; font-weight: bold; color: var(--accent); }
+    .bp-status { font-size: 0.8em; font-weight: bold; margin-top: 10px; padding: 5px; border-radius: 5px; }
+    .status-warn { background: #fff5f5; color: var(--warn); border: 1px solid #feb2b2; }
+    .status-good { background: #f0fff4; color: var(--accent2); border: 1px solid #9ae6b4; }
 
-    /* 食事ランキング */
-    .rank-table { width: 100%; font-size: 0.6em; border-collapse: collapse; }
-    .rank-table td { padding: 10px 5px; border-bottom: 1px solid #eee; }
-    .rank-icon { font-weight: bold; font-size: 1.2em; width: 30px; text-align: center; }
-    .rank-s { color: #d69e2e; } /* ◎ */
-    .rank-a { color: var(--accent2); } /* ◯ */
-    .rank-c { color: var(--warn); } /* × */
-
-    .chart-container { position: relative; height: 260px; width: 100%; margin-top: 10px; }
-    .card-sm { background: var(--soft); padding: 10px; border-radius: 8px; font-size: 0.65em; text-align: left; margin-top: 10px; }
+    .analysis-box { background: #edf2f7; padding: 10px; border-radius: 8px; font-size: 0.65em; text-align: left; border-left: 4px solid #718096; }
+    .med-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.6em; }
+    .med-card { padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; text-align: left; }
+    .rank-item { display: flex; align-items: center; background: var(--soft); margin-bottom: 8px; padding: 10px; border-radius: 10px; font-size: 0.7em; }
   </style>
 </head>
 <body>
+
+  <div id="auth-overlay">
+    <div class="auth-card">
+      <h3>🔒 認証</h3>
+      <input type="tel" id="pass-input" placeholder="098-958-0875" maxlength="13">
+      <button onclick="checkAuth()">閲覧を開始</button>
+      <p id="error-msg" style="color:red; display:none; font-size:12px; margin-top:10px;">パスワードが違います</p>
+    </div>
+  </div>
+
   <div class="reveal">
     <div class="slides">
+      
+      <section>
+        <h1 style="font-size: 1.5em;">心血管リスク管理</h1>
+        <p style="font-size: 0.6em;">直近データ自動分析</p>
+        <div class="analysis-box">
+          身長161cm / 体重75kg (BMI 28.9)<br>
+          心筋梗塞既往あり
+        </div>
+      </section>
 
       <section>
-        <h2>服用中の薬（全8種）</h2>
+        <h2>直近の血圧分析</h2>
+        <div class="bp-calc-card">
+          <div style="font-size: 0.6em; color: #666;">直近の平均値</div>
+          <div class="bp-value" id="avg-bp">分析中...</div>
+          <div id="bp-status-box" class="bp-status">判定中...</div>
+        </div>
+        <div class="analysis-box" style="margin-top:15px;">
+          <strong>データ元:</strong> 120〜132 / 88〜89 mmHg<br>
+          <small>※家庭血圧基準(135/85)と比較</small>
+        </div>
+      </section>
+
+      <section>
+        <h2>服用中の薬 (8種)</h2>
         <div class="med-grid">
-          <div class="med-card" style="border-left: 4px solid #c53030;">
-            <span class="med-tag" style="color:#c53030;">血液サラサラ</span>バイアスピリン
-          </div>
-          <div class="med-card" style="border-left: 4px solid #2b6cb0;">
-            <span class="med-tag" style="color:#2b6cb0;">コレステロール</span>ロスバスタチン<br>エゼチミブ
-          </div>
-          <div class="med-card" style="border-left: 4px solid #2f855a;">
-            <span class="med-tag" style="color:#2f855a;">中性脂肪(TG)</span>EPA/DHA
-          </div>
-          <div class="med-card" style="border-left: 4px solid #805ad5;">
-            <span class="med-tag" style="color:#805ad5;">血圧・心保護</span>アジルサルタン<br>アムロジピン<br>カルベジロール
-          </div>
-          <div class="med-card" style="border-left: 4px solid #718096; grid-column: span 2;">
-            <span class="med-tag" style="color:#718096;">胃の保護</span>タケキャブ
-          </div>
+          <div class="med-card" style="border-top:3px solid var(--warn);">血栓: バイアスピリン</div>
+          <div class="med-card" style="border-top:3px solid var(--accent);">脂質: ロスバスタチン等</div>
+          <div class="med-card" style="border-top:3px solid var(--accent2);">TG: EPA/DHA</div>
+          <div class="med-card" style="border-top:3px solid #805ad5;">血圧: 降圧薬3種</div>
         </div>
-        <p style="font-size:0.5em; margin-top:10px; color:#666;">※LDL・血圧管理の土台は薬で完成済み</p>
+        <p style="font-size:0.5em; text-align:left; margin-top:10px;">
+          ※アジルサルタン、アムロジピン、カルベジロール服用中
+        </p>
       </section>
 
       <section>
-        <h2>食事の推奨度ランク</h2>
-        <table class="rank-table">
-          <tr class="fragment">
-            <td class="rank-icon rank-s">◎</td>
-            <td><strong>青魚・オリーブ油</strong><br><small>TGを下げ、血管を掃除(HDL)する最強の味方</small></td>
-          </tr>
-          <tr class="fragment">
-            <td class="rank-icon rank-a">◯</td>
-            <td><strong>ナッツ・トマト・玉ねぎ</strong><br><small>抗酸化作用で動脈硬化の進行をブロック</small></td>
-          </tr>
-          <tr class="fragment">
-            <td class="rank-icon rank-c">×</td>
-            <td><strong>菓子パン・甘いアイス</strong><br><small>HbA1cを上げ、内臓脂肪を増やす最大要因</small></td>
-          </tr>
-        </table>
-      </section>
-
-      <section>
-        <h2>糖代謝の推移</h2>
-        <div class="chart-container">
-          <canvas id="chartMetabolic"></canvas>
+        <h2>食事推奨度</h2>
+        <div class="rank-item">
+          <b style="color:#d69e2e; margin-right:10px;">◎</b> 
+          <span>青魚・ナッツ・オリーブ油</span>
         </div>
-        <div class="card-sm">
-          <strong>分析:</strong> HbA1c 6.1%で横ばい。<br>
-          空腹時血糖は改善傾向だが、油断禁物。
+        <div class="rank-item">
+          <b style="color:var(--accent2); margin-right:10px;">◯</b> 
+          <span>トマト・玉ねぎ・チーズ</span>
         </div>
-      </section>
-
-      <section>
-        <h2>脂質・肝機能の推移</h2>
-        <div class="chart-container">
-          <canvas id="chartLipidLiver"></canvas>
-        </div>
-        <div class="card-sm">
-          <strong>課題:</strong> HDL(善玉)が39→30へ低下中。<br>
-          ALT(肝臓)も高止まり。<strong>運動不足が顕著。</strong>
-        </div>
-      </section>
-
-      <section>
-        <h2>最優先のアクション</h2>
-        <div class="card-sm" style="font-size: 0.8em; border-left: 5px solid var(--warn);">
-          <p><strong>1. 夜のおやつをナッツに</strong><br>（菓子パン・チップス禁止）</p>
-          <p><strong>2. 「座りっぱなし」を壊す</strong><br>（1時間に1回は立ち上がる）</p>
-          <p><strong>3. 目標：体重 -5kg</strong><br>（これで全ての数値が正常化へ）</p>
+        <div class="rank-item" style="border:1px solid var(--warn);">
+          <b style="color:var(--warn); margin-right:10px;">×</b> 
+          <span>菓子パン・甘い物・チップス</span>
         </div>
       </section>
 
@@ -117,43 +111,44 @@
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    Reveal.initialize({
-      width: 390, height: 800, margin: 0.05,
-      hash: true, slideNumber: 'c/t', center: true, touch: true
-    });
+    const HASH_KEY = "a957827e8a9366df65e8a719d363234907a3f890731df8126938992080344d18";
 
-    const labels = ["'25/9", "'25/11", "'26/1"];
-    const options = {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
-      scales: { y: { ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }
-    };
+    async function checkAuth() {
+      const input = document.getElementById('pass-input').value;
+      const msgUint8 = new TextEncoder().encode(input);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-    new Chart(document.getElementById("chartMetabolic"), {
-      type: "line",
-      data: {
-        labels,
-        datasets: [
-          { label: "HbA1c(%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", tension: 0.3 },
-          { label: "血糖(mg/dL)", data: [103, 107, 88], borderColor: "#2f855a", tension: 0.3 }
-        ]
-      },
-      options
-    });
+      if (hashHex === HASH_KEY) {
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.querySelector('.reveal').style.display = 'block';
+        calculateBP(); // 血圧計算
+        Reveal.initialize({ width: 390, height: 844, hash: true, center: true, touch: true });
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
 
-    new Chart(document.getElementById("chartLipidLiver"), {
-      type: "line",
-      data: {
-        labels,
-        datasets: [
-          { label: "ALT(肝)", data: [48, 49, 49], borderColor: "#c53030" },
-          { label: "HDL(善)", data: [39, 36, 30], borderColor: "#2b6cb0" },
-          { label: "LDL", data: [69, 75, 71], borderColor: "#805ad5" }
-        ]
-      },
-      options
-    });
+    function calculateBP() {
+      // データの定義
+      const sysRange = [120, 132];
+      const diaRange = [88, 89];
+      
+      const avgSys = Math.round((sysRange[0] + sysRange[1]) / 2);
+      const avgDia = Math.round((diaRange[0] + diaRange[1]) / 2);
+      
+      document.getElementById('avg-bp').innerText = `${avgSys} / ${avgDia}`;
+      
+      const statusBox = document.getElementById('bp-status-box');
+      // 家庭血圧基準: 135/85 [一般基準]
+      if (avgSys >= 135 || avgDia >= 85) {
+        statusBox.innerText = "⚠️ 拡張期血圧が基準(85)を超えています";
+        statusBox.className = "bp-status status-warn";
+      } else {
+        statusBox.innerText = "✅ 目標範囲内です";
+        statusBox.className = "bp-status status-good";
+      }
+    }
   </script>
 </body>
 </html>
-
