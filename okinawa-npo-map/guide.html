@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沖縄NPO・相談窓口マップ 使い方ガイド</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+        :root {
+            --r-heading-font: 'Noto Sans JP', sans-serif;
+            --r-main-font: 'Noto Sans JP', sans-serif;
+            --r-heading-color: #0f172a;
+            --r-main-color: #334155;
+            --r-link-color: #0d9488;
+        }
+
+        .reveal {
+            font-size: 28px;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            font-weight: 900;
+        }
+
+        .reveal h2 {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #0d9488;
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .hero-emoji {
+            font-size: 3em;
+            margin-bottom: 0.3em;
+            display: block;
+        }
+
+        .step-num {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d9488, #0ea5e9);
+            color: white;
+            font-weight: 900;
+            font-size: 1.2em;
+            text-align: center;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .badge-npo {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            background: #0d9488;
+            color: white;
+            font-size: 0.7em;
+            font-weight: 700;
+        }
+
+        .badge-soudan {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            background: #0ea5e9;
+            color: white;
+            font-size: 0.7em;
+            font-weight: 700;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 8px;
+            color: #0d9488;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #0d9488, #0ea5e9);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9em;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .tab-demo {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            background: #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 16px auto;
+            max-width: 320px;
+        }
+
+        .tab-demo span {
+            flex: 1;
+            padding: 12px;
+            font-size: 0.75em;
+            text-align: center;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .tab-demo span.active {
+            background: #0d9488;
+            color: white;
+        }
+
+        .region-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .region-btns span {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.7em;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .region-btns span.n {
+            background: #0ea5e9;
+            color: white;
+            border-color: #0ea5e9;
+        }
+
+        .region-btns span.c {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .region-btns span.s {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        .region-btns span.i {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        .small-note {
+            font-size: 0.6em;
+            color: #94a3b8;
+            margin-top: 20px;
+        }
+
+        .reveal .slides section {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- スライド1: タイトル -->
+            <section>
+                <span class="hero-emoji">🗺️</span>
+                <h1>沖縄NPO・相談窓口マップ</h1>
+                <h3 style="color:#64748b; font-weight:400;">使い方ガイド</h3>
+                <p style="margin-top:30px;">
+                    <span class="badge-npo">🏢 NPO法人</span>
+                    <span style="margin:0 8px; color:#94a3b8;">＋</span>
+                    <span class="badge-soudan">🤝 相談窓口</span>
+                </p>
+                <p class="small-note">← → キーまたはスワイプで進みます</p>
+            </section>
+
+            <!-- スライド2: このアプリでできること -->
+            <section>
+                <h2>📌 このアプリでできること</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>🔍 探す</h3>
+                        <p>沖縄県内のNPO法人・相談窓口を地域・市町村から検索</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🗺️ 見る</h3>
+                        <p>地図上でピンの位置を視覚的に確認</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📞 つながる</h3>
+                        <p>電話番号タップでそのまま発信可能</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📱 持ち歩く</h3>
+                        <p>PWA対応でスマホのホーム画面に追加</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- スライド3: 2つのバージョン -->
+            <section>
+                <h2>📱💻 2つのバージョン</h2>
+                <div class="feature-grid">
+                    <div class="feature-card" style="border-color:#0d9488;">
+                        <h3>📱 モバイル版</h3>
+                        <p>スマホに最適化されたタブ切り替えUI</p>
+                        <div class="tab-demo">
+                            <span class="active">🗺️ 地図</span>
+                            <span>📋 リスト</span>
+                            <span>🔍 絞り込み</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <h3>💻 デスクトップ版</h3>
+                        <p>左サイドバー＋右地図の2カラムレイアウト</p>
+                        <p style="font-size:0.85em; color:#64748b; margin-top:8px;">→ 右上の ≡ メニューで切り替え</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- スライド4: ステップ1 地域を選ぶ -->
+            <section>
+                <h2><span class="step-num">1</span>地域を選ぶ</h2>
+                <p>まず、探したい地域のボタンをタップします。</p>
+                <div class="region-btns">
+                    <span>全域</span>
+                    <span class="n">北部</span>
+                    <span class="c">中部</span>
+                    <span class="s">南部</span>
+                    <span class="i">離島</span>
+                </div>
+                <p style="font-size:0.8em; color:#475569;">
+                    🗺️ 地図が選んだ地域に自動で移動します
+                </p>
+            </section>
+
+            <!-- スライド5: ステップ2 市町村を選ぶ -->
+            <section>
+                <h2><span class="step-num">2</span>市町村を絞り込む</h2>
+                <p>地域を選ぶと、市町村ボタンが表示されます。</p>
+                <div class="region-btns">
+                    <span style="background:#334155; color:white; border-color:#334155;">すべて</span>
+                    <span>那覇市</span>
+                    <span>糸満市</span>
+                    <span>豊見城市</span>
+                    <span>南城市</span>
+                </div>
+                <p style="font-size:0.8em; color:#475569;">
+                    「すべて」を選ぶと地域内の全市町村が表示されます
+                </p>
+            </section>
+
+            <!-- スライド6: ステップ3 NPO/相談窓口の切り替え -->
+            <section>
+                <h2><span class="step-num">3</span>表示種別を切り替え</h2>
+                <p>見たいデータだけに絞れます。</p>
+                <div style="display:flex; gap:12px; justify-content:center; margin:24px 0;">
+                    <span class="badge-npo" style="font-size:0.9em; padding:10px 20px;">🏢 NPO法人</span>
+                    <span class="badge-soudan" style="font-size:0.9em; padding:10px 20px;">🤝 相談窓口</span>
+                </div>
+                <p style="font-size:0.8em; color:#475569;">
+                    ボタンをタップするとON/OFFが切り替わります
+                </p>
+            </section>
+
+            <!-- スライド7: ステップ4 リストから選ぶ -->
+            <section>
+                <h2><span class="step-num">4</span>リストから選ぶ</h2>
+                <p>リスト内の団体をタップすると、<br>地図がその場所にズームします。</p>
+                <div class="feature-card" style="max-width:320px; margin:20px auto; text-align:left;">
+                    <span class="badge-soudan">相談窓口</span>
+                    <h3 style="color:#0f172a;">○○くらし相談室</h3>
+                    <p style="font-size:0.75em; color:#64748b;">📍 那覇市○○1-2-3</p>
+                    <p style="font-size:0.75em; color:#0ea5e9;">📞 098-XXX-XXXX</p>
+                </div>
+                <p style="font-size:0.8em; color:#475569;">
+                    📞 電話番号タップでそのまま発信できます
+                </p>
+            </section>
+
+            <!-- スライド8: PWA -->
+            <section>
+                <h2>📱 スマホにアプリとして追加</h2>
+                <p style="font-size:0.85em;">iPhoneの場合：</p>
+                <div style="text-align:left; max-width:400px; margin:16px auto; font-size:0.85em;">
+                    <p><span class="step-num" style="width:32px;height:32px;line-height:32px;font-size:0.8em;">1</span>
+                        Safariで モバイル版 を開く</p>
+                    <p style="margin-top:8px;"><span class="step-num"
+                            style="width:32px;height:32px;line-height:32px;font-size:0.8em;">2</span> 下部の 共有ボタン（↑）をタップ
+                    </p>
+                    <p style="margin-top:8px;"><span class="step-num"
+                            style="width:32px;height:32px;line-height:32px;font-size:0.8em;">3</span> 「ホーム画面に追加」を選択</p>
+                </div>
+                <p style="font-size:0.8em; color:#475569;">
+                    → アプリアイコンが追加され、フルスクリーンで使えます！
+                </p>
+            </section>
+
+            <!-- スライド9: CTA -->
+            <section>
+                <span class="hero-emoji">🚀</span>
+                <h2>さっそく使ってみましょう！</h2>
+                <p style="margin:30px 0;">
+                    <a href="index-for-mobile.html" class="cta-btn">📱 モバイル版を開く</a>
+                </p>
+                <p>
+                    <a href="index-for-desktop.html" style="color:#0d9488; font-size:0.8em;">💻 デスクトップ版はこちら</a>
+                </p>
+                <p class="small-note" style="margin-top:40px;">沖縄県 NPO・相談窓口マップ</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            controlsTutorial: true,
+            touch: true,
+            progress: true,
+            center: true
+        });
+    </script>
+</body>
+
+</html>
