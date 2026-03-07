@@ -9,13 +9,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="theme">
 
   <style>
-    /* WCAG AAに合わせてwarn色を少し暗く調整 */
-    :root { --accent: #2b6cb0; --accent2: #2f855a; --warn: #992222; --soft: #f7fafc; --text: #1a202c; }
+    /* はみ出し防止の魔法のコード */
+    *, *::before, *::after { box-sizing: border-box; }
 
-    /* アクセシビリティ: 画面表示しないがスクリーンリーダーには読み上げさせる */
-    .sr-only {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-    }
+    :root { --accent: #2b6cb0; --accent2: #2f855a; --warn: #992222; --soft: #f7fafc; --text: #1a202c; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
     /* 認証画面 */
     #auth-screen {
@@ -27,45 +25,37 @@
       background: white; padding: 40px 20px; border-radius: 20px;
       width: 85%; max-width: 320px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
-    /* 認証ラベルのスタイル */
     .auth-box label { display: block; margin-bottom: 10px; color: #4a5568; font-size: 0.9em; text-align: left; }
-
     input[type="tel"] {
       width: 100%; padding: 15px; font-size: 24px; border: 2px solid #cbd5e0;
       border-radius: 12px; margin-bottom: 20px; text-align: center; letter-spacing: 0.1em;
       -webkit-appearance: none;
     }
-    .btn-submit {
-      background: #2b6cb0; color: white; border: none; width: 100%;
-      padding: 16px; border-radius: 12px; font-weight: bold; font-size: 1.2em;
-    }
-    /* ARIA live区域 */
+    .btn-submit { background: #2b6cb0; color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 1.2em; }
     .error-msg { color: var(--warn); font-size: 0.95em; margin-top: 15px; display: none; font-weight: bold; }
 
-    /* スライド全体設定 */
-    .reveal { display: none; font-size: 18px; color: var(--text); }
-    .reveal h2 { font-size: 1.25em; color: var(--accent); border-left: 6px solid var(--accent); padding-left: 10px; text-align: left; margin-bottom: 15px; }
-    .reveal h3 { font-size: 1.0em; color: var(--text); margin-bottom: 8px; font-weight: bold; text-align: left; }
+    /* スライド全体設定：ベースフォントサイズを22pxに拡大 */
+    .reveal { display: none; font-size: 22px; color: var(--text); }
+    .reveal h2 { font-size: 1.3em; color: var(--accent); border-left: 6px solid var(--accent); padding-left: 10px; text-align: left; margin-bottom: 20px; }
+    .reveal h3 { font-size: 1.1em; color: var(--text); margin-bottom: 10px; font-weight: bold; text-align: left; }
     
-    /* UIコンポーネント */
-    .card { background: var(--soft); padding: 12px 15px; border-radius: 10px; margin-bottom: 12px; text-align: left; font-size: 0.85em; border-left: 5px solid var(--accent); line-height: 1.4; }
+    /* UIコンポーネント：文字を大きく、余白も広めに */
+    .card { background: var(--soft); padding: 15px 18px; border-radius: 10px; margin-bottom: 15px; text-align: left; font-size: 1em; border-left: 5px solid var(--accent); line-height: 1.5; }
     .card.warn { border-left-color: var(--warn); }
     .card.good { border-left-color: var(--accent2); }
     
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #ebf8ff; color: var(--accent); font-size: 0.75em; margin: 0 4px 6px 0; font-weight: bold; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #ebf8ff; color: var(--accent); font-size: 0.85em; margin: 0 5px 8px 0; font-weight: bold; }
     
     .text-warn { color: var(--warn); font-weight: bold; }
     .text-good { color: var(--accent2); font-weight: bold; }
     
-    /* グラフコンテナ */
-    .chart-container { position: relative; height: 360px; width: 100%; margin: 15px 0; }
-    
+    .chart-container { position: relative; height: 350px; width: 100%; margin: 15px 0; }
     .version-label { text-align: right; font-size: 0.65em; color: #a0aec0; font-weight: bold; margin-top: 50px; }
     
-    /* スマホ用テーブル代替リスト */
-    ul.data-list { list-style: none; padding: 0; margin: 0; font-size: 0.85em; }
-    ul.data-list li { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding: 6px 0; }
+    /* リスト項目：行間と文字サイズを拡大 */
+    ul.data-list { list-style: none; padding: 0; margin: 0; font-size: 1em; }
+    ul.data-list li { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding: 8px 0; }
     ul.data-list li:last-child { border-bottom: none; }
   </style>
 </head>
@@ -74,7 +64,7 @@
   <div id="auth-screen">
     <div class="auth-box">
       <h2 style="margin-top:0; color:#2d3748; font-size: 1.6em;">HEALTH DATA</h2>
-      <p style="color:#718096; font-size:0.85em; margin-bottom:20px;">パスワードを入力して解除</p>
+      <p style="color:#718096; font-size:0.9em; margin-bottom:20px;">パスワードを入力して解除</p>
       <label for="pw" class="sr-only">パスワード（10桁の数字）</label>
       <input type="tel" id="pw" placeholder="0000000000" maxlength="10">
       <button class="btn-submit" onclick="verify()">UNLOCK</button>
@@ -87,18 +77,18 @@
 
       <section>
         <h1 style="font-size: 1.5em; margin-bottom: 20px;">心血管リスク管理まとめ</h1>
-        <p style="font-size: 0.8em; color: #4a5568;">食べ物・薬・運動・体重・血液検査の関連整理</p>
-        <div class="card" style="text-align:center; border:none; background:#ebf8ff; padding: 15px;">
+        <p style="font-size: 0.85em; color: #4a5568;">食べ物・薬・運動・体重・血液検査の関連整理</p>
+        <div class="card" style="text-align:center; border:none; background:#ebf8ff; padding: 20px;">
           <div>
             <span class="pill">身長 161cm</span>
             <span class="pill">体重 75kg</span>
             <span class="pill">BMI 28.9</span>
             <span class="pill">心筋梗塞既往あり</span>
-            <span class="pill">デスクワーク中心</span>
+            <span class="pill">デスクワーク</span>
           </div>
-          <div style="margin-top: 10px; font-size: 1.0em;">直近血圧: <span style="font-weight:bold;">120-132 / 88-89</span></div>
+          <div style="margin-top: 15px; font-size: 1.1em;">直近血圧: <span style="font-weight:bold;">120-132 / 88-89</span></div>
         </div>
-        <div class="version-label">v1.2</div>
+        <div class="version-label">v1.3</div>
       </section>
 
       <section>
@@ -117,12 +107,12 @@
       <section>
         <h2>現在の薬と役割</h2>
         <div class="grid-2">
-          <div class="card" style="margin:0;"><b>血栓予防</b><br><small>バイアスピリン</small></div>
-          <div class="card" style="margin:0;"><b>LDL低下</b><br><small>ロスバスタチン<br>エゼチミブ</small></div>
-          <div class="card" style="margin:0;"><b>中性脂肪↓</b><br><small>EPA/DHA</small></div>
-          <div class="card" style="margin:0;"><b>胃酸抑制</b><br><small>タケキャブ</small></div>
+          <div class="card" style="margin:0; font-size:0.85em;"><b>血栓予防</b><br><small>バイアスピリン</small></div>
+          <div class="card" style="margin:0; font-size:0.85em;"><b>LDL低下</b><br><small>ロスバスタチン等</small></div>
+          <div class="card" style="margin:0; font-size:0.85em;"><b>中性脂肪↓</b><br><small>EPA/DHA</small></div>
+          <div class="card" style="margin:0; font-size:0.85em;"><b>胃酸抑制</b><br><small>タケキャブ</small></div>
         </div>
-        <div class="card" style="margin-top:10px;">
+        <div class="card" style="margin-top:12px; font-size:0.9em;">
           <b>血圧低下・心臓保護</b><br>
           <small>カルベジロール, アムロジピン, アジルサルタン</small>
         </div>
@@ -135,8 +125,8 @@
           <ul class="data-list" style="font-size:0.9em;">
             <li><span>青魚 (サバ)</span> <span>TG↓ HDL↑</span></li>
             <li><span>ナッツ/チーズ</span> <span>HDL↑</span></li>
-            <li><span>トマト/玉ねぎ</span> <span>動脈硬化・血栓予防</span></li>
-            <li><span>オリーブオイル</span> <span>HDL↑ LDL酸化防</span></li>
+            <li><span>トマト/玉ねぎ</span> <span>血栓予防</span></li>
+            <li><span>オリーブオイル</span> <span>HDL↑</span></li>
           </ul>
         </div>
         <div class="card warn">
@@ -153,15 +143,15 @@
         <h2>運動の影響と推奨</h2>
         <div class="card">
           <b>運動による効果</b>
-          <ul class="data-list" style="margin-top:5px;">
+          <ul class="data-list" style="margin-top:8px; font-size:0.9em;">
             <li><span>食後10分歩行</span> <span>HbA1c低下</span></li>
-            <li><span>有酸素 / こまめな歩行</span> <span>HDL上昇 / TG低下</span></li>
+            <li><span>有酸素 / 歩行</span> <span>HDL上昇 / TG低下</span></li>
             <li><span>筋トレ</span> <span>インスリン感受性改善</span></li>
           </ul>
         </div>
         <div class="card good" style="background:#f0fff4;">
           <b>★ 日常の推奨アクション</b>
-          <ul style="margin:5px 0 0 20px; font-size:0.85em;">
+          <ul style="margin:8px 0 0 25px; font-size:0.9em;">
             <li>1日 <strong>7000〜8000歩</strong></li>
             <li>30〜60分座ったら <strong>2〜3分立つ</strong></li>
             <li>食後に <strong>10〜15分歩く</strong></li>
@@ -172,7 +162,7 @@
       <section>
         <h2>体重と検査値の関係</h2>
         <div class="card">
-          <ul class="data-list">
+          <ul class="data-list" style="font-size:0.9em;">
             <li><span>現在 75kg</span> <span>HDL低め / ALT高め</span></li>
             <li><span>目標 70kg</span> <span>HDL↑ ALT↓ HbA1c↓</span></li>
             <li><span>理想 68kg</span> <span>血圧改善 TG↓</span></li>
@@ -180,7 +170,7 @@
         </div>
         <div class="card warn" style="border-left-color:#d69e2e;">
           <b>改善の優先順位</b>
-          <ol style="margin:5px 0 0 25px; font-size:0.85em;">
+          <ol style="margin:8px 0 0 25px; font-size:0.9em;">
             <li>体重 −5〜7kg</li>
             <li>歩数 8000歩</li>
             <li>夜のおやつ改善</li>
@@ -197,28 +187,28 @@
             <li><span>HDL</span> <span class="text-good">30 → 38〜42</span></li>
             <li><span>ALT</span> <span class="text-good">49 → 35</span></li>
             <li><span>HbA1c</span> <span class="text-good">6.1 → 5.6</span></li>
-            <li><span>中性脂肪 (TG)</span> <span class="text-good">101 → 80</span></li>
+            <li><span>中性脂肪(TG)</span> <span class="text-good">101 → 80</span></li>
           </ul>
         </div>
       </section>
 
       <section>
         <h2>糖代謝・血球指標の推移</h2>
-        <div class="chart-container"><canvas id="chartMetabolic" aria-label="糖代謝・血球指標の推移グラフ。HbA1c、空腹血糖、MCVの3つの指標を表示。"></canvas></div>
+        <div class="chart-container"><canvas id="chartMetabolic" aria-label="糖代謝・血球指標の推移グラフ。"></canvas></div>
       </section>
 
       <section>
         <h2>脂質・肝機能の推移</h2>
-        <div class="chart-container"><canvas id="chartLipidLiver" aria-label="脂質・肝機能の推移グラフ。ALT、HDL、LDL、TGの4つの指標を表示。"></canvas></div>
+        <div class="chart-container"><canvas id="chartLipidLiver" aria-label="脂質・肝機能の推移グラフ。"></canvas></div>
       </section>
 
       <section>
         <h2>総合まとめ</h2>
         <div class="card" style="background:#ebf8ff; border-left-color:var(--accent);">
-          <p style="margin:0 0 10px 0; font-size:1.1em; font-weight:bold;">
-            タイプ：インスリン抵抗型心血管リスク
+          <p style="margin:0 0 10px 0; font-size:1.15em; font-weight:bold;">
+            タイプ：インスリン抵抗型
           </p>
-          <ul style="margin:0 0 0 20px; font-size:0.9em; line-height:1.5;">
+          <ul style="margin:0 0 0 25px; font-size:0.95em; line-height:1.6;">
             <li><b>特徴:</b> HDL低い / HbA1c境界 / 内臓脂肪</li>
             <li>ただし、LDL管理良好・TG改善中。</li>
             <li><span class="text-warn">生活改善（体重・運動・間食）で数値改善の余地が非常に大きい。</span></li>
@@ -245,42 +235,30 @@
     }
 
     function startReveal() {
-      // margin: 0.05 にしてiPhone画面の隅まで広く使えるように調整
       Reveal.initialize({ width: 390, height: 844, margin: 0.05, hash: true, center: true, touch: true, transition: 'slide', backgroundTransition: 'fade' });
       
       const labels = ["'25/9", "'25/11", "'26/1"];
       
-      // スマホ向けグラフ共通設定
       const commonOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        animation: {
-          duration: 1200, // アニメーション時間を少し長く
-          easing: 'easeInOutQuart' // 滑らかなイージング
-        },
+        animation: { duration: 1200, easing: 'easeInOutQuart' },
         plugins: {
-          legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 }, padding: 10 } },
-          tooltip: {
-            // インクルーシブ対応: ツールチップをより見やすく
-            bodyFont: { size: 12 },
-            titleFont: { size: 14 }
-          }
+          legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 12 }, padding: 12 } },
+          tooltip: { bodyFont: { size: 14 }, titleFont: { size: 16 } }
         },
       };
 
-      // グラフのインスタンスを保持する変数
       let chartMetabolicInst = null;
       let chartLipidLiverInst = null;
 
-      // グラフ1を描画/アニメーション開始
       function drawChartMetabolic() {
-        if (chartMetabolicInst) { chartMetabolicInst.destroy(); } // 既存のを破棄
+        if (chartMetabolicInst) { chartMetabolicInst.destroy(); }
         chartMetabolicInst = new Chart(document.getElementById("chartMetabolic"), {
           type: "line",
           data: {
             labels,
             datasets: [
-              // インクルーシブ対応: pointStyleで形状を区別
               { label: "HbA1c(%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", backgroundColor: "#2b6cb0", tension: 0.2, yAxisID: "y1", pointStyle: 'circle' },
               { label: "空腹血糖", data: [103, 107, 88], borderColor: "#2f855a", backgroundColor: "#2f855a", tension: 0.2, yAxisID: "y2", pointStyle: 'rect' },
               { label: "MCV", data: [87.8, 87.4, 86.8], borderColor: "#805ad5", backgroundColor: "#805ad5", tension: 0.2, yAxisID: "y2", pointStyle: 'triangle' }
@@ -289,23 +267,21 @@
           options: {
             ...commonOptions,
             scales: {
-              y1: { type: "linear", position: "left", min: 5.4, max: 6.4, title: { display: true, text: "HbA1c", font:{size:10} }, ticks: { font: { size: 9 } } },
-              y2: { type: "linear", position: "right", min: 80, max: 115, grid: { drawOnChartArea: false }, title: { display: true, text: "血糖/MCV", font:{size:10} }, ticks: { font: { size: 9 } } }
+              y1: { type: "linear", position: "left", min: 5.4, max: 6.4, title: { display: true, text: "HbA1c", font:{size:12} }, ticks: { font: { size: 11 } } },
+              y2: { type: "linear", position: "right", min: 80, max: 115, grid: { drawOnChartArea: false }, title: { display: true, text: "血糖/MCV", font:{size:12} }, ticks: { font: { size: 11 } } }
             },
-            elements: { point: { radius: 5, hoverRadius: 8, borderWidth: 2 } } // データ点を大きく、ホバー/タップ効果を強調
+            elements: { point: { radius: 6, hoverRadius: 9, borderWidth: 2 } }
           }
         });
       }
 
-      // グラフ2を描画/アニメーション開始
       function drawChartLipidLiver() {
-        if (chartLipidLiverInst) { chartLipidLiverInst.destroy(); } // 既存のを破棄
+        if (chartLipidLiverInst) { chartLipidLiverInst.destroy(); }
         chartLipidLiverInst = new Chart(document.getElementById("chartLipidLiver"), {
           type: "line",
           data: {
             labels,
             datasets: [
-              // インクルーシブ対応: pointStyleで形状を区別
               { label: "ALT", data: [48, 49, 49], borderColor: "#c53030", backgroundColor: "#c53030", tension: 0.2, yAxisID: "y1", pointStyle: 'circle' },
               { label: "HDL", data: [39, 36, 30], borderColor: "#2b6cb0", backgroundColor: "#2b6cb0", tension: 0.2, yAxisID: "y1", pointStyle: 'rect' },
               { label: "LDL", data: [69, 75, 71], borderColor: "#805ad5", backgroundColor: "#805ad5", tension: 0.2, yAxisID: "y1", pointStyle: 'triangle' },
@@ -315,28 +291,22 @@
           options: {
             ...commonOptions,
             scales: {
-              y1: { type: "linear", position: "left", min: 20, max: 80, title: { display: true, text: "ALT/HDL/LDL", font:{size:10} }, ticks: { font: { size: 9 } } },
-              y2: { type: "linear", position: "right", min: 80, max: 200, grid: { drawOnChartArea: false }, title: { display: true, text: "TG", font:{size:10} }, ticks: { font: { size: 9 } } }
+              y1: { type: "linear", position: "left", min: 20, max: 80, title: { display: true, text: "ALT/HDL/LDL", font:{size:12} }, ticks: { font: { size: 11 } } },
+              y2: { type: "linear", position: "right", min: 80, max: 200, grid: { drawOnChartArea: false }, title: { display: true, text: "TG", font:{size:12} }, ticks: { font: { size: 11 } } }
             },
-            elements: { point: { radius: 5, hoverRadius: 8, borderWidth: 2 } } // データ点を大きく、ホバー/タップ効果を強調
+            elements: { point: { radius: 6, hoverRadius: 9, borderWidth: 2 } }
           }
         });
       }
 
-      // reveal.jsのイベントリスナーを設定 (スライド表示時にグラフを描画/アニメーション開始)
       Reveal.on('slidechanged', event => {
-        // 現在のスライドのcanvas IDを取得
         const canvas = event.currentSlide.querySelector('canvas');
         if (canvas) {
-          if (canvas.id === 'chartMetabolic') {
-            drawChartMetabolic();
-          } else if (canvas.id === 'chartLipidLiver') {
-            drawChartLipidLiver();
-          }
+          if (canvas.id === 'chartMetabolic') { drawChartMetabolic(); } 
+          else if (canvas.id === 'chartLipidLiver') { drawChartLipidLiver(); }
         }
       });
       
-      // 初期描画（最初のスライドがグラフの場合など）
       const initialCanvas = Reveal.getCurrentSlide().querySelector('canvas');
       if (initialCanvas) {
          if (initialCanvas.id === 'chartMetabolic') { drawChartMetabolic(); }
