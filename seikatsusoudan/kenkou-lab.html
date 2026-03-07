@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>心血管リスク管理(Mobile)</title>
+  <title>心血管リスク管理(iPhone版完全版)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
@@ -10,66 +10,30 @@
 
   <style>
     :root {
-      --accent: #2b6cb0;
-      --accent2: #2f855a;
-      --warn: #c53030;
-      --soft: #f7fafc;
+      --accent: #2b6cb0; --accent2: #2f855a; --warn: #c53030; --soft: #f7fafc;
     }
-    .reveal {
-      font-size: 24px; /* スマホ用にベースサイズを調整 */
-    }
-    .reveal h1 { font-size: 1.6em; color: var(--accent); }
-    .reveal h2 { font-size: 1.2em; color: var(--accent); margin-bottom: 20px; }
+    .reveal { font-size: 22px; }
+    .reveal h2 { font-size: 1.1em; color: var(--accent); border-bottom: 2px solid var(--accent); display: inline-block; margin-bottom: 15px; }
     
-    /* テーブルをスマホ幅にフィットさせる */
-    .reveal table {
-      font-size: 0.55em;
-      width: 100%;
-      margin: 0 auto;
+    /* 薬のまとめレイアウト */
+    .med-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.55em;
     }
-    .reveal th, .reveal td {
-      padding: 8px 4px;
-      border: 1px solid #e2e8f0;
+    .med-card {
+      padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; background: white; text-align: left;
     }
+    .med-tag { font-weight: bold; font-size: 0.8em; display: block; margin-bottom: 2px; }
 
-    /* カードデザインを縦積み対応に */
-    .card {
-      background: var(--soft);
-      border-left: 5px solid var(--accent);
-      padding: 15px;
-      border-radius: 8px;
-      margin: 10px 0;
-      text-align: left;
-      font-size: 0.7em;
-    }
+    /* 食事ランキング */
+    .rank-table { width: 100%; font-size: 0.6em; border-collapse: collapse; }
+    .rank-table td { padding: 10px 5px; border-bottom: 1px solid #eee; }
+    .rank-icon { font-weight: bold; font-size: 1.2em; width: 30px; text-align: center; }
+    .rank-s { color: #d69e2e; } /* ◎ */
+    .rank-a { color: var(--accent2); } /* ◯ */
+    .rank-c { color: var(--warn); } /* × */
 
-    /* iPhoneで見やすいようにグリッドを解除 */
-    .mobile-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      background: #ebf8ff;
-      color: var(--accent);
-      font-size: 0.6em;
-      margin: 2px;
-    }
-
-    /* グラフが画面からはみ出さないように固定 */
-    .chart-container {
-      position: relative;
-      height: 300px; 
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .good { color: var(--accent2); font-weight: bold; }
-    .warn { color: var(--warn); font-weight: bold; }
+    .chart-container { position: relative; height: 260px; width: 100%; margin-top: 10px; }
+    .card-sm { background: var(--soft); padding: 10px; border-radius: 8px; font-size: 0.65em; text-align: left; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -77,50 +41,53 @@
     <div class="slides">
 
       <section>
-        <h1>心血管リスク管理</h1>
-        <p style="font-size: 0.6em;">検査データ分析まとめ</p>
-        <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--accent);">
-          <span class="pill">BMI 28.9</span>
-          <span class="pill">心筋梗塞既往あり</span>
-          <span class="pill">デスクワーク</span>
+        <h2>服用中の薬（全8種）</h2>
+        <div class="med-grid">
+          <div class="med-card" style="border-left: 4px solid #c53030;">
+            <span class="med-tag" style="color:#c53030;">血液サラサラ</span>バイアスピリン
+          </div>
+          <div class="med-card" style="border-left: 4px solid #2b6cb0;">
+            <span class="med-tag" style="color:#2b6cb0;">コレステロール</span>ロスバスタチン<br>エゼチミブ
+          </div>
+          <div class="med-card" style="border-left: 4px solid #2f855a;">
+            <span class="med-tag" style="color:#2f855a;">中性脂肪(TG)</span>EPA/DHA
+          </div>
+          <div class="med-card" style="border-left: 4px solid #805ad5;">
+            <span class="med-tag" style="color:#805ad5;">血圧・心保護</span>アジルサルタン<br>アムロジピン<br>カルベジロール
+          </div>
+          <div class="med-card" style="border-left: 4px solid #718096; grid-column: span 2;">
+            <span class="med-tag" style="color:#718096;">胃の保護</span>タケキャブ
+          </div>
         </div>
-        <p style="font-size: 0.5em; color: #666; margin-top: 20px;">Swipe to Start →</p>
+        <p style="font-size:0.5em; margin-top:10px; color:#666;">※LDL・血圧管理の土台は薬で完成済み</p>
       </section>
 
       <section>
-        <h2>主要指標の評価</h2>
-        <table>
-          <thead>
-            <tr><th>指標</th><th>最新</th><th>目標</th><th>評価</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>LDL</td><td>71</td><td>&lt;70</td><td>良</td></tr>
-            <tr class="warn"><td>HDL</td><td>30</td><td>&gt;40</td><td>要改善</td></tr>
-            <tr class="warn"><td>HbA1c</td><td>6.1</td><td>&lt;5.7</td><td>境界</td></tr>
-            <tr class="warn"><td>ALT</td><td>49</td><td>&lt;40</td><td>高</td></tr>
-          </tbody>
+        <h2>食事の推奨度ランク</h2>
+        <table class="rank-table">
+          <tr class="fragment">
+            <td class="rank-icon rank-s">◎</td>
+            <td><strong>青魚・オリーブ油</strong><br><small>TGを下げ、血管を掃除(HDL)する最強の味方</small></td>
+          </tr>
+          <tr class="fragment">
+            <td class="rank-icon rank-a">◯</td>
+            <td><strong>ナッツ・トマト・玉ねぎ</strong><br><small>抗酸化作用で動脈硬化の進行をブロック</small></td>
+          </tr>
+          <tr class="fragment">
+            <td class="rank-icon rank-c">×</td>
+            <td><strong>菓子パン・甘いアイス</strong><br><small>HbA1cを上げ、内臓脂肪を増やす最大要因</small></td>
+          </tr>
         </table>
-        <p style="font-size: 0.5em; margin-top: 10px;">※脂質・糖代謝に改善の余地あり</p>
-      </section>
-
-      <section>
-        <h2>食事の改善点</h2>
-        <div class="mobile-stack">
-          <div class="card">
-            <p class="good">▲ 積極的に摂る</p>
-            <p style="font-size: 0.9em;">青魚、オリーブ油、ナッツ、トマト、玉ねぎ</p>
-          </div>
-          <div class="card" style="border-left-color: var(--warn);">
-            <p class="warn">▼ 控えるもの</p>
-            <p style="font-size: 0.9em;">菓子パン、甘い物、スナック菓子</p>
-          </div>
-        </div>
       </section>
 
       <section>
         <h2>糖代謝の推移</h2>
         <div class="chart-container">
           <canvas id="chartMetabolic"></canvas>
+        </div>
+        <div class="card-sm">
+          <strong>分析:</strong> HbA1c 6.1%で横ばい。<br>
+          空腹時血糖は改善傾向だが、油断禁物。
         </div>
       </section>
 
@@ -129,29 +96,18 @@
         <div class="chart-container">
           <canvas id="chartLipidLiver"></canvas>
         </div>
-      </section>
-
-      <section>
-        <h2>アクションプラン</h2>
-        <div class="card">
-          <ol>
-            <li>体重を <strong>5〜7kg</strong> 減らす</li>
-            <li>1日 <strong>8,000歩</strong> 歩く</li>
-            <li><strong>食後15分</strong> の歩行</li>
-          </ol>
-        </div>
-        <div class="card" style="border-left-color: var(--accent2);">
-          <p><strong>期待効果:</strong><br>HDLの上昇、ALT/HbA1cの正常化</p>
+        <div class="card-sm">
+          <strong>課題:</strong> HDL(善玉)が39→30へ低下中。<br>
+          ALT(肝臓)も高止まり。<strong>運動不足が顕著。</strong>
         </div>
       </section>
 
       <section>
-        <h2>まとめ</h2>
-        <div class="card" style="text-align: center; border-left: none;">
-          <p>LDL管理は成功しています。</p>
-          <p class="good" style="font-size: 1.1em; margin-top: 10px;">
-            生活習慣の改善で<br>リスクはさらに下がります。
-          </p>
+        <h2>最優先のアクション</h2>
+        <div class="card-sm" style="font-size: 0.8em; border-left: 5px solid var(--warn);">
+          <p><strong>1. 夜のおやつをナッツに</strong><br>（菓子パン・チップス禁止）</p>
+          <p><strong>2. 「座りっぱなし」を壊す</strong><br>（1時間に1回は立ち上がる）</p>
+          <p><strong>3. 目標：体重 -5kg</strong><br>（これで全ての数値が正常化へ）</p>
         </div>
       </section>
 
@@ -161,40 +117,28 @@
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    // Reveal.js iPhone用設定
     Reveal.initialize({
-      width: 390,  // iPhone 12の幅
-      height: 700, // 高さを少し余裕持たせる
-      margin: 0.1,
-      hash: true,
-      slideNumber: true,
-      center: true,
-      touch: true, // タッチ操作有効
-      transition: 'convex'
+      width: 390, height: 800, margin: 0.05,
+      hash: true, slideNumber: 'c/t', center: true, touch: true
     });
 
     const labels = ["'25/9", "'25/11", "'26/1"];
-    const commonOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { labels: { boxWidth: 10, font: { size: 10 } } } },
-      scales: {
-        x: { ticks: { font: { size: 10 } } },
-        y: { ticks: { font: { size: 10 } } }
-      }
+    const options = {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+      scales: { y: { ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }
     };
 
-    // グラフ描画
     new Chart(document.getElementById("chartMetabolic"), {
       type: "line",
       data: {
         labels,
         datasets: [
-          { label: "HbA1c", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", tension: 0.3 },
-          { label: "血糖", data: [103, 107, 88], borderColor: "#2f855a", tension: 0.3 }
+          { label: "HbA1c(%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", tension: 0.3 },
+          { label: "血糖(mg/dL)", data: [103, 107, 88], borderColor: "#2f855a", tension: 0.3 }
         ]
       },
-      options: commonOptions
+      options
     });
 
     new Chart(document.getElementById("chartLipidLiver"), {
@@ -202,12 +146,12 @@
       data: {
         labels,
         datasets: [
-          { label: "ALT", data: [48, 49, 49], borderColor: "#c53030" },
-          { label: "HDL", data: [39, 36, 30], borderColor: "#2b6cb0" },
-          { label: "TG/2", data: [75, 92, 50], borderColor: "#2f855a" } // TGはスケール合わせのため半分で表示
+          { label: "ALT(肝)", data: [48, 49, 49], borderColor: "#c53030" },
+          { label: "HDL(善)", data: [39, 36, 30], borderColor: "#2b6cb0" },
+          { label: "LDL", data: [69, 75, 71], borderColor: "#805ad5" }
         ]
       },
-      options: commonOptions
+      options
     });
   </script>
 </body>
