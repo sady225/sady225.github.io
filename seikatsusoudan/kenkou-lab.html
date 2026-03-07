@@ -22,29 +22,41 @@
       width: 85%; max-width: 320px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
     input[type="tel"] {
-      width: 100%; padding: 15px; font-size: 22px; border: 2px solid #cbd5e0;
+      width: 100%; padding: 15px; font-size: 24px; border: 2px solid #cbd5e0;
       border-radius: 12px; margin-bottom: 20px; text-align: center; letter-spacing: 0.1em;
       -webkit-appearance: none;
     }
     .btn-submit {
       background: #2b6cb0; color: white; border: none; width: 100%;
-      padding: 16px; border-radius: 12px; font-weight: bold; font-size: 1.1em;
+      padding: 16px; border-radius: 12px; font-weight: bold; font-size: 1.2em;
     }
-    .error-msg { color: #e53e3e; font-size: 0.9em; margin-top: 15px; display: none; font-weight: bold; }
+    .error-msg { color: #e53e3e; font-size: 0.95em; margin-top: 15px; display: none; font-weight: bold; }
 
-    /* スライド表示設定 */
-    .reveal { display: none; font-size: 18px; }
-    .reveal h2 { font-size: 1.2em; color: var(--accent); border-left: 8px solid var(--accent); padding-left: 12px; text-align: left; }
-    .card { background: var(--soft); padding: 15px; border-radius: 12px; margin-bottom: 10px; text-align: left; font-size: 0.75em; border-left: 5px solid var(--accent); }
-    .chart-container { position: relative; height: 300px; width: 100%; margin: 15px 0; }
+    /* スライド表示設定（iPhone 12向け最適化） */
+    .reveal { display: none; font-size: 20px; }
+    .reveal h2 { font-size: 1.3em; color: var(--accent); border-left: 8px solid var(--accent); padding-left: 12px; text-align: left; margin-bottom: 20px; }
+    .card { background: var(--soft); padding: 18px; border-radius: 12px; margin-bottom: 15px; text-align: left; font-size: 0.85em; border-left: 6px solid var(--accent); line-height: 1.5; }
+    
+    /* グラフの高さを広げて見やすく調整 */
+    .chart-container { position: relative; height: 350px; width: 100%; margin: 20px 0; }
+
+    /* トップページのバージョン表記用 */
+    .version-label {
+      text-align: right;
+      font-size: 0.65em;
+      color: #a0aec0;
+      font-weight: bold;
+      margin-top: 150px; /* 下部に押しやる */
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
 
   <div id="auth-screen">
     <div class="auth-box">
-      <h2 style="margin-top:0; color:#2d3748;">HEALTH DATA</h2>
-      <p style="color:#718096; font-size:0.8em; margin-bottom:20px;">パスワードを入力して解除</p>
+      <h2 style="margin-top:0; color:#2d3748; font-size: 1.6em;">HEALTH DATA</h2>
+      <p style="color:#718096; font-size:0.85em; margin-bottom:20px;">パスワードを入力して解除</p>
       <input type="tel" id="pw" placeholder="0000000000" maxlength="10">
       <button class="btn-submit" onclick="verify()">UNLOCK</button>
       <div id="err" class="error-msg">パスワードが正しくありません</div>
@@ -53,21 +65,23 @@
 
   <div class="reveal">
     <div class="slides">
+      
       <section>
-        <h1 style="font-size: 1.4em;">心血管管理データ</h1>
-        <div class="card" style="text-align:center; border:none; background:#ebf8ff;">
-          BMI 28.9 / 心筋梗塞既往<br>
-          直近血圧: 120-132 / 88-89
+        <h1 style="font-size: 1.6em; margin-bottom: 30px;">心血管管理データ</h1>
+        <div class="card" style="text-align:center; border:none; background:#ebf8ff; padding: 25px;">
+          <span style="font-weight:bold; color:var(--accent); font-size:1.1em;">BMI 28.9</span> / 心筋梗塞既往<br>
+          <div style="margin-top: 15px; font-size: 1.1em;">直近血圧: <span style="font-weight:bold;">120-132 / 88-89</span></div>
         </div>
+        <div class="version-label">v1.2</div>
       </section>
 
       <section>
         <h2>服用中の薬 (8種)</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div class="card" style="font-size:0.6em; margin:0;"><b>血栓</b><br>バイアスピリン</div>
-          <div class="card" style="font-size:0.6em; margin:0;"><b>脂質</b><br>ロスバスタチン等</div>
-          <div class="card" style="font-size:0.6em; margin:0;"><b>中性脂肪</b><br>EPA/DHA</div>
-          <div class="card" style="font-size:0.6em; margin:0;"><b>血圧</b><br>降圧薬3種</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="card" style="font-size:0.7em; margin:0;"><b>血栓</b><br>バイアスピリン</div>
+          <div class="card" style="font-size:0.7em; margin:0;"><b>脂質</b><br>ロスバスタチン等</div>
+          <div class="card" style="font-size:0.7em; margin:0;"><b>中性脂肪</b><br>EPA/DHA</div>
+          <div class="card" style="font-size:0.7em; margin:0;"><b>血圧</b><br>降圧薬3種</div>
         </div>
       </section>
 
@@ -86,6 +100,7 @@
         <h2>脂質・肝機能の推移</h2>
         <div class="chart-container"><canvas id="c2"></canvas></div>
       </section>
+      
     </div>
   </div>
 
@@ -107,27 +122,38 @@
     }
 
     function startReveal() {
-      Reveal.initialize({ width: 390, height: 844, hash: true, center: true, touch: true });
+      // margin: 0.05 にしてiPhone画面の隅まで広く使えるように調整
+      Reveal.initialize({ width: 390, height: 844, margin: 0.05, hash: true, center: true, touch: true });
+      
       const labels = ["'25/9", "'25/11", "'26/1"];
-      const opt = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } };
+      // スマホ用に凡例のフォントサイズやボックスサイズを調整
+      const opt = { 
+        responsive: true, 
+        maintainAspectRatio: false, 
+        plugins: { 
+          legend: { 
+            position: 'bottom', 
+            labels: { boxWidth: 12, font: { size: 12 } } 
+          } 
+        } 
+      };
 
       new Chart(document.getElementById("c1"), {
         type: "line",
         data: { labels, datasets: [
-          { label: "HbA1c(%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0" },
-          { label: "血糖", data: [103, 107, 88], borderColor: "#2f855a" }
+          { label: "HbA1c(%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", tension: 0.2 },
+          { label: "血糖", data: [103, 107, 88], borderColor: "#2f855a", tension: 0.2 }
         ]}, options: opt
       });
 
       new Chart(document.getElementById("c2"), {
         type: "line",
         data: { labels, datasets: [
-          { label: "ALT", data: [48, 49, 49], borderColor: "#c53030" },
-          { label: "HDL", data: [39, 36, 30], borderColor: "#2b6cb0" }
+          { label: "ALT", data: [48, 49, 49], borderColor: "#c53030", tension: 0.2 },
+          { label: "HDL", data: [39, 36, 30], borderColor: "#2b6cb0", tension: 0.2 }
         ]}, options: opt
       });
     }
   </script>
 </body>
 </html>
-
