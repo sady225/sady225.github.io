@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>心血管リスク管理まとめ - プレゼン版</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心血管リスク管理(Mobile)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="theme">
@@ -14,166 +14,143 @@
       --accent2: #2f855a;
       --warn: #c53030;
       --soft: #f7fafc;
-      --text: #1a202c;
     }
     .reveal {
-      font-size: 32px; /* 少し大きく */
-      color: var(--text);
+      font-size: 24px; /* スマホ用にベースサイズを調整 */
     }
-    .reveal h1, .reveal h2, .reveal h3 {
-      color: var(--accent);
-      text-transform: none;
-      font-weight: bold;
-    }
-    /* テーブルの視認性向上 */
+    .reveal h1 { font-size: 1.6em; color: var(--accent); }
+    .reveal h2 { font-size: 1.2em; color: var(--accent); margin-bottom: 20px; }
+    
+    /* テーブルをスマホ幅にフィットさせる */
     .reveal table {
-      font-size: 0.65em;
+      font-size: 0.55em;
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+      margin: 0 auto;
     }
     .reveal th, .reveal td {
+      padding: 8px 4px;
       border: 1px solid #e2e8f0;
-      padding: 12px 15px;
     }
-    .reveal th {
-      background: #f1f5f9;
-      color: var(--accent);
-    }
-    /* カードデザインの洗練 */
+
+    /* カードデザインを縦積み対応に */
     .card {
       background: var(--soft);
-      border-left: 8px solid var(--accent);
-      padding: 20px 30px;
-      border-radius: 12px;
-      margin: 20px 0;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      border-left: 5px solid var(--accent);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
       text-align: left;
+      font-size: 0.7em;
     }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
+
+    /* iPhoneで見やすいようにグリッドを解除 */
+    .mobile-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
+
     .pill {
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
+      padding: 2px 8px;
+      border-radius: 12px;
       background: #ebf8ff;
       color: var(--accent);
-      font-size: 0.7em;
-      margin: 4px;
-      font-weight: bold;
+      font-size: 0.6em;
+      margin: 2px;
     }
-    .good { color: var(--accent2); font-weight: bold; }
-    .warn { color: var(--warn); font-weight: bold; }
-    /* チャートコンテナ */
+
+    /* グラフが画面からはみ出さないように固定 */
     .chart-container {
       position: relative;
-      margin: auto;
-      height: 450px;
-      width: 900px;
+      height: 300px; 
+      width: 100%;
+      margin-top: 10px;
     }
+
+    .good { color: var(--accent2); font-weight: bold; }
+    .warn { color: var(--warn); font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
-      <section data-background-gradient="linear-gradient(to bottom, #ffffff, #ebf8ff)">
-        <h1 style="font-size: 2.2em;">心血管リスク管理まとめ</h1>
-        <p>〜 検査データと生活習慣の相関分析 〜</p>
-        <div class="card" style="display: inline-block; width: auto; margin-top: 40px;">
+      <section>
+        <h1>心血管リスク管理</h1>
+        <p style="font-size: 0.6em;">検査データ分析まとめ</p>
+        <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--accent);">
           <span class="pill">BMI 28.9</span>
           <span class="pill">心筋梗塞既往あり</span>
           <span class="pill">デスクワーク</span>
         </div>
+        <p style="font-size: 0.5em; color: #666; margin-top: 20px;">Swipe to Start →</p>
       </section>
 
       <section>
-        <h2>主要指標の現状と目標</h2>
+        <h2>主要指標の評価</h2>
         <table>
           <thead>
-            <tr><th>指標</th><th>最新値</th><th>目標</th><th>評価</th></tr>
+            <tr><th>指標</th><th>最新</th><th>目標</th><th>評価</th></tr>
           </thead>
           <tbody>
-            <tr class="fragment"><td>LDL (悪玉)</td><td>71</td><td>&lt; 70</td><td>概ね良好</td></tr>
-            <tr class="fragment"><td>HDL (善玉)</td><td class="warn">30</td><td>&gt; 40</td><td>要改善</td></tr>
-            <tr class="fragment"><td>HbA1c</td><td class="warn">6.1</td><td>&lt; 5.7</td><td>境界域</td></tr>
-            <tr class="fragment"><td>ALT (肝機能)</td><td class="warn">49</td><td>&lt; 40</td><td>脂肪肝疑い</td></tr>
+            <tr><td>LDL</td><td>71</td><td>&lt;70</td><td>良</td></tr>
+            <tr class="warn"><td>HDL</td><td>30</td><td>&gt;40</td><td>要改善</td></tr>
+            <tr class="warn"><td>HbA1c</td><td>6.1</td><td>&lt;5.7</td><td>境界</td></tr>
+            <tr class="warn"><td>ALT</td><td>49</td><td>&lt;40</td><td>高</td></tr>
           </tbody>
         </table>
+        <p style="font-size: 0.5em; margin-top: 10px;">※脂質・糖代謝に改善の余地あり</p>
       </section>
 
       <section>
-        <h2>食事と数値の相関</h2>
-        <div class="grid-2">
-          <div class="fragment" data-fragment-index="1">
-            <h3 class="good">積極的に摂る</h3>
-            <div class="card">
-              <ul style="font-size: 0.7em;">
-                <li><strong>青魚・オリーブ油</strong><br>→ TG低下・HDL上昇</li>
-                <li><strong>ナッツ・チーズ</strong><br>→ 良質な脂質補給</li>
-                <li><strong>トマト・玉ねぎ</strong><br>→ 血管保護・血栓予防</li>
-              </ul>
-            </div>
+        <h2>食事の改善点</h2>
+        <div class="mobile-stack">
+          <div class="card">
+            <p class="good">▲ 積極的に摂る</p>
+            <p style="font-size: 0.9em;">青魚、オリーブ油、ナッツ、トマト、玉ねぎ</p>
           </div>
-          <div class="fragment" data-fragment-index="2">
-            <h3 class="warn">控えるべきもの</h3>
-            <div class="card" style="border-left-color: var(--warn);">
-              <ul style="font-size: 0.7em;">
-                <li><strong>菓子パン・甘い物</strong><br>→ HbA1c（糖）への直撃</li>
-                <li><strong>スナック菓子</strong><br>→ 中性脂肪・内臓脂肪増</li>
-              </ul>
-            </div>
+          <div class="card" style="border-left-color: var(--warn);">
+            <p class="warn">▼ 控えるもの</p>
+            <p style="font-size: 0.9em;">菓子パン、甘い物、スナック菓子</p>
           </div>
         </div>
       </section>
 
       <section>
-        <h3>糖代謝・血球指標の推移</h3>
+        <h2>糖代謝の推移</h2>
         <div class="chart-container">
           <canvas id="chartMetabolic"></canvas>
         </div>
       </section>
 
       <section>
-        <h3>脂質・肝機能の推移</h3>
+        <h2>脂質・肝機能の推移</h2>
         <div class="chart-container">
           <canvas id="chartLipidLiver"></canvas>
         </div>
       </section>
 
-      <section data-auto-animate>
-        <h2 data-id="title">今後のアクションプラン</h2>
-        <div class="grid-2">
-          <div class="card" style="font-size: 0.8em;">
-            <p><strong>最優先課題</strong></p>
-            <ol>
-              <li class="fragment">体重の 5~7kg 減量</li>
-              <li class="fragment">1日 8,000歩の維持</li>
-              <li class="fragment">食後 15分のウォーキング</li>
-            </ol>
-          </div>
-          <div class="fragment">
-            <p><strong>期待される効果</strong></p>
-            <div class="card" style="border-left-color: var(--accent2);">
-              <ul style="font-size: 0.75em;">
-                <li>HDL 30 → <span class="good">40付近へ</span></li>
-                <li>ALT 49 → <span class="good">35 (正常化)</span></li>
-                <li>HbA1c 6.1 → <span class="good">5.6 (正常化)</span></li>
-              </ul>
-            </div>
-          </div>
+      <section>
+        <h2>アクションプラン</h2>
+        <div class="card">
+          <ol>
+            <li>体重を <strong>5〜7kg</strong> 減らす</li>
+            <li>1日 <strong>8,000歩</strong> 歩く</li>
+            <li><strong>食後15分</strong> の歩行</li>
+          </ol>
+        </div>
+        <div class="card" style="border-left-color: var(--accent2);">
+          <p><strong>期待効果:</strong><br>HDLの上昇、ALT/HbA1cの正常化</p>
         </div>
       </section>
 
       <section>
-        <h2>結論</h2>
-        <div class="card" style="text-align: center;">
-          <p>現在の管理（薬物療法）は機能しています。</p>
-          <p class="fragment" style="color: var(--accent2); font-weight: bold;">
-            「あと一歩の生活改善」で<br>リスクを劇的に下げられるフェーズです。
+        <h2>まとめ</h2>
+        <div class="card" style="text-align: center; border-left: none;">
+          <p>LDL管理は成功しています。</p>
+          <p class="good" style="font-size: 1.1em; margin-top: 10px;">
+            生活習慣の改善で<br>リスクはさらに下がります。
           </p>
         </div>
       </section>
@@ -184,57 +161,53 @@
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    // Reveal.js の初期化
+    // Reveal.js iPhone用設定
     Reveal.initialize({
+      width: 390,  // iPhone 12の幅
+      height: 700, // 高さを少し余裕持たせる
+      margin: 0.1,
       hash: true,
-      slideNumber: 'c/t', // 1/10 の形式
-      controls: true,
-      progress: true,
+      slideNumber: true,
       center: true,
-      transition: 'slide' // シンプルでプロフェッショナルな遷移
+      touch: true, // タッチ操作有効
+      transition: 'convex'
     });
 
-    // Chart.js の共通設定
-    const labels = ["2025/09", "2025/11", "2026/01"];
-    const chartOptions = {
+    const labels = ["'25/9", "'25/11", "'26/1"];
+    const commonOptions = {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { labels: { font: { size: 14 } } }
+      plugins: { legend: { labels: { boxWidth: 10, font: { size: 10 } } } },
+      scales: {
+        x: { ticks: { font: { size: 10 } } },
+        y: { ticks: { font: { size: 10 } } }
       }
     };
 
-    // チャート1: 糖代謝
+    // グラフ描画
     new Chart(document.getElementById("chartMetabolic"), {
       type: "line",
       data: {
         labels,
         datasets: [
-          { label: "HbA1c (%)", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", yAxisID: "y1" },
-          { label: "血糖値 (mg/dL)", data: [103, 107, 88], borderColor: "#2f855a", yAxisID: "y2" }
+          { label: "HbA1c", data: [6.1, 5.9, 6.1], borderColor: "#2b6cb0", tension: 0.3 },
+          { label: "血糖", data: [103, 107, 88], borderColor: "#2f855a", tension: 0.3 }
         ]
       },
-      options: {
-        ...chartOptions,
-        scales: {
-          y1: { type: "linear", position: "left", min: 5, max: 7 },
-          y2: { type: "linear", position: "right", min: 70, max: 120 }
-        }
-      }
+      options: commonOptions
     });
 
-    // チャート2: 脂質・肝機能
     new Chart(document.getElementById("chartLipidLiver"), {
       type: "line",
       data: {
         labels,
         datasets: [
-          { label: "ALT (肝)", data: [48, 49, 49], borderColor: "#c53030" },
-          { label: "HDL (善)", data: [39, 36, 30], borderColor: "#2b6cb0" },
-          { label: "TG (中性脂肪)", data: [151, 184, 101], borderColor: "#2f855a", borderDash: [5, 5] }
+          { label: "ALT", data: [48, 49, 49], borderColor: "#c53030" },
+          { label: "HDL", data: [39, 36, 30], borderColor: "#2b6cb0" },
+          { label: "TG/2", data: [75, 92, 50], borderColor: "#2f855a" } // TGはスケール合わせのため半分で表示
         ]
       },
-      options: chartOptions
+      options: commonOptions
     });
   </script>
 </body>
