@@ -14,7 +14,7 @@ const CONFIG = {
   BUY_ME_COFFEE_URL: 'https://buymeacoffee.com/asonpj999',
 
   // サイト設定
-  SITE_NAME: '沖縄子育て支援ポータル',
+  SITE_NAME: '沖縄サバイブポータル',
   ITEMS_PER_PAGE: 20,
 
   // 月額料金（円）

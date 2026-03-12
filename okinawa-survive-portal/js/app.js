@@ -1,8 +1,8 @@
 /**
- * 沖縄子育て支援ポータル - メインアプリケーション
+ * 沖縄サバイブポータル - メインアプリケーション
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   App.init();
 });
 
@@ -48,7 +48,7 @@ const App = {
 
     if (token && userId) {
       this.user = { id: userId, token, memberType };
-      this.isPremium = memberType === '有料会員';
+      this.isPremium = memberType === '有料会員' || memberType === '開発アシスト済';
       this.updateUserUI();
     }
   },
@@ -63,7 +63,7 @@ const App = {
     if (this.user) {
       userArea.innerHTML = `
         <span class="text-light me-2">
-          ${this.isPremium ? '<i class="bi bi-star-fill text-warning"></i>' : ''}
+          ${this.isPremium ? '<i class="bi bi-shield-check-fill text-warning"></i>' : ''}
           ${this.user.nickname || 'ユーザー'}
         </span>
         <a href="#" onclick="App.logout()" class="btn btn-outline-light btn-sm">
@@ -151,7 +151,7 @@ const App = {
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <span class="badge bg-secondary badge-category">${item.category}</span>
-              ${item.hasFullContent ? '<span class="badge badge-premium"><i class="bi bi-star-fill"></i></span>' : ''}
+              ${item.hasFullContent ? '<span class="badge badge-premium"><i class="bi bi-shield-check-fill"></i></span>' : ''}
             </div>
             <h5 class="card-title">
               <a href="detail.html?id=${item.id}" class="text-decoration-none text-dark stretched-link">
@@ -336,7 +336,7 @@ const App = {
     let fullContentHtml = '';
 
     if (item.isPremiumContent && !item.isUnlocked) {
-      // 有料コンテンツでロックされている場合
+      // ロックされている場合
       const userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
       const pointsRequired = CONFIG.POINT_TO_UNLOCK || 5;
       const hasEnoughPoints = userPoints >= pointsRequired;
@@ -345,27 +345,26 @@ const App = {
         <div class="premium-blur mt-4">
           <div class="content">
             <p>${item.previewText || '...'}</p>
-            <p>続きのコンテンツはここに表示されます。会員登録・ポイント・広告視聴で閲覧できます。</p>
+            <p>詳細なコンテンツは「開発・研究活動」へのご支援（開発アシスト権の購入）または、情報の報告によるポイント獲得、広告視聴で閲覧いただけます。</p>
           </div>
           <div class="overlay">
-            <i class="bi bi-lock-fill" style="font-size: 3rem; color: #666;"></i>
-            <h5 class="mt-3">続きを読むには</h5>
+            <i class="bi bi-shield-lock" style="font-size: 3rem; color: #666;"></i>
+            <h5 class="mt-3">詳細を閲覧するには</h5>
           </div>
         </div>
 
         <!-- 解除オプション -->
         <div class="unlock-options mt-4 p-4 bg-light rounded">
           <div class="row g-3">
-            <!-- 月額会員 -->
+            <!-- 開発アシスト権 -->
             <div class="col-md-4">
               <div class="card h-100 border-primary">
                 <div class="card-body text-center">
-                  <i class="bi bi-star-fill text-primary" style="font-size: 2rem;"></i>
-                  <h6 class="mt-2">月額会員</h6>
-                  <p class="h4 text-primary">¥${CONFIG.MONTHLY_PRICE || 500}/月</p>
-                  <p class="small text-muted">全記事読み放題<br>広告非表示</p>
-                  <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#membershipModal">
-                    登録する
+                  <i class="bi bi-cup-hot text-primary" style="font-size: 2rem;"></i>
+                  <h6 class="mt-2">開発アシスト権</h6>
+                  <p class="small text-muted">研究・開発を支援して<br>全記事を閲覧可能にする</p>
+                  <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#supportModal">
+                    支援する
                   </button>
                 </div>
               </div>
@@ -430,7 +429,7 @@ const App = {
     return `
       <div class="detail-header mb-4">
         <span class="badge bg-secondary mb-2">${item.category}</span>
-        ${item.isPremiumContent ? '<span class="badge badge-premium ms-1"><i class="bi bi-star-fill"></i> 有料記事</span>' : ''}
+        ${item.isPremiumContent ? '<span class="badge badge-premium ms-1"><i class="bi bi-shield-check-fill"></i> サバイブ情報</span>' : ''}
         <h1 class="h3">${this.escapeHtml(item.title)}</h1>
         <small class="text-muted">
           <i class="bi bi-clock"></i> 更新日: ${item.updatedAt || '-'}
@@ -481,7 +480,7 @@ const App = {
         ${fullContentHtml}
 
         ${item.applicationMethod ? `
-          <div class="mt-4">
+          <div class="mt-4" >
             <h5><i class="bi bi-pencil-square"></i> 申請方法</h5>
             <p>${this.formatContent(item.applicationMethod)}</p>
           </div>
