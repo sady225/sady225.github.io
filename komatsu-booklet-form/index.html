@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブックレット発注フォーム | 小松知己事務所</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004494;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px;
+            color: var(--primary-color);
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #ef4444;
+            margin-left: 4px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s;
+            background: #fbfcfd;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+            background: #ffffff;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .submit-btn:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            color: #22c55e;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+    <div class="form-card">
+        <h1>ブックレット発注フォーム</h1>
+        <p class="subtitle">小松知己 著「ガマンしない断酒のヒント集」</p>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="name">お名前<span class="required">*</span></label>
+                <input type="text" id="name" name="name" required placeholder="例：琉球 太郎">
+            </div>
+
+            <div class="form-group">
+                <label for="email">メールアドレス<span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="例：example@ryukyu-tane.com">
+            </div>
+
+            <div class="form-group">
+                <label for="tel">電話番号</label>
+                <input type="tel" id="tel" name="tel" placeholder="例：098-000-0000">
+            </div>
+
+            <div class="form-group">
+                <label for="address">配送先住所<span class="required">*</span></label>
+                <textarea id="address" name="address" rows="3" required placeholder="郵便番号・住所を正しく入力してください"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">注文冊数<span class="required">*</span></label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="100" required>
+            </div>
+        </form>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-title">ご注文内容の確認</div>
+        <div class="summary-item">
+            <span>ブックレット代金 (1冊 500円)</span>
+            <span><span id="bookTotal">500</span>円</span>
+        </div>
+        <div class="summary-item">
+            <span>送料 (冊数に応じた実費)</span>
+            <span><span id="shippingCost">180</span>円</span>
+        </div>
+        <div class="summary-total">
+            <span>合計金額</span>
+            <span><span id="totalAmt">680</span>円</span>
+        </div>
+
+        <button type="submit" form="orderForm" id="submitBtn" class="submit-btn">
+            <span id="btnText">注文を確定する</span>
+            <div class="loading-spinner" id="spinner"></div>
+        </button>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 15px; text-align: center;">
+            ※発送は国内のみとなります。
+        </p>
+    </div>
+</div>
+
+<div class="success-message" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>ご注文ありがとうございます！</h2>
+    <p>ご入力いただいたメールアドレスに、確認メールをお送りしました。<br>
+    内容をご確認いただき、お振込の手続きをお願いいたします。</p>
+    <button onclick="location.reload()" class="submit-btn" style="max-width: 200px; margin: 20px auto;">戻る</button>
+</div>
+
+<script>
+    const GAS_URL = 'YOUR_GAS_WEB_APP_URL_HERE'; // 公開したGASのURLをここに貼る
+    const UNIT_PRICE = 500;
+
+    const form = document.getElementById('orderForm');
+    const qtyInput = document.getElementById('quantity');
+    const bookTotalEl = document.getElementById('bookTotal');
+    const shippingCostEl = document.getElementById('shippingCost');
+    const totalAmtEl = document.getElementById('totalAmt');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+
+    function updatePrices() {
+        const qty = parseInt(qtyInput.value) || 0;
+        let shipping = 180;
+        if (qty > 10) shipping = 520;
+        else if (qty > 2) shipping = 370;
+
+        const bookTotal = qty * UNIT_PRICE;
+        const total = bookTotal + shipping;
+
+        bookTotalEl.textContent = bookTotal.toLocaleString();
+        shippingCostEl.textContent = shipping.toLocaleString();
+        totalAmtEl.textContent = total.toLocaleString();
+    }
+
+    qtyInput.addEventListener('input', updatePrices);
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        
+        if (GAS_URL.includes('YOUR_GAS_WEB_APP_URL')) {
+            alert('GASのURLが設定されていません。order_handler.gsをデプロイしてURLを取得してください。');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        spinner.style.display = 'block';
+
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch(GAS_URL, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            });
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                document.getElementById('mainContainer').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            alert('エラーが発生しました: ' + error.message);
+            submitBtn.disabled = false;
+            btnText.style.display = 'block';
+            spinner.style.display = 'none';
+        }
+    };
+</script>
+
+</body>
+</html>
