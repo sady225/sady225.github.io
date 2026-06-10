@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ローマ字タイピング練習</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .app-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+            width: 100%;
+            max-width: 42rem;
+        }
+        .title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #3730a3;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+        .score {
+            color: #059669;
+            font-weight: 600;
+        }
+        .progress {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .hiragana-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #1e1b4b;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .hint-box {
+            font-size: 1.125rem;
+            color: #4338ca;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background-color: #eef2ff;
+            border-radius: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+        .input-field {
+            width: 100%;
+            max-width: 24rem;
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 3px solid #a5b4fc;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: all 0.2s;
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+        .input-field:focus {
+            border-color: #6366f1;
+        }
+        .input-field.correct {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+        .input-field.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .success-message {
+            text-align: center;
+            color: #059669;
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-hint {
+            background-color: #eab308;
+            color: white;
+        }
+        .btn-hint:hover {
+            background-color: #ca8a04;
+        }
+        .btn-skip {
+            background-color: #f97316;
+            color: white;
+        }
+        .btn-skip:hover {
+            background-color: #ea580c;
+        }
+        .btn-reset {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-reset:hover {
+            background-color: #4b5563;
+        }
+        .instructions {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-card">
+            <div class="title">ローマ字タイピング練習</div>
+            <div class="stats">
+                <span class="score">スコア: <span id="score">0</span></span>
+                <span class="progress">完了: <span id="completed">0</span>/<span id="total">104</span></span>
+            </div>
+
+            <div class="hiragana-display" id="hiragana-display">あ</div>
+
+            <div class="hint-box" id="hint-box">
+                ヒント: 「<span id="hint-hiragana">あ</span>」は「<span id="hint-romaji">a</span>」
+            </div>
+
+            <input type="text" class="input-field" id="input-field" placeholder="ローマ字を入力してください" autocomplete="off">
+
+            <div class="error-message" id="error-message">
+                間違いです。
+            </div>
+
+            <div class="success-message" id="success-message">
+                ✨ 正解です！ ✨
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-hint" id="hint-button">ヒントを表示</button>
+                <button class="btn btn-skip" id="skip-button">スキップ</button>
+                <button class="btn btn-reset" id="reset-button">リセット</button>
+            </div>
+
+            <div class="instructions">
+                <p>ひらがなを見てローマ字を一文字ずつ正確にタイピングしよう！</p>
+                <p>正解・不正解で音が鳴ります。ランダムに出題されます。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ローマ字データ
+        const romajiData = [
+            { hiragana: 'あ', romaji: ['a'] },
+            { hiragana: 'い', romaji: ['i'] },
+            { hiragana: 'う', romaji: ['u'] },
+            { hiragana: 'え', romaji: ['e'] },
+            { hiragana: 'お', romaji: ['o'] },
+            { hiragana: 'か', romaji: ['ka'] },
+            { hiragana: 'き', romaji: ['ki'] },
+            { hiragana: 'く', romaji: ['ku'] },
+            { hiragana: 'け', romaji: ['ke'] },
+            { hiragana: 'こ', romaji: ['ko'] },
+            { hiragana: 'きゃ', romaji: ['kya'] },
+            { hiragana: 'きゅ', romaji: ['kyu'] },
+            { hiragana: 'きょ', romaji: ['kyo'] },
+            { hiragana: 'が', romaji: ['ga'] },
+            { hiragana: 'ぎ', romaji: ['gi'] },
+            { hiragana: 'ぐ', romaji: ['gu'] },
+            { hiragana: 'げ', romaji: ['ge'] },
+            { hiragana: 'ご', romaji: ['go'] },
+            { hiragana: 'ぎゃ', romaji: ['gya'] },
+            { hiragana: 'ぎゅ', romaji: ['gyu'] },
+            { hiragana: 'ぎょ', romaji: ['gyo'] },
+            { hiragana: 'さ', romaji: ['sa'] },
+            { hiragana: 'し', romaji: ['shi', 'si'] },
+            { hiragana: 'す', romaji: ['su'] },
+            { hiragana: 'せ', romaji: ['se'] },
+            { hiragana: 'そ', romaji: ['so'] },
+            { hiragana: 'しゃ', romaji: ['sha', 'sya'] },
+            { hiragana: 'しゅ', romaji: ['shu', 'syu'] },
+            { hiragana: 'しょ', romaji: ['sho', 'syo'] },
+            { hiragana: 'ざ', romaji: ['za'] },
+            { hiragana: 'じ', romaji: ['ji', 'zi'] },
+            { hiragana: 'ず', romaji: ['zu'] },
+            { hiragana: 'ぜ', romaji: ['ze'] },
+            { hiragana: 'ぞ', romaji: ['zo'] },
+            { hiragana: 'じゃ', romaji: ['ja', 'jya'] },
+            { hiragana: 'じゅ', romaji: ['ju', 'jyu'] },
+            { hiragana: 'じょ', romaji: ['jo', 'jyo'] },
+            { hiragana: 'た', romaji: ['ta'] },
+            { hiragana: 'ち', romaji: ['chi', 'ti'] },
+            { hiragana: 'つ', romaji: ['tsu', 'tu'] },
+            { hiragana: 'て', romaji: ['te'] },
+            { hiragana: 'と', romaji: ['to'] },
+            { hiragana: 'ちゃ', romaji: ['cha', 'tya'] },
+            { hiragana: 'ちゅ', romaji: ['chu', 'tyu'] },
+            { hiragana: 'ちょ', romaji: ['cho', 'tyo'] },
+            { hiragana: 'だ', romaji: ['da'] },
+            { hiragana: 'ぢ', romaji: ['di', 'dji'] },
+            { hiragana: 'づ', romaji: ['du', 'dzu'] },
+            { hiragana: 'で', romaji: ['de'] },
+            { hiragana: 'ど', romaji: ['do'] },
+            { hiragana: 'ぢゃ', romaji: ['dya'] },
+            { hiragana: 'ぢゅ', romaji: ['dyu'] },
+            { hiragana: 'ぢょ', romaji: ['dyo'] },
+            { hiragana: 'な', romaji: ['na'] },
+            { hiragana: 'に', romaji: ['ni'] },
+            { hiragana: 'ぬ', romaji: ['nu'] },
+            { hiragana: 'ね', romaji: ['ne'] },
+            { hiragana: 'の', romaji: ['no'] },
+            { hiragana: 'にゃ', romaji: ['nya'] },
+            { hiragana: 'にゅ', romaji: ['nyu'] },
+            { hiragana: 'にょ', romaji: ['nyo'] },
+            { hiragana: 'は', romaji: ['ha'] },
+            { hiragana: 'ひ', romaji: ['hi'] },
+            { hiragana: 'ふ', romaji: ['fu', 'hu'] },
+            { hiragana: 'へ', romaji: ['he'] },
+            { hiragana: 'ほ', romaji: ['ho'] },
+            { hiragana: 'ひゃ', romaji: ['hya'] },
+            { hiragana: 'ひゅ', romaji: ['hyu'] },
+            { hiragana: 'ひょ', romaji: ['hyo'] },
+            { hiragana: 'ば', romaji: ['ba'] },
+            { hiragana: 'び', romaji: ['bi'] },
+            { hiragana: 'ぶ', romaji: ['bu'] },
+            { hiragana: 'べ', romaji: ['be'] },
+            { hiragana: 'ぼ', romaji: ['bo'] },
+            { hiragana: 'びゃ', romaji: ['bya'] },
+            { hiragana: 'びゅ', romaji: ['byu'] },
+            { hiragana: 'びょ', romaji: ['byo'] },
+            { hiragana: 'ぱ', romaji: ['pa'] },
+            { hiragana: 'ぴ', romaji: ['pi'] },
+            { hiragana: 'ぷ', romaji: ['pu'] },
+            { hiragana: 'ぺ', romaji: ['pe'] },
+            { hiragana: 'ぽ', romaji: ['po'] },
+            { hiragana: 'ぴゃ', romaji: ['pya'] },
+            { hiragana: 'ぴゅ', romaji: ['pyu'] },
+            { hiragana: 'ぴょ', romaji: ['pyo'] },
+            { hiragana: 'ま', romaji: ['ma'] },
+            { hiragana: 'み', romaji: ['mi'] },
+            { hiragana: 'む', romaji: ['mu'] },
+            { hiragana: 'め', romaji: ['me'] },
+            { hiragana: 'も', romaji: ['mo'] },
+            { hiragana: 'みゃ', romaji: ['mya'] },
+            { hiragana: 'みゅ', romaji: ['myu'] },
+            { hiragana: 'みょ', romaji: ['myo'] },
+            { hiragana: 'や', romaji: ['ya'] },
+            { hiragana: 'ゆ', romaji: ['yu'] },
+            { hiragana: 'よ', romaji: ['yo'] },
+            { hiragana: 'ら', romaji: ['ra'] },
+            { hiragana: 'り', romaji: ['ri'] },
+            { hiragana: 'る', romaji: ['ru'] },
+            { hiragana: 'れ', romaji: ['re'] },
+            { hiragana: 'ろ', romaji: ['ro'] },
+            { hiragana: 'りゃ', romaji: ['rya'] },
+            { hiragana: 'りゅ', romaji: ['ryu'] },
+            { hiragana: 'りょ', romaji: ['ryo'] },
+            { hiragana: 'わ', romaji: ['wa'] },
+            { hiragana: 'を', romaji: ['wo', 'o'] },
+            { hiragana: 'ん', romaji: ['n'] }
+        ];
+
+        // 状態管理
+        let currentIndex = 0;
+        let score = 0;
+        let completedCount = 0;
+        let showHint = false;
+        let usedIndices = new Set();
+
+        // DOM要素の取得
+        const hiraganaDisplay = document.getElementById('hiragana-display');
+        const inputField = document.getElementById('input-field');
+        const hintBox = document.getElementById('hint-box');
+        const hintHiragana = document.getElementById('hint-hiragana');
+        const hintRomaji = document.getElementById('hint-romaji');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const scoreSpan = document.getElementById('score');
+        const completedSpan = document.getElementById('completed');
+        const hintButton = document.getElementById('hint-button');
+        const skipButton = document.getElementById('skip-button');
+        const resetButton = document.getElementById('reset-button');
+
+        // 音を再生する関数
+        function playSound(isSuccess) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (isSuccess) {
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+                } else {
+                    oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(196, audioContext.currentTime + 0.1);
+                }
+                
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // ランダムに次の問題を選ぶ関数
+        function getNextRandomIndex() {
+            if (usedIndices.size >= romajiData.length) {
+                usedIndices = new Set();
+            }
+            
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * romajiData.length);
+            } while (usedIndices.has(nextIndex));
+            
+            return nextIndex;
+        }
+
+        // UIを更新する関数
+        function updateDisplay() {
+            const currentProblem = romajiData[currentIndex];
+            hiraganaDisplay.textContent = currentProblem.hiragana;
+            hintHiragana.textContent = currentProblem.hiragana;
+            hintRomaji.textContent = currentProblem.romaji[0];
+            scoreSpan.textContent = score;
+            completedSpan.textContent = completedCount;
+            
+            // 入力フィールドをリセット
+            inputField.value = '';
+            inputField.className = 'input-field';
+            
+            // メッセージを隠す
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // ヒントの表示/非表示
+            hintBox.style.display = showHint ? 'block' : 'none';
+        }
+
+        // 新しい問題を設定
+        function setNewProblem() {
+            const nextIndex = getNextRandomIndex();
+            currentIndex = nextIndex;
+            usedIndices.add(nextIndex);
+            updateDisplay();
+        }
+
+        // 入力処理
+        function handleInput(e) {
+            const input = e.target.value.toLowerCase();
+            const currentProblem = romajiData[currentIndex];
+            const possibleRomaji = currentProblem.romaji;
+            
+            if (input.length === 0) {
+                inputField.className = 'input-field';
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                return;
+            }
+
+            const isPrefix = possibleRomaji.some(r => r.startsWith(input));
+
+            if (isPrefix) {
+                inputField.className = 'input-field correct';
+                errorMessage.style.display = 'none';
+
+                const isComplete = possibleRomaji.includes(input);
+
+                if (isComplete) {
+                    playSound(true);
+                    score += 10;
+                    completedCount++;
+                    successMessage.style.display = 'block';
+                    scoreSpan.textContent = score;
+                    completedSpan.textContent = completedCount;
+                    
+                    inputField.disabled = true;
+                    setTimeout(() => {
+                        setNewProblem();
+                        inputField.disabled = false;
+                        inputField.focus();
+                    }, 1000);
+                } else {
+                    playSound(true);
+                }
+            } else {
+                inputField.className = 'input-field incorrect';
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                playSound(false);
+                // 間違った文字は入力させない
+                e.target.value = input.slice(0, -1);
+            }
+        }
+
+        // イベントリスナーの設定
+        inputField.addEventListener('input', handleInput);
+
+        hintButton.addEventListener('click', () => {
+            showHint = !showHint;
+            hintButton.textContent = showHint ? 'ヒントを隠す' : 'ヒントを表示';
+            hintBox.style.display = showHint ? 'block' : 'none';
+        });
+
+        skipButton.addEventListener('click', () => {
+            setNewProblem();
+        });
+
+        resetButton.addEventListener('click', () => {
+            currentIndex = Math.floor(Math.random() * romajiData.length);
+            usedIndices = new Set([currentIndex]);
+            score = 0;
+            completedCount = 0;
+            showHint = false;
+            hintButton.textContent = 'ヒントを表示';
+            updateDisplay();
+        });
+
+        // 初期化
+        function initialize() {
+            const randomIndex = Math.floor(Math.random() * romajiData.length);
+            currentIndex = randomIndex;
+            usedIndices = new Set([randomIndex]);
+            updateDisplay();
+            inputField.focus();
+        }
+
+        // ページ読み込み時の初期化
+        initialize();
+    </script>
+</body>
+</html>

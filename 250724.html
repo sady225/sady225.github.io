@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 夏休みアルパカワークショップ 2025 | アルパカすく〜る</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #ffa600 0%, hsl(55, 100%, 91%) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .date-banner {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            color: #5a67d8;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Target Audience */
+        .target-audience {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .target-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .target-item {
+            background: rgba(255,255,255,0.7);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #f56565;
+        }
+
+        /* Program Flow */
+        .program-flow {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #4299e1;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 45%;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 10%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 10%;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: #4299e1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Options */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .option-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .option-card.shuttle {
+            border-top: 5px solid #3182ce;
+        }
+
+        .option-card.direct {
+            border-top: 5px solid #f56565;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin: 1rem 0;
+        }
+
+        /* Key Elements */
+        .key-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .element-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .element-card:hover {
+            transform: scale(1.05);
+        }
+
+        .element-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Message */
+        .message {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            text-align: center;
+            font-size: 1.1rem;
+            color: #2d3748;
+        }
+
+        /* Application */
+        .application {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            text-align: center;
+        }
+
+        .apply-btn {
+            background: linear-gradient(135deg, #ffa600 0%, #ffa600 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timeline-content {
+                width: 100%;
+                margin-left: 60px !important;
+                margin-right: 0 !important;
+            }
+            
+            .timeline-icon {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌿 夏休みアルパカワークショップ 2025</h1>
+            <p class="subtitle">〜ごはんとユンタクと、ルーツをたどる1日〜</p>
+            <div class="date-banner">
+                <h3><strong>📅 2025年7月24日（木）11:00〜16:00</strong></h3>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="section target-audience">
+                <h2> こんな方におすすめ</h2>
+                <div class="target-list">
+                    <div class="target-item">
+                        <strong>誰かと一緒にごはんを食べて、少しおしゃべりしたい</strong>
+                    </div>
+                    <div class="target-item">
+                        <strong>子どもや家族と気軽に出かけるきっかけが欲しい</strong>
+                    </div>
+                    <div class="target-item">
+                        <strong>テーマがなくても、自然に誰かと過ごす時間が好き</strong>
+                    </div>
+                    <div class="target-item">
+                        <strong>自分や家族のことを、ちょっと振り返ってみたい</strong>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; text-align: center; font-size: 1.1rem;">
+                    <strong>🧒 お子さん・ご家族も「よければ一緒に」どうぞ！</strong>
+                </p>
+            </section>
+
+            <section class="section program-flow">
+                <h2>🗓️ プログラム内容</h2>
+                
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>📌 南風原：イオン南風原近辺　集合</h3>
+                            <p><strong>9:30</strong></p>
+                            <p>集合してみんなで北部へ出発します</p>
+                        </div>
+                        <div class="timeline-icon">🚌</div>
+                    </div>
+                
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>🚂 大宜味：大宜味道の駅　集合</h3>
+                            <p><strong>11:00〜12:30</strong></p>
+                            <p>地元のお昼ごはんを楽しみながら、ゆったりユンタク（おしゃべり）</p>
+                            <p>特別なテーマはありません。話したいことを、気の向くままに</p>
+                            <p><em>※食事は各自実費、スタッフがおすすめ店をご案内</em></p>
+                        </div>
+                        <div class="timeline-icon">🍱</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>🚗 名護へ移動</h3>
+                            <p><strong>12:30〜14:00</strong></p>
+                            <p>乗合または自由移動</p>
+                        </div>
+                        <div class="timeline-icon">🚗</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>🏠 名護・あけみおSKYドーム 集合</h3>
+                            <p><strong>14:00〜16:00</strong></p>
+                            <p>ルーツをたどるやさしいワークタイム</p>
+                            <ul>
+                                <li>家系図ワークシート（希望者のみ）</li>
+                                <li>家族・自分のことを書いたり、話したり</li>
+                                <li>多重知能チェック（自由参加）</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-icon">🔎</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>📍 参加方法・料金</h2>
+                <div class="options">
+                    <div class="option-card shuttle">
+                        <h3>🚌 乗合コース</h3>
+                        <div class="price">¥2,500<span style="font-size: 0.8rem;">（税込）</span></div>
+                        <p><strong>集合：</strong>9:00 イオン南風原近辺出発</p>
+                        <p><strong>合流：</strong>14:00 名護・あけみおSKYドーム</p>
+                        <p><strong>解散：</strong>18:00頃 イオン南風原帰着予定</p>
+                        <p><em>※先着順・事前申込制<br>ガソリン代1000円・資料代1000円・保険代含む500円（昼食代別途）</em></p>
+                    </div>
+                    
+                    <div class="option-card direct">
+                        <h3>🚗 現地集合コース</h3>
+                        <div class="price">¥1,500<span style="font-size: 0.8rem;">（税込）</span></div>
+                        <p><strong>選択①：</strong>11:00 大宜味道の駅集合</p>
+                        <p><strong>選択②：</strong>14:00 名護・あけみおSKYドーム集合</p>
+                        <p><strong>解散：</strong>16:00 名護・あけみおSKYドーム</p>
+                        <p><em>※資料代1000円・保険代500円など含む（昼食代別）</em></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>💛 この1日の4つの要素</h2>
+                <div class="key-elements">
+                    <div class="element-card">
+                        <div class="element-icon"></div>
+                        <h3>🍱 ごはん</h3>
+                        <p>地元の美味しいごはんを一緒に</p>
+                    </div>
+                    <div class="element-card">
+                        <div class="element-icon"></div>
+                        <h3>👨‍👩‍👧‍👦 ユンタク</h3>
+                        <p>自然なおしゃべりで心を軽やかに</p>
+                    </div>
+                    <div class="element-card">
+                        <div class="element-icon"></div>
+                        <h3>🌱 ルーツ</h3>
+                        <p>自分や家族のことを振り返る</p>
+                    </div>
+                    <div class="element-card">
+                        <div class="element-icon"></div>
+                        <h3>🤝 つながり</h3>
+                        <p>新しい出会いと温かい時間</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section message">
+                <h2>💬 この1日のかたち</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                    ごはんを食べて、おしゃべりして、ふりかえる。
+                </p>
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                    そこにテーマがなくても、意味はちゃんと生まれる。
+                </p>
+                <p style="font-size: 1.1rem;">
+                    ひとりでも、誰かとでも。<br>
+                    この夏、「ごはんとユンタクとルーツ」を楽しむ時間を一緒に過ごしませんか？
+                </p>
+            </section>
+
+            <section class="section application">
+                <h2>📮 お申込み</h2>
+                <p style="margin-bottom: 2rem;">
+                    <strong>申込締切：2025年7月22日（火）</strong>
+                </p>
+                <a href="https://forms.gle/8CBMD8vkM8NktQae9" class="apply-btn" target="_blank">Googleフォームで申込</a>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 10px;">
+                    <h3>📝 持ち物・服装</h3>
+                    <ul style="text-align: left; display: inline-block; margin-top: 1rem;">
+                        <li>筆記用具（必要な方のみ）</li>
+                        <li>飲み物</li>
+                        <li>ゆったり過ごせる服装</li>
+                        <li>「ちょっと誰かと過ごしてみたい」気持ちだけ</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer style="background: #ffffff; color: rgb(0, 0, 0); text-align: center; padding: 2rem 0;">
+        <div class="container">
+            <hr style="border: 1px solid #4a5568; margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem; text-align: left;">
+                
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: #a0aec0;">主催者情報</h3>
+                    <p><strong>主催：</strong>アルパカすく〜る事業部(株式会社琉球のタネ) </p>
+                    <p><strong>代表：</strong>佐渡山要</p>
+                    <p><strong>所在地：</strong>〒900-0024 沖縄県那覇市古波蔵2-30-12-401</p>
+                    <p><strong>連絡先：</strong>070-5692-4173</p>
+                    <p><strong>メール：</strong>info@ryukyu-tane.com</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: #a0aec0;">重要事項</h3>
+                    <p><strong>料金のお支払い：当日現地にて現金でお支払いください</strong></p>
+                    <p><strong>キャンセル規定：</strong></p>
+                    <p>・当日開始2時間前（9:00）まで：キャンセル料無料</p>
+                    <p><strong>返金：</strong>現地払いですので返金はありません。</p>
+                    <p><strong>保険：</strong>当日レジャー保険加入します。</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: #a0aec0;">免責事項</h3>
+                    <p>・天候等による中止の場合があります</p>
+                    <p>・参加者の故意・過失による損害は責任を負いません</p>
+                    <p>・健康状態に不安がある方は事前にご相談ください</p>
+                    <p>・撮影した写真等は広報活動に使用する場合があります</p>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <h3 style="margin-bottom: 0.5rem; color: #a0aec0;">特定商取引法に基づく表記</h3>
+                    <p style="font-size: 0.9rem;">本イベントは現地体験型サービスの提供であり、物品の販売ではありません。</p>
+                    <p style="font-size: 0.9rem;">料金は当日現地にて現金でお支払いいただきます。</p>
+                </div>
+                
+            </div>
+            <hr style="border: 1px solid #4a5568; margin: 2rem 0;">
+            <p>&copy; 2025 アルパカすく〜る. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 要素の表示アニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // 申込ボタンのクリックイベント
+        document.querySelectorAll('.apply-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Googleフォームは新しいタブで開く
+                if (this.getAttribute('target') === '_blank') {
+                    return; // デフォルトの動作を許可
+                }
+                e.preventDefault();
+                alert('申込フォームは準備中です。しばらくお待ちください。');
+            });
+        });
+    </script>
+</body>
+</html>

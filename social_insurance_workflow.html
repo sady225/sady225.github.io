@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算定基礎届・労働保険届出書 業務フローサポート</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #4f46e5;
+        }
+
+        .section h2 {
+            color: #1e293b;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .workflow-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .workflow-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .workflow-item.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .workflow-item.completed .checkbox {
+            background: white;
+            color: #10b981;
+        }
+
+        .workflow-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #4f46e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .checkbox.checked {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .workflow-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1e293b;
+            flex-grow: 1;
+        }
+
+        .workflow-item.completed .workflow-title {
+            color: white;
+        }
+
+        .workflow-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .workflow-item.completed .workflow-description {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .notes-section {
+            margin-top: 15px;
+        }
+
+        .notes-label {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .workflow-item.completed .notes-label {
+            color: white;
+        }
+
+        .notes-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s ease;
+        }
+
+        .notes-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .workflow-item.completed .notes-input {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .workflow-item.completed .notes-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .export-section {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .export-button {
+            background: white;
+            color: #d97706;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .export-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 5px solid #b91c1c;
+        }
+
+        .important-note h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 算定基礎届・労働保険届出書</h1>
+            <p>業務フローサポートシステム</p>
+        </div>
+
+        <div class="main-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">進捗: 0/11 完了</div>
+
+            <!-- 算定基礎届セクション -->
+            <div class="section">
+                <h2>
+                    <div class="section-icon">📊</div>
+                    算定基礎届の作成
+                </h2>
+
+                <div class="workflow-item" data-id="1">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">フリーウェイで1年分の給料を入力・確定</div>
+                    </div>
+                    <div class="workflow-description">
+                        フリーウェイシステムに1年分の給料データを入力し、データを確定させます。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：○月分の賞与データに修正が必要、残業代の計算方法を確認したい など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="2">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">社会保険メニューから算定基礎届を選択</div>
+                    </div>
+                    <div class="workflow-description">
+                        フリーウェイの社会保険メニューにアクセスし、算定基礎届の機能を選択します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：メニューの場所を確認、前年度との変更点があるか など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="3">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">被保険者報酬月額算定基礎届を作成</div>
+                    </div>
+                    <div class="workflow-description">
+                        入力したデータを基に被保険者報酬月額算定基礎届を作成します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：算定対象者の確認、報酬月額の計算結果をチェック など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="4">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">労働保険料算定基礎賃金集計表も作成</div>
+                    </div>
+                    <div class="workflow-description">
+                        同じデータを使用して労働保険料算定基礎賃金集計表をフリーウェイで作成します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：賃金集計表の数値確認、労働保険料率の確認 など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="5">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">算定基礎届をプリントアウト</div>
+                    </div>
+                    <div class="workflow-description">
+                        作成した算定基礎届をプリントアウトします。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：印刷品質の確認、必要部数の確認 など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="6">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">ミニレターで郵送</div>
+                    </div>
+                    <div class="workflow-description">
+                        算定基礎届出書をミニレターに入れて郵送します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：宛先住所の確認、郵送日の記録 など"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 労働保険届出書セクション -->
+            <div class="section">
+                <h2>
+                    <div class="section-icon">📝</div>
+                    労働保険届出書の作成
+                </h2>
+
+                <div class="workflow-item" data-id="9">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">労働保険料を計算</div>
+                    </div>
+                    <div class="workflow-description">
+                        労働保険料の計算を行い、納付すべき金額を確定します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：保険料率の確認、計算結果の検算 など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="7">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">申告書に手書きで記入</div>
+                    </div>
+                    <div class="workflow-description">
+                        労働保険届出書の申告書に必要事項を手書きで記入します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：記入漏れがないか確認、計算間違いの確認 など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="8">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">前年の資料を参照しながら記入</div>
+                    </div>
+                    <div class="workflow-description">
+                        前年度の資料を見ながら記入すると分かりやすく、間違いを防げます。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：前年度からの変更点、参考にした資料の保管場所 など"></textarea>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="10">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">銀行に振り込み</div>
+                    </div>
+                    <div class="workflow-description">
+                        計算した労働保険料を銀行に振り込みます。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：振込手数料の確認、振込日の記録 など"></textarea>
+                    </div>
+                    <div class="important-note">
+                        <h3>⚠️ 重要</h3>
+                        <p>振り込み完了後に提出してください。振り込み前の提出は不可です。</p>
+                    </div>
+                </div>
+
+                <div class="workflow-item" data-id="11">
+                    <div class="workflow-header">
+                        <div class="checkbox">✓</div>
+                        <div class="workflow-title">返信用封筒と切手を貼って郵送</div>
+                    </div>
+                    <div class="workflow-description">
+                        返信用封筒を入れて、所定の封筒に切手を貼って郵送します。
+                    </div>
+                    <div class="notes-section">
+                        <label class="notes-label">気づいたこと・メモ:</label>
+                        <textarea class="notes-input" placeholder="例：返信用封筒の宛先確認、切手の料金確認 など"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h2>📥 作業記録のエクスポート</h2>
+                <p>すべての気づいたことやメモをTXTファイルとして保存できます</p>
+                <button class="export-button" onclick="exportNotes()">TXTファイルでエクスポート</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 状態管理
+        let workflowState = {};
+        let notes = {};
+
+        // 初期化
+        function init() {
+            // 各ワークフローアイテムにイベントリスナーを追加
+            document.querySelectorAll('.workflow-item').forEach(item => {
+                const id = item.dataset.id;
+                const checkbox = item.querySelector('.checkbox');
+                const notesInput = item.querySelector('.notes-input');
+
+                // チェックボックスのクリックイベント
+                checkbox.addEventListener('click', () => {
+                    toggleWorkflowItem(id);
+                });
+
+                // メモの入力イベント
+                notesInput.addEventListener('input', (e) => {
+                    notes[id] = e.target.value;
+                });
+
+                // 初期状態の設定
+                workflowState[id] = false;
+                notes[id] = '';
+            });
+
+            updateProgress();
+        }
+
+        // ワークフローアイテムの切り替え
+        function toggleWorkflowItem(id) {
+            workflowState[id] = !workflowState[id];
+            const item = document.querySelector(`[data-id="${id}"]`);
+            const checkbox = item.querySelector('.checkbox');
+
+            if (workflowState[id]) {
+                item.classList.add('completed');
+                checkbox.classList.add('checked');
+            } else {
+                item.classList.remove('completed');
+                checkbox.classList.remove('checked');
+            }
+
+            updateProgress();
+        }
+
+        // 進捗バーの更新
+        function updateProgress() {
+            const totalItems = Object.keys(workflowState).length;
+            const completedItems = Object.values(workflowState).filter(state => state).length;
+            const progressPercentage = (completedItems / totalItems) * 100;
+
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            document.getElementById('progressText').textContent = `進捗: ${completedItems}/${totalItems} 完了`;
+        }
+
+        // TXTファイルのエクスポート
+        function exportNotes() {
+            const currentDate = new Date().toLocaleDateString('ja-JP');
+            const currentTime = new Date().toLocaleTimeString('ja-JP');
+            
+            let content = `算定基礎届・労働保険届出書 作業記録\n`;
+            content += `作成日時: ${currentDate} ${currentTime}\n`;
+            content += `${'='.repeat(50)}\n\n`;
+
+            // 進捗サマリー
+            const totalItems = Object.keys(workflowState).length;
+            const completedItems = Object.values(workflowState).filter(state => state).length;
+            content += `進捗サマリー: ${completedItems}/${totalItems} 完了\n\n`;
+
+            // 各セクションの詳細
+            const sections = [
+                {
+                    title: '算定基礎届の作成',
+                    items: [
+                        { id: '1', title: 'フリーウェイで1年分の給料を入力・確定' },
+                        { id: '2', title: '社会保険メニューから算定基礎届を選択' },
+                        { id: '3', title: '被保険者報酬月額算定基礎届を作成' },
+                        { id: '4', title: '労働保険料算定基礎賃金集計表も作成' },
+                        { id: '5', title: '算定基礎届をプリントアウト' },
+                        { id: '6', title: 'ミニレターで郵送' }
+                    ]
+                },
+                {
+                    title: '労働保険届出書の作成',
+                    items: [
+                        { id: '7', title: '申告書に手書きで記入' },
+                        { id: '8', title: '前年の資料を参照しながら記入' },
+                        { id: '9', title: '労働保険料を計算' },
+                        { id: '10', title: '銀行に振り込み' },
+                        { id: '11', title: '返信用封筒と切手を貼って郵送' }
+                    ]
+                }
+            ];
+
+            sections.forEach(section => {
+                content += `■ ${section.title}\n`;
+                content += `${'-'.repeat(30)}\n`;
+                
+                section.items.forEach(item => {
+                    const status = workflowState[item.id] ? '✓ 完了' : '○ 未完了';
+                    content += `${status} ${item.title}\n`;
+                    
+                    if (notes[item.id] && notes[item.id].trim() !== '') {
+                        content += `   メモ: ${notes[item.id]}\n`;
+                    }
+                    content += '\n';
+                });
+                
+                content += '\n';
+            });
+
+            // 未完了項目の一覧
+            const incompleteItems = [];
+            sections.forEach(section => {
+                section.items.forEach(item => {
+                    if (!workflowState[item.id]) {
+                        incompleteItems.push(item.title);
+                    }
+                });
+            });
+
+            if (incompleteItems.length > 0) {
+                content += `■ 未完了項目\n`;
+                content += `${'-'.repeat(30)}\n`;
+                incompleteItems.forEach(item => {
+                    content += `- ${item}\n`;
+                });
+                content += '\n';
+            }
+
+            // ファイルのダウンロード
+            const blob = new Blob([content], { type: 'text/plain; charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `算定基礎届_労働保険届出書_作業記録_${currentDate.replace(/\//g, '')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 初期化の実行
+        init();
+    </script>
+</body>
+</html>

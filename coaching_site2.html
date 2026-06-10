@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コーチングセッション - 問いで可能性を開く</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            transition: background 0.8s ease;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .tab-container {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button.active {
+            background: white;
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tab-button:hover {
+            background: #e9ecef;
+        }
+        
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .session-area {
+            margin-bottom: 30px;
+        }
+        
+        .question-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .question-category {
+            font-size: 0.9em;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        
+        .response-area {
+            margin-top: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1.1em;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .principle-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .principle-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .principle-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+        
+        .principle-description {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .principle-details {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .principle-example {
+            background: #e8f5e8;
+            border-left: 3px solid #28a745;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .principle-example h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .principle-warning {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .principle-warning h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .brain-science-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 1px solid #e1bee7;
+        }
+        
+        .brain-science-title {
+            color: #6a1b9a;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .brain-icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        
+        .historical-timeline {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-year {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .color-theme-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .color-theme-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .session-log {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .log-question {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .log-response {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .reflection-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .insight-highlight {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tab-container {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                flex: none;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>コーチングセッション</h1>
+            <p class="subtitle">問いで可能性を開く</p>
+            <p class="quote">「問いを変えれば 世界が変わる 今日の好奇心が 未来を創る」</p>
+        </header>
+        
+        <button class="color-theme-button" onclick="changeTheme()" title="テーマを変更">🎨</button>
+        
+        <div class="main-content">
+            <div class="tab-container">
+                <button class="tab-button active" onclick="showTab('session')">セッション</button>
+                <button class="tab-button" onclick="showTab('principles')">コーチングの原理</button>
+                <button class="tab-button" onclick="showTab('reflection')">振り返り</button>
+            </div>
+            
+            <div id="session" class="tab-content active">
+                <h2>今日のコーチングセッション</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <p>進捗: <span id="progressText">0/10</span> の質問</p>
+                
+                <div class="session-area">
+                    <div class="question-card" id="questionCard">
+                        <div class="question-text" id="questionText">
+                            今日一日を振り返って、何が最も印象的でしたか？
+                        </div>
+                        <div class="question-category" id="questionCategory">現在の状況</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <textarea id="responseInput" placeholder="思いついたことを自由に書いてください。正解はありません。"></textarea>
+                        <div>
+                            <button class="button" onclick="nextQuestion()">次の質問へ</button>
+                            <button class="button" onclick="skipQuestion()">スキップ</button>
+                            <button class="button" onclick="addInsight()">気づきを追加</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="session-log" id="sessionLog">
+                    <h3>セッションログ</h3>
+                    <p>質問に答えると、ここに記録されます。</p>
+                </div>
+                
+                <div>
+                    <button class="button" onclick="exportSession()">セッションをテキストファイルで保存</button>
+                    <button class="button" onclick="resetSession()">セッションをリセット</button>
+                </div>
+            </div>
+            
+            <div id="principles" class="tab-content">
+                <h2>コーチングの原理と実践</h2>
+                
+                <div class="historical-timeline">
+                    <h3>🕰️ コーチングの歴史的変遷</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-year">～1960</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">旧来型コーチング</div>
+                            <p>「行き先（ゴール）へ導く契約型」。根性論や上意下達が主流。指導者が答えを持っており、部下はそれに従う関係性。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1960～</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">スポーツコーチング進化</div>
+                            <p>勝利理論を根拠にフォローするスタイルへ。パフォーマンス向上に焦点を当てた科学的アプローチの始まり。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">現代</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">プロセス型コーチング</div>
+                            <p>心理学・脳科学・フロー理論などエビデンスを統合。"問い"で可能性を開くプロセス重視のアプローチ。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">1</div>
+                        アドバイス禁止の原則
+                    </div>
+                    <div class="principle-description">
+                        直接の助言は依存を生みます。選択肢やメタファーを提示し、主体的決定を促します。
+                    </div>
+                    <div class="principle-details">
+                        <strong>なぜアドバイスが有害なのか？</strong><br>
+                        • 思考停止を引き起こす<br>
+                        • 自己効力感を低下させる<br>
+                        • 創造性を阻害する<br>
+                        • 依存関係を作る
+                    </div>
+                    <div class="principle-example">
+                        <h4>✅ 良い例</h4>
+                        <p>「もしこの状況を動物に例えるとしたら？」「他に考えられる選択肢は？」「あなたならどう判断しますか？」</p>
+                    </div>
+                    <div class="principle-warning">
+                        <h4>⚠️ 避けるべき例</h4>
+                        <p>「私なら〇〇します」「〇〇すべきです」「正解は△△です」</p>
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">2</div>
+                        安全な対話空間の提供
+                    </div>
+                    <div class="principle-description">
+                        本音を出せる場を作ることで、脳波をストレス優位（β波）から解放し、創造性を引き出します。
+                    </div>
+                    <div class="brain-science-section">
+                        <div class="brain-science-title">
+                            <span class="brain-icon">🧠</span>
+                            脳科学的根拠
+                        </div>
+                        <p><strong>ストレス状態（β波優位）:</strong> 論理思考は活発だが、創造性が低下。既存の枠組みに囚われやすい。</p>
+                        <p><strong>リラックス状態（α波・θ波）:</strong> 右脳が活性化し、直感や創造性が高まる。新しいアイデアが生まれやすい。</p>
+                    </div>
+                    <div class="principle-details">
+                        <strong>安全な空間の作り方：</strong><br>
+                        • 評価・批判をしない<br>
+                        • 相手のペースを尊重する<br>
+                        • 共感的な態度を示す<br>
+                        • 秘密保持を約束する
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">3</div>
+                        質問が脳を開く
+                    </div>
+                    <div class="principle-description">
+                        質問がDMN（デフォルト・モード・ネットワーク）を活性化し、創発的アイデアを生み出します。
+                    </div>
+                    <div class="brain-science-section">
+                        <div class="brain-science-title">
+                            <span class="brain-icon">🧠</span>
+                            DMN（デフォルト・モード・ネットワーク）とは
+                        </div>
+                        <p>脳が「何もしていない」時に活動する神経回路。記憶の統合、自己参照、創造的思考を担う。質問により意識的に活性化できる。</p>
+                        <p><strong>シンクロニシティ:</strong> 偶然の一致のように見える非因果的な着想。DMN活性化により短時間で複数発生。</p>
+                    </div>
+                    <div class="principle-details">
+                        <strong>効果的な質問の種類：</strong><br>
+                        • オープンクエスチョン（「どのように？」「なぜ？」）<br>
+                        • メタファー質問（「〇〇を色で表すと？」）<br>
+                        • 仮定質問（「もし〇〇だったら？」）<br>
+                        • 時間軸質問（「1年後の自分は？」）
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">4</div>
+                        予想外×ストレス＝成長機会
+                    </div>
+                    <div class="principle-description">
+                        想定外の問題に投げ込まれると"抜け出す問い"が生まれ、脳が再配線されます。
+                    </div>
+                    <div class="brain-science-section">
+                        <div class="brain-science-title">
+                            <span class="brain-icon">🧠</span>
+                            神経可塑性と成長
+                        </div>
+                        <p>脳は新しい経験や挑戦に対して神経回路を再構築する能力を持つ。適度なストレス（ユーストレス）は学習と成長を促進。</p>
+                        <p><strong>クリエイティブ・アボイダンス:</strong> 避けたい状況ほど創造性が高まる現象。回避欲求が新しい解決策を生む。</p>
+                    </div>
+                    <div class="principle-details">
+                        <strong>成長を促すアプローチ：</strong><br>
+                        • 快適ゾーンから一歩外に出る<br>
+                        • 失敗を学習機会と捉える<br>
+                        • 困難な状況を歓迎する<br>
+                        • 「どうすれば解決できるか？」を問う
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">5</div>
+                        100点幻想の罠を避ける
+                    </div>
+                    <div class="principle-description">
+                        60-80%の仮説を検証し続ける姿勢こそ創造性を保ちます。完璧主義は創造性の敵です。
+                    </div>
+                    <div class="principle-details">
+                        <strong>テスト文化の弊害：</strong><br>
+                        • 「正解は一つ」という思い込み<br>
+                        • 失敗への過度な恐れ<br>
+                        • 探求心の低下<br>
+                        • 既存の枠組みへの固執
+                    </div>
+                    <div class="principle-example">
+                        <h4>✅ 成長マインドセット</h4>
+                        <p>「60-80%の確信があれば行動する」「失敗は学習のデータ」「仮説→検証→修正のサイクル」</p>
+                    </div>
+                    <div class="principle-warning">
+                        <h4>⚠️ 固定マインドセット</h4>
+                        <p>「100%確信するまで行動しない」「失敗は恥」「一度決めたら変更しない」</p>
+                    </div>
+                </div>
+                
+                <div class="brain-science-section">
+                    <h3>🎯 目標達成の再定義</h3>
+                    <div class="principle-details">
+                        <strong>従来の目標設定の限界：</strong><br>
+                        • 固定的なゴール設定は柔軟性を欠く<br>
+                        • 達成時の満足感が一時的<br>
+                        • 想定外の機会を見逃す可能性
+                    </div>
+                    <div class="principle-example">
+                        <h4>✅ 新しいアプローチ</h4>
+                        <p><strong>「今日の興味」にフォーカス:</strong> 日々の問い→睡眠中に脳がアップデート→気づけば到達している</p>
+                        <p><strong>「驚くほどの自分」との出会い:</strong> 予測不能な成果こそが真のゴール</p>
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-title">
+                        <div class="principle-number">💡</div>
+                        実践のためのマインドセット
+                    </div>
+                    <div class="principle-description">
+                        コーチもクライアントも「盲点を認める謙虚さ」が不可欠です。
+                    </div>
+                    <div class="principle-details">
+                        <strong>クライアントに求められる姿勢：</strong><br>
+                        • 想定外の答えにオープンであること<br>
+                        • 自信より好奇心を大切にする<br>
+                        • 問題を成長の機会として歓迎する<br>
+                        • 「正解」への執着を手放す
+                    </div>
+                    <div class="principle-details">
+                        <strong>コーチに求められる姿勢：</strong><br>
+                        • 自律神経を整えるセルフマネジメント<br>
+                        • 多面的な質問力の向上<br>
+                        • 共創者としての意識<br>
+                        • 自身の信念で押し切らない謙虚さ
+                    </div>
+                </div>
+            </div>
+            
+            <div id="reflection" class="tab-content">
+                <h2>振り返りと気づき</h2>
+                
+                <div class="reflection-section">
+                    <h3>今日の気づき</h3>
+                    <div id="insightsList">
+                        <p>セッション中に「気づきを追加」ボタンを押すと、ここに記録されます。</p>
+                    </div>
+                </div>
+                
+                <div class="reflection-section">
+                    <h3>次のアクション</h3>
+                    <textarea id="actionInput" placeholder="今日の気づきから、明日やってみたいことを書いてください。"></textarea>
+                    <button class="button" onclick="saveAction()">アクションを保存</button>
+                </div>
+                
+                <div id="savedActions">
+                    <!-- 保存されたアクションがここに表示される -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentQuestion = 0;
+        let sessionData = [];
+        let insights = [];
+        let actions = [];
+        
+        // カラーテーマ配列
+        const colorThemes = [
+            { name: '朝の輝き', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+            { name: '夕焼け', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+            { name: '森の息吹', gradient: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)' },
+            { name: '夜空の神秘', gradient: 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)' },
+            { name: '桜の季節', gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' },
+            { name: '海の深さ', gradient: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)' },
+            { name: '黄金の時', gradient: 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)' },
+            { name: '紫の雲', gradient: 'linear-gradient(135deg, #8360c3 0%, #2ebf91 100%)' },
+            { name: '夕暮れの街', gradient: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)' },
+            { name: '新緑の風', gradient: 'linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%)' }
+        ];
+        
+        // 時刻ベースでランダム要素を加えたテーマ選択
+        function getTimeBasedTheme() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            
+            // 時刻と分を組み合わせたシード値
+            const seed = hour * 60 + minute;
+            const index = seed % colorThemes.length;
+            
+            return colorThemes[index];
+        }
+        
+        // テーマ変更関数
+        function changeTheme() {
+            const randomTheme = colorThemes[Math.floor(Math.random() * colorThemes.length)];
+            document.body.style.background = randomTheme.gradient;
+            
+            // テーマ名を一時的に表示
+            const themeDisplay = document.createElement('div');
+            themeDisplay.style.position = 'fixed';
+            themeDisplay.style.top = '50%';
+            themeDisplay.style.left = '50%';
+            themeDisplay.style.transform = 'translate(-50%, -50%)';
+            themeDisplay.style.background = 'rgba(0,0,0,0.8)';
+            themeDisplay.style.color = 'white';
+            themeDisplay.style.padding = '20px 40px';
+            themeDisplay.style.borderRadius = '15px';
+            themeDisplay.style.fontSize = '1.2em';
+            themeDisplay.style.zIndex = '9999';
+            themeDisplay.style.textAlign = 'center';
+            themeDisplay.innerHTML = `🎨 ${randomTheme.name}`;
+            
+            document.body.appendChild(themeDisplay);
+            
+            setTimeout(() => {
+                themeDisplay.remove();
+            }, 2000);
+        }
+        
+        // 初期テーマ設定（時刻ベース）
+        function initializeTheme() {
+            const initialTheme = getTimeBasedTheme();
+            document.body.style.background = initialTheme.gradient;
+        }
+        
+        // 定期的なテーマ変更（30分ごと）
+        function startAutoThemeChange() {
+            setInterval(() => {
+                const newTheme = getTimeBasedTheme();
+                document.body.style.background = newTheme.gradient;
+            }, 30 * 60 * 1000); // 30分
+        }
+        
+        const questions = [
+            {
+                text: "今日一日を振り返って、何が最も印象的でしたか？",
+                category: "現在の状況"
+            },
+            {
+                text: "その出来事から、あなたはどんな新しい側面を発見しましたか？",
+                category: "気づき"
+            },
+            {
+                text: "もし今の状況を色で表すとしたら、何色でしょうか？その理由は？",
+                category: "メタファー"
+            },
+            {
+                text: "理想の自分と現在の自分の間にあるものは何だと思いますか？",
+                category: "ギャップ分析"
+            },
+            {
+                text: "今直面している課題を、全く違う角度から見るとどう見えますか？",
+                category: "視点転換"
+            },
+            {
+                text: "あなたにとって「成長」とは、具体的にどういう状態ですか？",
+                category: "価値観"
+            },
+            {
+                text: "最近、予想外の出来事で良い結果につながったことはありますか？",
+                category: "成功体験"
+            },
+            {
+                text: "今日のあなたが、1年前のあなたにアドバイスするとしたら？",
+                category: "成長認識"
+            },
+            {
+                text: "明日朝起きて、何か一つだけ変わっているとしたら、何を望みますか？",
+                category: "願望"
+            },
+            {
+                text: "この会話を通じて、どんな新しい問いが浮かんできましたか？",
+                category: "新たな問い"
+            }
+        ];
+        
+        function showTab(tabName) {
+            // すべてのタブを非表示
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // すべてのボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function nextQuestion() {
+            const response = document.getElementById('responseInput').value.trim();
+            if (response) {
+                // 現在の質問と回答を保存
+                sessionData.push({
+                    question: questions[currentQuestion].text,
+                    category: questions[currentQuestion].category,
+                    response: response,
+                    timestamp: new Date().toLocaleString()
+                });
+                
+                // ログに追加
+                addToLog(questions[currentQuestion].text, response);
+                
+                // 次の質問へ
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    // セッション完了
+                    completeSession();
+                }
+                
+                // 入力欄をクリア
+                document.getElementById('responseInput').value = '';
+                
+                // 進捗を更新
+                updateProgress();
+            } else {
+                alert('回答を入力してから次に進んでください。');
+            }
+        }
+        
+        function skipQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                completeSession();
+            }
+            updateProgress();
+        }
+        
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = question.text;
+            document.getElementById('questionCategory').textContent = question.category;
+        }
+        
+        function addToLog(question, response) {
+            const log = document.getElementById('sessionLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <div class="log-question">${question}</div>
+                <div class="log-response">${response}</div>
+            `;
+            log.appendChild(entry);
+        }
+        
+        function addInsight() {
+            const response = document.getElementById('responseInput').value.trim();
+            if (response) {
+                insights.push({
+                    text: response,
+                    timestamp: new Date().toLocaleString(),
+                    question: questions[currentQuestion].text
+                });
+                
+                // 気づきリストを更新
+                updateInsightsList();
+                
+                alert('気づきを追加しました！');
+            } else {
+                alert('まず回答を入力してください。');
+            }
+        }
+        
+        function updateInsightsList() {
+            const list = document.getElementById('insightsList');
+            list.innerHTML = '';
+            
+            insights.forEach(insight => {
+                const div = document.createElement('div');
+                div.className = 'insight-highlight';
+                div.innerHTML = `
+                    <strong>気づき:</strong> ${insight.text}<br>
+                    <small>質問: ${insight.question}</small><br>
+                    <small>時刻: ${insight.timestamp}</small>
+                `;
+                list.appendChild(div);
+            });
+        }
+        
+        function updateProgress() {
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentQuestion}/${questions.length}`;
+        }
+        
+        function completeSession() {
+            const questionCard = document.getElementById('questionCard');
+            questionCard.innerHTML = `
+                <div class="question-text">セッション完了！</div>
+                <div class="question-category">お疲れ様でした</div>
+            `;
+            
+            // 次の質問ボタンを無効化
+            const nextButton = document.querySelector('button[onclick="nextQuestion()"]');
+            nextButton.disabled = true;
+            nextButton.textContent = '完了';
+        }
+        
+        function exportSession() {
+            let exportText = `コーチングセッション記録\n`;
+            exportText += `日時: ${new Date().toLocaleString()}\n`;
+            exportText += `=================================\n\n`;
+            
+            sessionData.forEach((item, index) => {
+                exportText += `質問 ${index + 1} [${item.category}]\n`;
+                exportText += `${item.question}\n\n`;
+                exportText += `回答:\n${item.response}\n\n`;
+                exportText += `記録時刻: ${item.timestamp}\n`;
+                exportText += `---------------------------------\n\n`;
+            });
+            
+            if (insights.length > 0) {
+                exportText += `気づき一覧\n`;
+                exportText += `=================================\n`;
+                insights.forEach((insight, index) => {
+                    exportText += `気づき ${index + 1}:\n${insight.text}\n`;
+                    exportText += `関連質問: ${insight.question}\n`;
+                    exportText += `時刻: ${insight.timestamp}\n\n`;
+                });
+            }
+            
+            if (actions.length > 0) {
+                exportText += `次のアクション\n`;
+                exportText += `=================================\n`;
+                actions.forEach((action, index) => {
+                    exportText += `アクション ${index + 1}:\n${action.text}\n`;
+                    exportText += `作成時刻: ${action.timestamp}\n\n`;
+                });
+            }
+            
+            // テキストファイルとしてダウンロード
+            const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `コーチングセッション_${new Date().toLocaleDateString().replace(/\//g, '')}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function resetSession() {
+            if (confirm('セッションをリセットしますか？すべての記録が削除されます。')) {
+                currentQuestion = 0;
+                sessionData = [];
+                insights = [];
+                actions = [];
+                
+                document.getElementById('sessionLog').innerHTML = '<h3>セッションログ</h3><p>質問に答えると、ここに記録されます。</p>';
+                document.getElementById('responseInput').value = '';
+                document.getElementById('insightsList').innerHTML = '<p>セッション中に「気づきを追加」ボタンを押すと、ここに記録されます。</p>';
+                document.getElementById('actionInput').value = '';
+                document.getElementById('savedActions').innerHTML = '';
+                
+                displayQuestion();
+                updateProgress();
+                
+                // 次の質問ボタンを有効化
+                const nextButton = document.querySelector('button[onclick="nextQuestion()"]');
+                nextButton.disabled = false;
+                nextButton.textContent = '次の質問へ';
+            }
+        }
+        
+        function saveAction() {
+            const actionText = document.getElementById('actionInput').value.trim();
+            if (actionText) {
+                actions.push({
+                    text: actionText,
+                    timestamp: new Date().toLocaleString()
+                });
+                
+                // アクションリストを更新
+                updateActionsList();
+                
+                // 入力欄をクリア
+                document.getElementById('actionInput').value = '';
+                
+                alert('アクションを保存しました！');
+            } else {
+                alert('アクションを入力してください。');
+            }
+        }
+        
+        function updateActionsList() {
+            const list = document.getElementById('savedActions');
+            list.innerHTML = '';
+            
+            actions.forEach((action, index) => {
+                const div = document.createElement('div');
+                div.className = 'insight-highlight';
+                div.style.marginTop = '10px';
+                div.innerHTML = `
+                    <strong>アクション ${index + 1}:</strong> ${action.text}<br>
+                    <small>作成時刻: ${action.timestamp}</small>
+                `;
+                list.appendChild(div);
+            });
+        }
+        
+        // 初期化
+        displayQuestion();
+        updateProgress();
+        
+        // テーマ初期化と自動変更開始
+        initializeTheme();
+        startAutoThemeChange();
+    </script>
+</body>
+</html>
