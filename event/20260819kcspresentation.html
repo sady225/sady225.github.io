@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KCS事業、九州へ！旅のしおり | 2026.8.19-21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#25406b;
+    --indigo-deep:#152a4a;
+    --coral:#ea7259;
+    --coral-soft:#f7b8a4;
+    --sand:#f6ecd4;
+    --sand-deep:#ecd9a8;
+    --teal:#2f8f83;
+    --teal-soft:#cfe9e2;
+    --ink:#26313f;
+    --warn:#d1495b;
+    --warn-bg:#fdeceb;
+    --paper:#fffdf8;
+    --line:rgba(37,64,107,0.14);
+    --safe-t:env(safe-area-inset-top,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:linear-gradient(180deg,#f2ede0 0%,#eae3d0 100%);
+    font-family:"Noto Sans JP",sans-serif;
+    color:var(--ink);
+    padding-bottom:calc(40px + var(--safe-b));
+    padding-top:calc(16px + var(--safe-t));
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:430px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+
+  /* HERO */
+  .hero{
+    background:var(--indigo);
+    background-image:radial-gradient(circle at 85% -10%, rgba(255,255,255,0.12), transparent 55%);
+    color:#fff;
+    border-radius:22px;
+    padding:22px 20px 20px;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"✈︎";
+    position:absolute;
+    right:14px;
+    top:10px;
+    font-size:64px;
+    opacity:.14;
+    transform:rotate(20deg);
+  }
+  .hero .eyebrow{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-size:12px;
+    letter-spacing:.16em;
+    color:var(--coral-soft);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .hero h1{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-size:21px;
+    line-height:1.5;
+    margin:0 0 12px;
+    font-weight:900;
+  }
+  .hero .meta{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    row-gap:6px;
+    column-gap:10px;
+    font-size:13px;
+    color:#dfe6f2;
+  }
+  .hero .meta b{color:#fff;font-weight:700;}
+  .hero .tag{
+    display:inline-block;
+    margin-top:12px;
+    background:rgba(255,255,255,0.14);
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:11.5px;
+  }
+
+  .section-title{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900;
+    font-size:16px;
+    color:var(--indigo-deep);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:26px 0 12px;
+  }
+  .section-title .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--coral);
+    flex:none;
+  }
+
+  .day-card{
+    background:#fffefb;
+    border-radius:18px;
+    padding:16px 16px 14px;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+    box-shadow:0 3px 10px rgba(37,64,107,0.06);
+  }
+  .day-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .day-head .d{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900;
+    font-size:15px;
+    color:var(--indigo-deep);
+  }
+  .day-head .w{
+    font-size:11px;
+    background:var(--sand-deep);
+    color:var(--indigo-deep);
+    padding:3px 10px;
+    border-radius:999px;
+    font-weight:700;
+  }
+
+  .tl{list-style:none;margin:0;padding:0;}
+  .tl li{
+    position:relative;
+    padding:0 0 16px 26px;
+    border-left:3px dotted var(--sand-deep);
+    margin-left:6px;
+  }
+  .tl li:last-child{border-left-color:transparent;padding-bottom:2px;}
+  .tl li::before{
+    content:attr(data-emoji);
+    position:absolute;
+    left:-13px;top:-3px;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:var(--sand-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+  }
+  .tl li.warn::before{background:var(--warn-bg);}
+  .tl .time{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:700;
+    color:var(--coral);
+    font-size:13px;
+    margin-bottom:2px;
+  }
+  .tl .txt{font-size:14px;line-height:1.65;}
+  .tl .sub{font-size:12.5px;color:#5a6577;margin-top:2px;line-height:1.6;}
+
+  .badge{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:999px;
+    margin-left:6px;
+    vertical-align:1px;
+  }
+  .badge.warn{background:var(--warn-bg);color:var(--warn);}
+  .badge.ok{background:var(--teal-soft);color:var(--teal);}
+
+  .check-list{list-style:none;margin:0;padding:0;}
+  .check-list li{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  .check-list li:last-child{border-bottom:none;}
+  .check-list .num{
+    flex:none;
+    width:22px;height:22px;
+    border-radius:7px;
+    background:var(--teal-soft);
+    color:var(--teal);
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900;
+    font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:1px;
+  }
+  .quote{
+    margin-top:8px;
+    background:var(--sand);
+    border-left:3px solid var(--coral);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:12.5px;
+    color:#4a4030;
+    line-height:1.7;
+  }
+
+  .unconfirmed-box{
+    background:var(--warn-bg);
+    border:1.5px dashed var(--warn);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:16px;
+  }
+  .unconfirmed-box .ttl{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900;
+    color:var(--warn);
+    font-size:14px;
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:8px;
+  }
+  .unconfirmed-box ul{margin:0;padding-left:18px;}
+  .unconfirmed-box li{font-size:13px;line-height:1.85;color:#7a2e37;}
+
+  .info-card{
+    background:#fffefb;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:14px;
+    font-size:13.5px;
+    line-height:1.7;
+  }
+  .info-card a{color:var(--teal);word-break:break-all;}
+  .info-card .lbl{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:700;
+    color:var(--indigo-deep);
+    font-size:13px;
+    margin-bottom:6px;
+    display:block;
+  }
+
+  .ponnote{
+    font-size:12px;
+    color:#6a6350;
+    background:var(--sand);
+    border-radius:10px;
+    padding:8px 10px;
+    margin-top:8px;
+    line-height:1.6;
+  }
+  .ponnote b{color:var(--coral);}
+
+  .privacy-note{
+    font-size:11px;
+    color:#8a8570;
+    text-align:center;
+    margin:4px 0 6px;
+    line-height:1.6;
+  }
+
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:#8a8570;
+    margin-top:24px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">✈️ 旅のしおり</div>
+    <h1>KCS事業、<br>九州へお披露目の旅🌺</h1>
+    <div class="meta">
+      <span>📅</span><span><b>2026年8月19日(水)〜21日(金)</b>／2泊3日</span>
+      <span>📍</span><span>会場：<b>アクロス福岡</b></span>
+      <span>🏨</span><span>福岡市内に宿泊</span>
+    </div>
+    <span class="tag">第52回九州地区人権・同和教育夏期講座で発表！</span>
+  </div>
+  <div class="info-card">
+    <span class="lbl">🎒 今回お披露目するのは…</span>
+    喜名自治会と株式会社琉球のタネが取り組む「Kina Career education School（KCS）事業」。地域の子どもたちと大人の“ご縁づくり”を、いよいよ九州の皆さんへ届けに行きます！
+    <div style="margin-top:8px;"><a href="https://x.gd/qSXYc" target="_blank">📖 KCS事業 公式ページはこちら</a></div>
+  </div>
+  <div class="privacy-note">※ 個人の航空券・座席・予約情報等は安全のためこのページには掲載していません</div>
+
+  <!-- ============ DAY 1 ============ -->
+  <div class="section-title"><span class="dot"></span>Day 1｜8月19日（水）出発の日🛫</div>
+  <div class="day-card">
+    <div class="day-head"><span class="d">那覇 → 福岡</span><span class="w">わくわく移動</span></div>
+    <ul class="tl">
+      <li data-emoji="🛫"><div class="time">午前</div><div class="txt">那覇空港 発</div></li>
+      <li data-emoji="🛬"><div class="time">午後早め</div><div class="txt">福岡空港 着</div><div class="sub">到着後、天神・アクロス福岡・ホテル周辺へ移動予定</div></li>
+      <li data-emoji="👤"><div class="time">午後</div><div class="txt">関係者、アクロス福岡入り予定</div><div class="sub">資料印刷等の依頼がある場合は<b>19日午前中まで</b>にデータ／印刷物を渡す必要あり</div></li>
+      <li data-emoji="❓" class="warn"><div class="time">要確認</div><div class="txt">19日にアクロス福岡へ行く必要があるか<span class="badge warn">未確認</span></div><div class="sub">集合時刻・集合場所も未確認</div></li>
+      <li data-emoji="🛏️"><div class="time">夜</div><div class="txt">福岡市内 宿泊（1泊目）</div></li>
+    </ul>
+    <div class="ponnote">💡 <b>ポイント：</b>資料渡しがあるなら19日午前中がリミット。到着後の動き方を先に決めておくと安心。</div>
+  </div>
+
+  <!-- ============ DAY 2 ============ -->
+  <div class="section-title"><span class="dot"></span>Day 2｜8月20日（木）いよいよ本番🎤</div>
+  <div class="day-card">
+    <div class="day-head"><span class="d">特別講座「沖縄からの発信」</span><span class="w">お披露目</span></div>
+    <ul class="tl">
+      <li data-emoji="🚪"><div class="time">〜11:30頃</div><div class="txt">アクロス福岡 会場入り</div><div class="sub">控室 → 昼食（弁当）→ 資料・機材確認 → 主催者と事前打合せ → 手話通訳の立ち位置確認（いる場合）</div></li>
+      <li data-emoji="🎤"><div class="time">13:00〜</div><div class="txt">特別講座「沖縄からの発信」<span class="badge ok">約90分</span></div>
+        <div class="sub">報告者：喜名自治会 自治会長 安里 哲／株式会社琉球のタネ 代表 佐渡山 要<br>
+        テーマ：親や先生以外の大人と子どもたちのご縁をつくり、自己効力感を育むことをめざして<br>
+        内容：喜名自治会での不登校中学生等を対象としたキャリア教育・地域協育の実践報告<br>
+        動画：<a href="https://youtu.be/4Q862Ifvqiw" target="_blank">https://youtu.be/4Q862Ifvqiw</a><br>
+        質疑応答：なしの予定</div></li>
+      <li data-emoji="✅"><div class="time">〜16:30頃</div><div class="txt">講座全体 終了予定</div></li>
+      <li data-emoji="🍶"><div class="time">夜</div><div class="txt">懇親会 参加予定</div></li>
+      <li data-emoji="❓" class="warn"><div class="time">要確認</div><div class="txt">懇親会の開始時刻・会場<span class="badge warn">未確認</span></div></li>
+      <li data-emoji="🛏️"><div class="time">夜</div><div class="txt">福岡市内 宿泊（2泊目）</div></li>
+    </ul>
+    <div class="ponnote">💡 <b>ポイント：</b>90分の本番＋質疑なし。喜名自治会の実践を「関係づくり→職場体験→社会参加」の段階で語るのが核。</div>
+  </div>
+
+  <!-- ============ DAY 3 ============ -->
+  <div class="section-title"><span class="dot"></span>Day 3｜8月21日（金）沖縄へ帰る日🏠</div>
+  <div class="day-card">
+    <div class="day-head"><span class="d">福岡 → 那覇</span><span class="w">おつかれさま</span></div>
+    <ul class="tl">
+      <li data-emoji="🛫"><div class="time">夕方</div><div class="txt">福岡空港 発</div></li>
+      <li data-emoji="🛬"><div class="time">夕方</div><div class="txt">那覇空港 着</div></li>
+    </ul>
+  </div>
+
+  <!-- 8/18までにやること -->
+  <div class="section-title"><span class="dot"></span>旅の持ち物＆準備リスト🎒</div>
+  <div class="day-card">
+    <ul class="check-list">
+      <li><span class="num">1</span>搭乗に必要な予約確認情報を手元に準備する</li>
+      <li><span class="num">2</span>本人確認書類を準備する</li>
+      <li><span class="num">3</span>19日の空港への移動時間を決める</li>
+      <li><span class="num">4</span>関係者へ、19日午後の予定を確認する
+        <div class="quote">「福岡空港へ到着後、19日午後はアクロス福岡へ伺った方がよいでしょうか。集合時間・集合場所があれば教えてください。」</div>
+      </li>
+      <li><span class="num">5</span>8月20日の懇親会について、開始時間・会場を確認する</li>
+    </ul>
+  </div>
+
+  <!-- 未確認事項まとめ -->
+  <div class="section-title"><span class="dot"></span>まだナゾなこと🔍（要確認）</div>
+  <div class="unconfirmed-box">
+    <div class="ttl">⚠️ 要確認（未確定・仮扱い）</div>
+    <ul>
+      <li>8月19日午後にアクロス福岡へ行く必要があるか</li>
+      <li>8月19日の集合時刻</li>
+      <li>8月19日の集合場所</li>
+      <li>8月20日 懇親会の開始時刻</li>
+      <li>8月20日 懇親会の会場</li>
+    </ul>
+  </div>
+
+  <footer>KCS事業、九州へお披露目の旅のしおり｜2026.8.19–21｜第52回九州地区人権・同和教育夏期講座</footer>
+</div>
+
+</body>
+</html>
