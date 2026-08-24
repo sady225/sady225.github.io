@@ -278,6 +278,66 @@
         .contact-card p { margin: 4px 0; color: #444; }
         .contact-card a { color: #2980b9; }
 
+        /* 活動記録タイムライン */
+        .timeline-subhead {
+            font-size: 1.05em;
+            color: #2c3e50;
+            margin: 28px 0 14px;
+            font-weight: bold;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+        .timeline-subhead.upcoming { border-left-color: #f39c12; }
+        .timeline {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 16px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
+            border-left: 5px solid #3498db;
+        }
+        @media (max-width: 560px) {
+            .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+        }
+        .timeline-item.upcoming { border-left-color: #f39c12; background: #fffaf0; }
+        .timeline-date {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        .timeline-item.upcoming .timeline-date { color: #e67e22; }
+        .timeline-body h4 {
+            margin: 0 0 6px;
+            color: #2c3e50;
+            font-size: 1.02em;
+        }
+        .timeline-body p {
+            margin: 0;
+            color: #555;
+            font-size: 0.92em;
+        }
+        .timeline-badge {
+            display: inline-block;
+            font-size: 0.7em;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #e1f5fe;
+            color: #2980b9;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .timeline-badge.upcoming { background: #fdebd0; color: #e67e22; }
+
         footer {
             text-align: center;
             margin-top: 50px;
@@ -432,7 +492,7 @@
                     <span class="accordion-icon">＋</span>
                 </button>
                 <div class="accordion-body">
-                    <p>自治会長・PTA・民生委員・村議員・商工会・福祉・農業・学校行政・警察などの関係者が集まり、情報共有と連携体制の構築を行います。2025年度は3回開催。2026年度も6月15日に第1回、7月30日に第2回を開催し、8月には商工会・学校長との個別協議も重ねながら、体制づくりを継続しています。</p>
+                    <p>自治会長・PTA・民生委員・村議員・商工会・福祉・農業・学校行政・警察などの関係者が集まり、情報共有と連携体制の構築を行います。2025年度は3回開催。2026年度も6月11日に第1回、7月30日に第2回を開催し、8月には商工会・学校長との個別協議も重ねながら、体制づくりを継続しています。次回は11月・2月に開催予定です。詳しい経緯は下部の「活動記録」もご覧ください。</p>
                     <div class="photo-grid">
                         <button class="thumb" type="button" data-modal-src="2026-kcs/renkei-kaigi-1.jpg" data-modal-cap="地域連携会議：登壇の様子（2025年12月開催）">
                             <img src="2026-kcs/renkei-kaigi-1.jpg" alt="地域連携会議 登壇の様子" loading="lazy">
@@ -471,20 +531,81 @@
             </div>
         </div>
 
+        <div class="section">
+            <h2>6. 活動記録</h2>
+
+            <p class="timeline-subhead">実施済み</p>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <span class="timeline-date">2026.6.11</span>
+                    <div class="timeline-body">
+                        <h4>第1回地域連携会議<span class="timeline-badge">開催</span></h4>
+                        <p>喜名公民館にて開催。昨年度の生徒の変化（体験を通じた学習意欲の向上等）を共有し、村内17箇所の「子どもの居場所」をつなぐ大人同士の安否確認ネットワークや、保護者向けのピアサポート構想などが議論されました。</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <span class="timeline-date">2026.7.30</span>
+                    <div class="timeline-body">
+                        <h4>第2回地域連携会議<span class="timeline-badge">開催</span></h4>
+                        <p>喜名公民館にて開催。第1回からの進捗共有と、今後の受け入れ体制について協議しました。</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <span class="timeline-date">2026.8.10</span>
+                    <div class="timeline-body">
+                        <h4>個別ケア会議<span class="timeline-badge">開催</span></h4>
+                        <p>青少年センター・社会福祉協議会と共に、一人ひとりの状況に応じた支援体制について話し合う個別ケア会議を実施しました。</p>
+                    </div>
+                </li>
+                <li class="timeline-item">
+                    <span class="timeline-date">2026.8.20</span>
+                    <div class="timeline-body">
+                        <h4>第52回九州地区人権・同和教育夏期講座 特別講座Ⅰで登壇<span class="timeline-badge">登壇</span></h4>
+                        <p>喜名地区自治会長・安里哲と株式会社琉球のタネ代表・佐渡山要が登壇し、「親や先生以外の大人と子どもたちのご縁をつくり、自分自身の未来像を描く力（自己効力感）を育むこと」をテーマに、2025年度の実践と2026年度の基本方針を発表しました。実施レポート動画は<a href="https://www.youtube.com/watch?v=4Q862Ifvqiw" target="_blank" rel="noopener noreferrer">こちら</a>。</p>
+                    </div>
+                </li>
+            </ul>
+
+            <p class="timeline-subhead upcoming">今後の予定</p>
+            <ul class="timeline">
+                <li class="timeline-item upcoming">
+                    <span class="timeline-date">2026.9.28</span>
+                    <div class="timeline-body">
+                        <h4>子育て勉強会<span class="timeline-badge upcoming">予定</span></h4>
+                        <p>夏期講座での発表内容を保護者・支援者へ共有します。これ以降、子育て勉強会は青少年センター・社会福祉協議会との共催で実施していく予定です。</p>
+                    </div>
+                </li>
+                <li class="timeline-item upcoming">
+                    <span class="timeline-date">2026.11</span>
+                    <div class="timeline-body">
+                        <h4>第3回地域連携会議<span class="timeline-badge upcoming">予定</span></h4>
+                        <p>開催予定です。詳細が決まり次第、このページでお知らせします。</p>
+                    </div>
+                </li>
+                <li class="timeline-item upcoming">
+                    <span class="timeline-date">2027.2</span>
+                    <div class="timeline-body">
+                        <h4>第4回地域連携会議<span class="timeline-badge upcoming">予定</span></h4>
+                        <p>開催予定です。詳細が決まり次第、このページでお知らせします。</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
         <div class="section final-section">
-            <h2>6. ガバナンスと法令遵守</h2>
+            <h2>7. ガバナンスと法令遵守</h2>
             <p>関連法令：学校教育法／児童福祉法／社会教育法／教育機会確保法／障害者差別解消法／子どもの貧困対策推進法／COCOLOプラン。金銭授受は禁止とし、「教育・訓練」としての位置づけを明確化。ボランティア保険加入を必須としています。</p>
         </div>
 
         <div class="section">
-            <h2>7. 今後の展望：読谷版COCOLOプランの挑戦</h2>
+            <h2>8. 今後の展望：読谷版COCOLOプランの挑戦</h2>
             <div class="card sticky-green">
                 <p style="margin:0;">「学べない」を地域でゼロにする。学校へ行けないことを、学びや社会との繋がりを諦める理由にしない――コミュニティ・スクールと協力し、公民館・企業・そして多様な地域人材がタッグを組み、学校外にも安心して過ごせる魅力的な学びの場をつくり出します。個人の善意ベースの助け合いから、地域全体の風土を「教材」とした「協育システム（読谷モデル）」への転換をめざしています。</p>
             </div>
         </div>
 
         <div class="section">
-            <h2>8. 今日から私たちにできること</h2>
+            <h2>9. 今日から私たちにできること</h2>
             <div class="grid">
                 <div class="card"><p style="margin:0;">笑顔であいさつ</p></div>
                 <div class="card"><p style="margin:0;">じっくり話を聞く</p></div>
@@ -495,7 +616,7 @@
         </div>
 
         <div class="section">
-            <h2>9. お問い合わせ</h2>
+            <h2>10. お問い合わせ</h2>
             <div class="grid">
                 <div class="contact-card">
                     <h4 style="color:#2980b9;">喜名自治会（KCS事業事務局）</h4>
@@ -515,7 +636,7 @@
         </div>
 
         <div class="section final-section">
-            <h2>10. 連携協定</h2>
+            <h2>11. 連携協定</h2>
             <p>喜名自治会と株式会社琉球のタネは、本プロジェクトの推進に関する連携協定を締結しています。</p>
         </div>
 
