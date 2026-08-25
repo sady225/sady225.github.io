@@ -219,6 +219,9 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.12);
             background: #fff;
         }
+        .photo-grid button.thumb.thumb-no-zoom {
+            cursor: default;
+        }
         .photo-grid button.thumb img {
             width: 100%;
             aspect-ratio: 4/3;
@@ -574,20 +577,20 @@
                 <div class="accordion-body">
                     <p>子どもたちが地域のスーパー・観光案内所・農協・史跡などを訪問し、地域資源そのものを学ぶ「地域探訪（すてっぷ）」を実施しています。関係性が構築された後、様々な職業や社会の仕組みに触れることで行動範囲と視野を広げます。</p>
                     <div class="photo-grid">
-                        <button class="thumb" type="button" data-modal-src="2026-kcs/chiiki-tanbo-1.jpg" data-modal-cap="地域探訪：戦跡めぐりでの学び（参加生徒の顔は🌼で保護しています）" data-face-left="78" data-face-top="27" data-face-size="46">
+                        <button class="thumb thumb-no-zoom" type="button" data-no-modal="true" data-modal-cap="地域探訪：戦跡めぐりでの学び（参加生徒の顔は🌼で保護しています）">
                             <div class="photo-wrap">
                                 <img src="2026-kcs/chiiki-tanbo-1.jpg" alt="地域探訪の様子1" loading="lazy">
                                 <span class="face-cover" style="left:78%; top:27%; font-size:46cqw;">🌼</span>
                             </div>
                         </button>
-                        <button class="thumb" type="button" data-modal-src="2026-kcs/chiiki-tanbo-2.jpg" data-modal-cap="地域探訪：施設見学の様子（参加生徒の顔は🌼で保護しています）" data-face-left="86" data-face-top="39" data-face-size="30">
+                        <button class="thumb thumb-no-zoom" type="button" data-no-modal="true" data-modal-cap="地域探訪：施設見学の様子（参加生徒の顔は🌼で保護しています）">
                             <div class="photo-wrap">
                                 <img src="2026-kcs/chiiki-tanbo-2.jpg" alt="地域探訪の様子2" loading="lazy">
-                                <span class="face-cover" style="left:86%; top:39%; font-size:30cqw;">🌼</span>
+                                <span class="face-cover" style="left:86%; top:39%; font-size:22cqw;">🌼</span>
                             </div>
                         </button>
                     </div>
-                    <p class="photo-note">写真タップで拡大表示します。参加生徒については肖像権保護のため🌼で顔を覆っています。</p>
+                    <p class="photo-note">参加生徒については肖像権保護のため🌼で顔を覆っています。</p>
                 </div>
             </div>
         </div>
@@ -760,12 +763,25 @@
         var modalWrap = document.getElementById('modalPhotoWrap');
 
         document.querySelectorAll('.thumb').forEach(function (btn) {
+            if (btn.getAttribute('data-no-modal') === 'true') return;
             btn.addEventListener('click', function () {
-                modalImg.src = btn.getAttribute('data-modal-src');
+                var src = btn.getAttribute('data-modal-src');
                 modalCap.textContent = btn.getAttribute('data-modal-cap') || '';
 
                 var existing = modalWrap.querySelector('.face-cover');
                 if (existing) existing.remove();
+                modalWrap.style.width = '';
+
+                modalImg.onload = function () {
+                    var natW = modalImg.naturalWidth;
+                    var natH = modalImg.naturalHeight;
+                    var maxW = Math.min(window.innerWidth * 0.9, natW);
+                    var maxH = window.innerHeight * 0.8;
+                    var scale = Math.min(maxW / natW, maxH / natH, 1);
+                    modalWrap.style.width = Math.round(natW * scale) + 'px';
+                };
+                modalImg.src = src;
+
                 var left = btn.getAttribute('data-face-left');
                 var top = btn.getAttribute('data-face-top');
                 var size = btn.getAttribute('data-face-size') || '26';
