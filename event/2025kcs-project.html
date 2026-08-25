@@ -286,6 +286,27 @@
         }
         .contact-card p { margin: 4px 0; color: #444; }
         .contact-card a { color: #2980b9; }
+        .mail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+        .mail-link::before {
+            content: "";
+            display: inline-block;
+            width: 15px;
+            height: 11px;
+            background: #2980b9;
+            -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18'><path d='M2 1h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1.2 2 8.8 6.6L20.8 3M2 4.3V16h20V4.3l-9.2 6.9a1 1 0 0 1-1.2 0z'/></svg>") no-repeat center / contain;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18'><path d='M2 1h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1.2 2 8.8 6.6L20.8 3M2 4.3V16h20V4.3l-9.2 6.9a1 1 0 0 1-1.2 0z'/></svg>") no-repeat center / contain;
+        }
+        .ig-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ig-icon { display: inline-flex; line-height: 0; }
 
         /* 活動記録タイムライン */
         .timeline-subhead {
@@ -713,15 +734,15 @@
                 <div class="contact-card">
                     <h4 style="color:#2980b9;">喜名自治会（KCS事業事務局）</h4>
                     <p>TEL：098-958-2236</p>
-                    <p>Mail：<a href="mailto:k17kou3nkan@gmail.com">k17kou3nkan@gmail.com</a></p>
-                    <p>Instagram：@kinajitikai</p>
+                    <p>Mail：<a class="mail-link" href="#" data-user="k17kou3nkan" data-domain="gmail.com">メールを送る</a></p>
+                    <p><a class="ig-link" href="https://www.instagram.com/kinajitikai" target="_blank" rel="noopener noreferrer"><span class="ig-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igGrad1)"/><rect x="6.2" y="6.2" width="11.6" height="11.6" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="16.6" cy="7.4" r="1" fill="#fff"/><defs><linearGradient id="igGrad1" x1="0" y1="24" x2="24" y2="0"><stop offset="0" stop-color="#FFC107"/><stop offset="0.5" stop-color="#E1306C"/><stop offset="1" stop-color="#5851DB"/></linearGradient></defs></svg></span>@kinajitikai</a></p>
                 </div>
                 <div class="contact-card">
                     <h4 style="color:#2980b9;">株式会社 琉球のタネ（プログラム担当）</h4>
                     <p>TEL：070-5692-4173（代表：佐渡山要）</p>
-                    <p>Mail：<a href="mailto:info@ryukyu-tane.com">info@ryukyu-tane.com</a></p>
+                    <p>Mail：<a class="mail-link" href="#" data-user="info" data-domain="ryukyu-tane.com" data-domain2="com">メールを送る</a></p>
                     <p>Web：<a href="https://news.ryukyu-tane.com" target="_blank" rel="noopener noreferrer">news.ryukyu-tane.com</a></p>
-                    <p>Instagram：@tea_under_club</p>
+                    <p><a class="ig-link" href="https://www.instagram.com/tea_under_club" target="_blank" rel="noopener noreferrer"><span class="ig-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igGrad2)"/><rect x="6.2" y="6.2" width="11.6" height="11.6" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="16.6" cy="7.4" r="1" fill="#fff"/><defs><linearGradient id="igGrad2" x1="0" y1="24" x2="24" y2="0"><stop offset="0" stop-color="#FFC107"/><stop offset="0.5" stop-color="#E1306C"/><stop offset="1" stop-color="#5851DB"/></linearGradient></defs></svg></span>@tea_under_club</a></p>
                 </div>
             </div>
             <p class="photo-note" style="margin-top:16px; text-align:center;">▶ 実施レポート動画（冒頭〜2:58）：<a href="https://www.youtube.com/watch?v=4Q862Ifvqiw" target="_blank" rel="noopener noreferrer">YouTubeで見る</a></p>
@@ -751,6 +772,12 @@
     </div>
 
     <script>
+        document.querySelectorAll('.mail-link').forEach(function (a) {
+            var addr = a.getAttribute('data-user') + '@' + a.getAttribute('data-domain');
+            a.setAttribute('href', 'mailto:' + addr);
+            a.textContent = addr;
+        });
+
         document.querySelectorAll('.accordion-header').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 btn.parentElement.classList.toggle('open');
